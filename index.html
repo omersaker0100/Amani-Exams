@@ -278,6 +278,7 @@
 
             <!-- Results Table -->
             <div class="overflow-x-auto bg-slate-900 border border-slate-700 rounded-xl">
+                <p class="text-[11px] text-blue-400 p-2 text-center bg-blue-950/40 border-b border-slate-800">💡 انقر على سطر أي طالب لعرض ورقة إجاباته والتفاصيل بالكامل</p>
                 <table class="w-full text-right text-xs" id="pdf-table">
                     <thead class="bg-slate-800 text-slate-300">
                         <tr>
@@ -299,6 +300,24 @@
         </div>
     </div>
 
+    <!-- Student Detail View Modal ( للمعلمة ) -->
+    <div id="student-detail-modal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 hidden overflow-y-auto p-4 md:p-6">
+        <div class="max-w-3xl mx-auto bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-file-invoice text-blue-400"></i>
+                    <span>تفاصيل ورقة الطالب: </span>
+                    <span id="detail-student-name" class="text-blue-300">---</span>
+                </h3>
+                <button onclick="closeStudentDetailModal()" class="text-slate-400 hover:text-white px-3 py-1 bg-slate-700 rounded-lg text-sm">
+                    <i class="fa-solid fa-xmark"></i> إغلاق
+                </button>
+            </div>
+
+            <div id="student-answers-list" class="space-y-4"></div>
+        </div>
+    </div>
+
     <!-- Exam Editor Modal -->
     <div id="exam-editor-modal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 hidden overflow-y-auto p-4 md:p-6">
         <div class="max-w-5xl mx-auto bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 space-y-6">
@@ -315,14 +334,16 @@
                 </button>
             </div>
 
-            <!-- Templates Tabs -->
-            <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
-                <span class="text-xs font-bold text-purple-300">النماذج المحفوظة:</span>
-                <div class="flex gap-2" id="templates-bar">
-                    <button onclick="loadTemplate(1)" class="px-3 py-1 bg-purple-600 text-white rounded-lg text-xs font-bold">نموذج 1</button>
-                    <button onclick="loadTemplate(2)" class="px-3 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs">نموذج 2</button>
-                    <button onclick="loadTemplate(3)" class="px-3 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs">نموذج 3</button>
+            <!-- Templates Tabs (10 النماذج المحفوظة مع إمكانية إعادة التسمية) -->
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-purple-300">النماذج المحفوظة (10 نماذج):</span>
+                    <button onclick="renameCurrentTemplate()" class="px-2.5 py-1 bg-purple-900/60 hover:bg-purple-800 border border-purple-600/50 text-purple-200 text-xs rounded-lg transition flex items-center gap-1">
+                        <i class="fa-solid fa-pen"></i>
+                        <span>تسمية النموذج الحالي</span>
+                    </button>
                 </div>
+                <div class="flex gap-1.5 overflow-x-auto pb-1" id="templates-bar"></div>
             </div>
 
             <!-- Keyboard & Controls -->
@@ -376,7 +397,6 @@
         let activeInputRef = null;
         let currentTemplateId = 1;
 
-        // النموذج الافتراضي الدقيق (20 سؤالاً كيميائياً)
         const defaultQuestions = [
             {
                 q: "عند إضافة حمض الهيدروكلوريك المخفف إلى ملح صلب صيغته Na₂X، تصاعد غاز (A) عديم اللون يُسبب اسوداد ورقة مبللة بـ (CH₃COO)₂Pb. وعند إضافة محلول AgNO₃ إلى محلول نفس الملح يتكون راسب (B). ما هما (A) و (B) على الترتيب؟",
@@ -434,7 +454,7 @@
             },
             {
                 q: "عند حرق 1 مول من كبريتيد الهيدروجين H₂S في كمية محدودة من الأكسجين ثم تمرير الناتج على محلول برمنجنات البوتاسيوم المحمَّض، أيُّ التغيرات الكيميائية التالية تحدث للأيون الانتقالي في البرمنجنات؟",
-                options: ["يختزل Mn⁺⁷ إلى Mn⁺² ويزول اللون البنفسجي", "يتحول Mn⁺² إلى Mn⁺⁷ ويكتسب لوناً وردياً", "يتأكسد Mn⁺⁴ إلى Mn⁺⁶", "لا يحدث تفاعل أكسدة واختزال"],
+                options: ["يختزل Mn⁺⁷ إلى Mn⁺² ويزول اللون البنفسجي", "يتحول Mn⁺² إلى Mn⁺⁷ ويكتسب لوناً وردياً", "يتأكسد Mn⁺⁴ إلى Mn⁺⁶", "لا يحدث تفاعل أكسدة وااختزال"],
                 correct: 0,
                 explain: "يتصاعد SO₂ ويختزل المنجنيز من +7 إلى +2 ويزول اللون البنفسجي."
             },
@@ -709,6 +729,9 @@
                     totalQuestions: state.questions.length,
                     timeSpentStr: timeStr,
                     submissionDate: dateStr,
+                    studentAnswers: state.answers,
+                    studentEssayAnswers: state.essayAnswers,
+                    examQuestions: state.questions,
                     timestamp: serverTimestamp()
                 });
             } catch (err) {
@@ -815,11 +838,11 @@
             let totalScore = 0;
             let maxScore = 0;
 
-            tbody.innerHTML = submissions.map(sub => {
+            tbody.innerHTML = submissions.map((sub, idx) => {
                 totalScore += sub.score;
                 if (sub.score > maxScore) maxScore = sub.score;
                 return `
-                    <tr class="hover:bg-slate-800/50">
+                    <tr onclick="viewStudentDetails(${sub.id})" class="hover:bg-blue-900/40 cursor-pointer transition">
                         <td class="p-3 font-mono font-bold text-blue-400">#${sub.id}</td>
                         <td class="p-3 font-semibold text-white">${sub.name}</td>
                         <td class="p-3 font-bold text-emerald-400">${sub.score} / ${sub.totalQuestions}</td>
@@ -834,16 +857,95 @@
             document.getElementById('stat-high').innerText = `${maxScore} / ${state.questions.length}`;
         }
 
+        // عرض تفاصيل ورقة الإجابة للطالب عند الضغط عليه
+        function viewStudentDetails(studentId) {
+            const sub = state.existingSubmissions.find(s => s.id === studentId);
+            if (!sub) return;
+
+            document.getElementById('detail-student-name').innerText = `${sub.name} (#${sub.id})`;
+            const container = document.getElementById('student-answers-list');
+            const questionsList = sub.examQuestions || state.questions;
+            const stdAnswers = sub.studentAnswers || {};
+            const stdEssay = sub.studentEssayAnswers || {};
+
+            container.innerHTML = questionsList.map((q, idx) => {
+                const isEssay = q.type === 'essay';
+                const userChoice = stdAnswers[idx];
+                const correct = q.correct !== undefined ? q.correct : q.answer;
+                const choices = q.options || q.choices || [];
+                const isCorrect = userChoice === correct;
+                const essayData = stdEssay[idx] || {};
+
+                return `
+                <div class="bg-slate-900 border ${!isEssay ? (isCorrect ? 'border-emerald-700/60' : 'border-rose-700/60') : 'border-purple-700/60'} rounded-xl p-4 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-white">سؤال ${idx + 1}: ${q.q || q.text}</span>
+                        ${!isEssay ? `
+                        <span class="text-xs font-bold px-2 py-0.5 rounded ${isCorrect ? 'bg-emerald-900/80 text-emerald-300' : 'bg-rose-900/80 text-rose-300'}">
+                            ${isCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}
+                        </span>
+                        ` : `<span class="text-xs font-bold bg-purple-900/80 text-purple-300 px-2 py-0.5 rounded">سؤال مقالي</span>`}
+                    </div>
+
+                    ${!isEssay ? `
+                    <p class="text-xs text-slate-300">اختيار الطالب: <span class="${isCorrect ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}">${userChoice !== undefined ? choices[userChoice] : 'لم يجب'}</span></p>
+                    ${!isCorrect ? `<p class="text-xs text-emerald-400 font-bold">الإجابة الصحيحة: ${choices[correct]}</p>` : ''}
+                    ` : `
+                    <div class="space-y-2 bg-slate-950 p-3 rounded-lg border border-slate-800">
+                        <p class="text-xs text-slate-300">كتابة الطالب: <span class="text-white font-semibold">${essayData.text || 'لم يكتب شيئاً'}</span></p>
+                        ${essayData.img ? `
+                        <div>
+                            <p class="text-xs text-blue-400 font-bold mb-1"><i class="fa-solid fa-image"></i> الصورة المرفقة من الطالب:</p>
+                            <img src="${essayData.img}" class="max-h-64 rounded border border-slate-700">
+                        </div>
+                        ` : '<p class="text-xs text-slate-500">لم يقم الطالب برفع صورة مع هذا السؤال المقالي.</p>'}
+                    </div>
+                    `}
+                </div>
+            `}).join('');
+
+            document.getElementById('student-detail-modal').classList.remove('hidden');
+        }
+
+        function closeStudentDetailModal() {
+            document.getElementById('student-detail-modal').classList.add('hidden');
+        }
+
         // محرّر الأسئلة للـ Teacher
         function openExamEditor() {
             document.getElementById('exam-editor-modal').classList.remove('hidden');
             document.getElementById('editor-questions-count').value = state.questions.length;
+            renderTemplatesBar();
             renderChemKeyboard();
             renderEditorQuestions();
         }
 
         function closeExamEditor() {
             document.getElementById('exam-editor-modal').classList.add('hidden');
+        }
+
+        function renderTemplatesBar() {
+            const bar = document.getElementById('templates-bar');
+            let html = '';
+            for (let i = 1; i <= 10; i++) {
+                const customName = localStorage.getItem(`template_name_${i}`) || `نموذج ${i}`;
+                const isActive = i === currentTemplateId;
+                html += `
+                    <button onclick="loadTemplate(${i})" class="px-3 py-1 rounded-lg text-xs font-bold transition whitespace-nowrap ${isActive ? 'bg-purple-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                        ${customName}
+                    </button>
+                `;
+            }
+            bar.innerHTML = html;
+        }
+
+        function renameCurrentTemplate() {
+            const currentName = localStorage.getItem(`template_name_${currentTemplateId}`) || `نموذج ${currentTemplateId}`;
+            const newName = prompt(`أدخل اسماً جديداً للنموذج رقم (${currentTemplateId}):`, currentName);
+            if (newName && newName.trim() !== "") {
+                localStorage.setItem(`template_name_${currentTemplateId}`, newName.trim());
+                renderTemplatesBar();
+            }
         }
 
         function switchTab(tab) {
@@ -884,8 +986,10 @@
         }
 
         function loadTemplate(id) {
-            if (confirm(`هل تريد استبدال/تحميل النموذج رقم (${id})؟ سيمكنك التعديل عليه وحفظه.`)) {
+            const tName = localStorage.getItem(`template_name_${id}`) || `نموذج ${id}`;
+            if (confirm(`هل تريد تحميل/استبدال (${tName})؟ سيمكنك التعديل عليه وحفظه.`)) {
                 currentTemplateId = id;
+                renderTemplatesBar();
                 const savedTpl = localStorage.getItem(`template_${id}`);
                 if (savedTpl) {
                     state.questions = JSON.parse(savedTpl);
@@ -986,9 +1090,10 @@
         }
 
         async function saveAndPublishExam() {
+            const tName = localStorage.getItem(`template_name_${currentTemplateId}`) || `نموذج ${currentTemplateId}`;
             const tplExists = localStorage.getItem(`template_${currentTemplateId}`);
             if (tplExists) {
-                if (!confirm(`تحذير: هل تود استبدال هذا التحديث بالنسخة القديمة المحفوظة في (نموذج ${currentTemplateId})؟`)) {
+                if (!confirm(`تحذير: هل تود التعديل واستبدال النسخة في (${tName})؟`)) {
                     return;
                 }
             }
@@ -1037,7 +1142,7 @@
                 console.log("Exam save error", e);
             }
 
-            alert(`تم حفظ الامتحان ونشره سحابياً بنجاح في (نموذج ${currentTemplateId})!`);
+            alert(`تم حفظ الامتحان ونشره سحابياً بنجاح في (${tName})!`);
             closeExamEditor();
         }
     </script>

@@ -26,7 +26,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // بيانات مشروعك على Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyA2iP6vpzNbK1eXzzNzr4eekd2HXvUm4EE",
             authDomain: "chemistry-exam-amani.firebaseapp.com",
@@ -54,6 +53,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
         body { font-family: 'Tajawal', sans-serif; }
+        .chem-input { direction: ltr; text-align: right; }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
@@ -92,12 +92,12 @@
                 <div class="space-y-4 text-right mb-6">
                     <div>
                         <label class="block text-xs font-semibold text-slate-300 mb-1">اسم الطالب رباعي</label>
-                        <input type="text" id="student-name" placeholder="أدخل اسمك بالكامل..." class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white outline-none transition placeholder-slate-500 text-sm" disabled>
+                        <input type="text" id="student-name" placeholder="أدخل اسمك بالكامل..." class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-white outline-none text-sm" disabled>
                     </div>
 
                     <div>
                         <label class="block text-xs font-semibold text-slate-300 mb-1">رقم المعرف (Student ID)</label>
-                        <input type="number" id="student-id" placeholder="أدخل كود الطالب..." class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white outline-none transition placeholder-slate-500 text-sm" disabled>
+                        <input type="number" id="student-id" placeholder="أدخل كود الطالب..." class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-white outline-none text-sm" disabled>
                         <p id="student-id-hint" class="text-[11px] text-amber-400/90 mt-1 flex items-center gap-1">
                             <i class="fa-solid fa-lock"></i>
                             <span>التسجيل مغلق مؤقتاً لحين فتح الامتحان من قِبل المعلمة.</span>
@@ -105,7 +105,7 @@
                     </div>
                 </div>
 
-                <button id="start-exam-btn" onclick="startExam()" class="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 transition duration-200 flex items-center justify-center gap-2 opacity-50 cursor-not-allowed" disabled>
+                <button id="start-exam-btn" onclick="startExam()" class="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-2 opacity-50 cursor-not-allowed" disabled>
                     <span>بدء الامتحان الآن</span>
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
@@ -130,7 +130,7 @@
             <div id="questions-container" class="space-y-6"></div>
 
             <div class="text-center pt-4">
-                <button onclick="submitExam()" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2 mx-auto">
+                <button onclick="submitExam()" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2 mx-auto">
                     <i class="fa-solid fa-paper-plane"></i>
                     <span>تأكيد وإخفاء وتسليم الإجابات</span>
                 </button>
@@ -199,7 +199,6 @@
                 <h3 class="text-lg font-bold text-white">لوحة المعلمة</h3>
                 <p class="text-xs text-slate-400">أدخل الرمز السري للدخول المباشر</p>
             </div>
-            <!-- خانة سرية فارغة لا تكشف الرمز -->
             <input type="password" id="teacher-passcode" placeholder="أدخل الرمز السري..." class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white text-center text-lg tracking-widest outline-none focus:border-blue-500 mb-4">
             <button onclick="verifyTeacherPasscode()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition">تأكيد والدخول للنتائج</button>
         </div>
@@ -215,13 +214,16 @@
                         <i class="fa-solid fa-sliders text-blue-400"></i>
                         <span>لوحة تحكم المعلمة</span>
                     </h2>
-                    <!-- زر تعديل وإنشاء اختبار جديد -->
-                    <button onclick="openExamEditor()" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-purple-600/30 transition flex items-center gap-2 border border-purple-400/30">
+                    <button onclick="openExamEditor()" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl shadow-lg transition flex items-center gap-2 border border-purple-400/30">
                         <i class="fa-solid fa-pen-to-square"></i>
                         <span>تعديل / إنشاء اختبار جديد</span>
                     </button>
                 </div>
                 <div class="flex items-center gap-2">
+                    <button onclick="printPDF()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-print"></i>
+                        <span>طباعة / تصدير</span>
+                    </button>
                     <button onclick="resetAllData()" class="px-3 py-1.5 bg-rose-700 hover:bg-rose-600 text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5">
                         <i class="fa-solid fa-trash-can"></i>
                         <span>تصفير النتائج</span>
@@ -247,7 +249,7 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3 pt-2">
-                    <button onclick="saveExamSettings()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold rounded-xl transition flex items-center gap-2 shadow-lg shadow-blue-600/30">
+                    <button onclick="saveExamSettings()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold rounded-xl transition flex items-center gap-2 shadow-lg">
                         <i class="fa-solid fa-lock-open"></i>
                         <span>حفظ الإعدادات وتفعيل التسجيل</span>
                     </button>
@@ -276,7 +278,7 @@
 
             <!-- Results Table -->
             <div class="overflow-x-auto bg-slate-900 border border-slate-700 rounded-xl">
-                <table class="w-full text-right text-xs">
+                <table class="w-full text-right text-xs" id="pdf-table">
                     <thead class="bg-slate-800 text-slate-300">
                         <tr>
                             <th class="p-3">رقم المعرف (ID)</th>
@@ -306,11 +308,21 @@
                         <i class="fa-solid fa-vial-circle-check text-purple-400"></i>
                         <span>محرر الاختبارات والأسئلة التفاعلي</span>
                     </h2>
-                    <p class="text-xs text-slate-400">قم بتحديد عدد الأسئلة وكتابتها بالرموز الكيميائية المخصصة</p>
+                    <p class="text-xs text-slate-400">قم بإضافة وتعديل الأسئلة وإرفاق الصور وكتابة الرموز الكيميائية</p>
                 </div>
                 <button onclick="closeExamEditor()" class="text-slate-400 hover:text-white px-3 py-1.5 bg-slate-700 rounded-lg text-sm">
                     <i class="fa-solid fa-xmark"></i> إغلاق
                 </button>
+            </div>
+
+            <!-- Templates Tabs -->
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
+                <span class="text-xs font-bold text-purple-300">النماذج المحفوظة:</span>
+                <div class="flex gap-2" id="templates-bar">
+                    <button onclick="loadTemplate(1)" class="px-3 py-1 bg-purple-600 text-white rounded-lg text-xs font-bold">نموذج 1</button>
+                    <button onclick="loadTemplate(2)" class="px-3 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs">نموذج 2</button>
+                    <button onclick="loadTemplate(3)" class="px-3 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs">نموذج 3</button>
+                </div>
             </div>
 
             <!-- Keyboard & Controls -->
@@ -321,12 +333,12 @@
                         <span>كيبورد الرموز والمعادلات الكيميائية:</span>
                     </span>
                     <div class="flex gap-1 overflow-x-auto pb-1" id="keyboard-tabs">
-                        <button onclick="switchTab('symbols')" class="tab-btn px-2.5 py-1 bg-blue-600 text-white rounded text-xs font-bold">الرموز والأسهم</button>
-                        <button onclick="switchTab('anions')" class="tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs">الأنيونات والشقوق</button>
-                        <button onclick="switchTab('cations')" class="tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs">الكاتيونات</button>
-                        <button onclick="switchTab('oxides')" class="tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs">الأكاسيد والراسب</button>
-                        <button onclick="switchTab('acids')" class="tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs">الأحماض والقواعد</button>
-                        <button onclick="switchTab('elements')" class="tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs">العناصر</button>
+                        <button onclick="switchTab('symbols')" id="tab-symbols" class="tab-btn px-2.5 py-1 bg-blue-600 text-white rounded text-xs font-bold">الرموز والأسهم</button>
+                        <button onclick="switchTab('anions')" id="tab-anions" class="tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs">الأنيونات والشقوق</button>
+                        <button onclick="switchTab('cations')" id="tab-cations" class="tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs">الكاتيونات</button>
+                        <button onclick="switchTab('oxides')" id="tab-oxides" class="tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs">الأكاسيد والراسب</button>
+                        <button onclick="switchTab('acids')" id="tab-acids" class="tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs">الأحماض والقواعد</button>
+                        <button onclick="switchTab('elements')" id="tab-elements" class="tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs">العناصر</button>
                     </div>
                 </div>
 
@@ -335,13 +347,13 @@
 
             <div class="flex items-center justify-between bg-slate-900/80 p-4 border border-slate-700 rounded-xl">
                 <div class="flex items-center gap-3">
-                    <label class="text-xs font-bold text-slate-200">حدد عدد الأسئلة المطلوبة:</label>
-                    <input type="number" id="editor-questions-count" min="1" max="50" value="20" class="w-20 px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-white font-bold text-center text-sm">
-                    <button onclick="updateEditorQuestionsCount()" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-white text-xs rounded-lg">تطبيق العدد</button>
+                    <label class="text-xs font-bold text-slate-200">عدد الأسئلة:</label>
+                    <input type="number" id="editor-questions-count" min="1" max="50" value="20" class="w-16 px-2 py-1 bg-slate-800 border border-slate-700 rounded-lg text-white font-bold text-center text-sm">
+                    <button onclick="updateEditorQuestionsCount()" class="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-white text-xs rounded-lg">تطبيق</button>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="restoreDefaultQuestions()" class="px-4 py-2 bg-amber-700/80 hover:bg-amber-600 text-white text-xs font-bold rounded-xl">استعادة الأسئلة الافتراضية</button>
-                    <button onclick="saveAndPublishExam()" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-emerald-600/30">حفظ ونشر الامتحان للطلاب</button>
+                    <button onclick="restoreDefaultQuestions()" class="px-4 py-2 bg-amber-700/80 hover:bg-amber-600 text-white text-xs font-bold rounded-xl">استعادة الـ 20 سؤالاً الافتراضيين</button>
+                    <button onclick="saveAndPublishExam()" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-lg">حفظ ونشر الامتحان للطلاب</button>
                 </div>
             </div>
 
@@ -353,34 +365,138 @@
     <script>
         const chemKeyboardCategories = {
             symbols: ["₀","₁","₂","₃","₄","₅","₆","₇","₈","₉","⁺","⁻","²⁺","³⁺","⁴⁺","⁻²","⁻³","→","⇌","↑","↓","Δ","conc","dil","(s)","(l)","(g)","(aq)"],
-            anions: ["CO₃²⁻","HCO₃²⁻","SO₃²⁻","S²⁻","S₂O₃²⁻","NO₂⁻","Cl⁻","Br⁻","I⁻","NO₃⁻","PO₄³⁻","SO₄²⁻","CH₃COO⁻","OH⁻"],
-            cations: ["Fe²⁺","Fe³⁺","Al³⁺","Cu²⁺","Ca²⁺","Ba²⁺","NH₄⁺","Ag⁺","Mg²⁺","Zn²⁺","Mn²⁺","Cr³⁺","Na⁺","K⁺"],
-            oxides: ["Fe₂O₃","Fe₃O₄","FeO","Al₂O₃","CuO","MnO₂","Cr₂O₃","KMnO₄","K₂Cr₂O₇","NaAlO₂","AgCl","AgBr","AgI","BaSO₄"],
-            acids: ["HCl","H₂SO₄","HNO₃","HNO₂","H₂S","H₂SO₃","H₃PO₄","CH₃COOH","NaOH","KOH","NH₄OH","Ca(OH)₂"],
-            elements: ["Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ba","Ca","Ag","Pb","Al","Na","K"]
+            anions: ["CO₃²⁻","HCO₃⁻","SO₃²⁻","S²⁻","S₂O₃²⁻","NO₂⁻","Cl⁻","Br⁻","I⁻","NO₃⁻","PO₄³⁻","SO₄²⁻","CH₃COO⁻","OH⁻","C₂O₄²⁻"],
+            cations: ["Fe²⁺","Fe³⁺","Al³⁺","Cu²⁺","Ca²⁺","Ba²⁺","NH₄⁺","Ag⁺","Mg²⁺","Zn²⁺","Mn²⁺","Cr³⁺","Na⁺","K⁺","Pb²⁺"],
+            oxides: ["Fe₂O₃","Fe₃O₄","FeO","Al₂O₃","CuO","MnO₂","Cr₂O₃","KMnO₄","K₂Cr₂O₇","NaAlO₂","AgCl","AgBr","AgI","BaSO₄","CaSO₄","CaCO₃"],
+            acids: ["HCl","H₂SO₄","HNO₃","HNO₂","H₂S","H₂SO₃","H₃PO₄","CH₃COOH","NaOH","KOH","NH₄OH","Ca(OH)₂","H₂CO₃"],
+            elements: ["Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ba","Ca","Ag","Pb","Al","Na","K","O","H","N","C","S","Cl","Br","I","P"]
         };
 
         let currentTab = 'symbols';
         let activeInputRef = null;
+        let currentTemplateId = 1;
 
+        // النموذج الافتراضي الدقيق (20 سؤالاً كيميائياً)
         const defaultQuestions = [
             {
-                q: "عند إضافة حمض الهيدروكلوريك المخفف إلى ملح صلب تصاعد غاز يعكر ماء الجير الرائق عند مروره لفترة قصيرة. ما هو هذا الأنيون؟",
-                options: ["أنيون الكربونات CO₃²⁻", "أنيون الكبريتيد S²⁻", "أنيون النيتريت NO₂⁻", "أنيون الكبريتات SO₄²⁻"],
-                correct: 0,
-                explain: "يتفاعل HCl المخفف مع الكربونات متصاعداً غاز ثاني أكسيد الكربون CO₂ الذي يعكر ماء الجير لفترة قصيرة."
+                q: "عند إضافة حمض الهيدروكلوريك المخفف إلى ملح صلب صيغته Na₂X، تصاعد غاز (A) عديم اللون يُسبب اسوداد ورقة مبللة بـ (CH₃COO)₂Pb. وعند إضافة محلول AgNO₃ إلى محلول نفس الملح يتكون راسب (B). ما هما (A) و (B) على الترتيب؟",
+                options: ["SO₂ ، Ag₂SO₃", "H₂S ، Ag₂S", "CO₂ ، CaCO₃", "NO ، AgNO₂"],
+                correct: 1,
+                explain: "الغاز A هو H₂S والراسب B هو Ag₂S الأسود."
             },
             {
-                q: "عند إضافة محلول نترات الفضة AgNO₃ إلى محلول يحتوي على أنيون كلوريد Cl⁻ يتكون راسب:",
-                options: ["أبيض يذوب في محلول النشادر المركز", "أصفر لا يذوب في محلول النشادر", "أسود يذوب في الأحماض", "أصفر يذوب في محلول النشادر"],
+                q: "مخلوط صلب يحتوي على (كربونات صوديوم + كبريتات باريوم). أيُّ الخطوات التالية هي الأفضل والأسرع لفصل المكوِّنين والحصول على كل منهما في صورة ناتجة صلبة ونقية؟",
+                options: ["الذوبان في الماء ثم الترشيح والتبخير", "إضافة HCl مخفف ثم الترشيح وتجفيف الراسب ثم ترسيب الصوديوم", "الذوبان في الماء ثم إضافة AgNO₃", "الذوبان في H₂SO₄ مركز ثم التبخير"],
                 correct: 0,
-                explain: "يتكون راسب أبيض من كلوريد الفضة AgCl يصير بنفسجياً عند تعريضه للضوء ويذوب في محلول النشادر المركز."
+                explain: "كربونات الصوديوم تذوب في الماء بينما كبريتات الباريوم لا تذوب، فيسهل الفصل بالترشيح والتبخير."
             },
             {
-                q: "محلول ملح مجهول أضيف إليه محلول كلوريد الباريوم BaCl₂ فتكّون راسب أبيض لا يذوب في حمض HCl المخفف. ما هو هذا الأنيون؟",
-                options: ["أنيون الكبريتات SO₄²⁻", "أنيون الفوسفات PO₄³⁻", "أنيون الكبريتيت SO₃²⁻", "أنيون الكربونات CO₃²⁻"],
+                q: "أُضيف حمض الكبريتيك المركز إلى ملحين صلبين (X) و (Y). مع (X) تصاعدت أبخرة برتقالية حمراء تُصفِّر ورقة مبللة بالنشا، ومع (Y) تصاعدت أبخرة بنفسجية تُزرِّق ورقة مبللة بالنشا. أيُّ العبارات التالية صحيحة بالنسبة للأنيونين؟",
+                options: ["أنيون X هو اليوديد وأنيون Y هو البروميد", "أنيون X يتأكسد أسهل من أنيون Y", "أنيون Y أقوى كعامل مختزل من أنيون X في هذا التفاعل", "كلا الأنيونين يتبعان مجموعة كلوريد الباريوم"],
+                correct: 2,
+                explain: "أنيون اليوديد Y يتأكسد أسهل وبالتالي فهو عامل مختزل أقوى من البروميد X."
+            },
+            {
+                q: "عند إجراء تجربة الحلقة البنية للكشف عن أنيون النيترات NO₃⁻، ما هو التغير في عدد أكسدة الحديد في المركب الأساسي الناتج من صيغة المعقد [Fe(H₂O)₅(NO)]SO₄؟",
+                options: ["يتحول الحديد من +2 إلى +1", "يتحول الحديد من +3 إلى +2", "يبقى عدد أكسدة الحديد +2 كما هو", "يكون عدد أكسدة الحديد في المعقد +1"],
+                correct: 3,
+                explain: "عدد أكسدة الحديد في مركب الحلقة البنية هو +1."
+            },
+            {
+                q: "عند تفاعل حمض HCl المخفف مع ملح ثيوكبريتات الصوديوم Na₂S₂O₃، ثم ترشيح المحلول وفصل المادة الصلبة وإضافة محلول K₂Cr₂O₇ المحمَّض للغاز المتصاعد، ما التغير المشاهَد؟",
+                options: ["الغاز يتحول للأحمر وراسب أبيض", "المحلول المحمَّض يتحول للون الأخضر وراسب أصفر معلق", "الغاز يُسوِّد الورقة وراسب بني محمر", "الغاز يتسامى وراسب أسود"],
+                correct: 1,
+                explain: "يتصاعد SO₂ الذي يخضر محلول الكرومات وتترسب الكبريت الأصفر المعلق."
+            },
+            {
+                q: "عند إضافة كمية وفيرة من محلول NaOH إلى محلول يحتوي على خليط من أيونات (Fe²⁺، Fe³⁺، Al³⁺)، ثم ترشيح الراسب الناتج، فإن المادة الصلبة المتبقية على ورقة الترشيح تتكون من:",
+                options: ["Fe(OH)₂ فقط", "Fe(OH)₃ و Al(OH)₃", "Fe(OH)₂ و Fe(OH)₃ فقط", "NaAlO₂ و Fe(OH)₃"],
+                correct: 2,
+                explain: "يدوب هيدروكسيد الألومنيوم في الزيادة من NaOH متكوناً ميتا ألومينات الصوديوم بينما يتبقى هيدروكسيد الحديد الثنائي والثلاثي."
+            },
+            {
+                q: "تم التمييز بين راسبين أبيضين (أحدهما فوسفات باريوم والآخر كبريتات باريوم) باستخدام حمض HCl المخفف. سبب الذوبان وعدم الذوبان يرجع إلى أن:",
+                options: ["حمض الفوسفوريك أضعف وأكثر تطايراً من حمض الهيدروكلوريك، بينما حمض الكبريتيك أقوى وأكثر ثباتاً", "كبريتات الباريوم مركب إلكتروليتي قوي جداً", "فوسفات الباريوم تذوب في الماء أصلاً", "حمض HCl لا يتفاعل إطلاقاً مع أملاح الباريوم"],
                 correct: 0,
-                explain: "كلوريد الباريوم يعطي راسباً أبيض لا يذوب في HCl المخفف مع أنيون الكبريتات BaSO₄."
+                explain: "تذوب فوسفات الباريوم في HCl بينما لا تذوب كبريتات الباريوم."
+            },
+            {
+                q: "ثلاثة محاليل لأملاح فضة أُضيفت إلى ثلاثة أنيونات مختلفة: نتج راسب أصفر يذوب في النشادر المركز (A)، وراسب أصفر لا يذوب في النشادر (B)، وراسب أبيض يذوب بسرعة في النشادر (C). ما هي الأنيونات A و B و C على الترتيب؟",
+                options: ["A: فوسفات ، B: يوديد ، C: كلوريد", "A: يوديد ، B: فوسفات ، C: بروميد", "A: كلوريد ، B: بروميد ، C: يوديد", "A: فوسفات ، B: كلوريد ، C: يوديد"],
+                correct: 0,
+                explain: "فوسفات الفضة راسب أصفر يذوب في النشادر، ويوديد الفضة أصفر لا يذوب، وكلوريد الفضة أبيض يذوب."
+            },
+            {
+                q: "كاتيون ينتمي للمجموعة التحليلية الخامسة، عند تعريض ملحه الجاف للهب بنزن غير المضيء يكتسب اللهبُ لوناً أحمر طوبياً، وحين إضافة محلول (NH₄)₂CO₃ لمحلول ملحه يتكون راسب أبيض يذوب في حمض الكربونيك. ما هو الكاتيون؟",
+                options: ["Ba²⁺", "Ca²⁺", "Cu²⁺", "Fe²⁺"],
+                correct: 1,
+                explain: "كاتيون الكالسيوم Ca²⁺ يعطي لوناً أحمر طوبياً مع لهب بنزن."
+            },
+            {
+                q: "عند حرق 1 مول من كبريتيد الهيدروجين H₂S في كمية محدودة من الأكسجين ثم تمرير الناتج على محلول برمنجنات البوتاسيوم المحمَّض، أيُّ التغيرات الكيميائية التالية تحدث للأيون الانتقالي في البرمنجنات؟",
+                options: ["يختزل Mn⁺⁷ إلى Mn⁺² ويزول اللون البنفسجي", "يتحول Mn⁺² إلى Mn⁺⁷ ويكتسب لوناً وردياً", "يتأكسد Mn⁺⁴ إلى Mn⁺⁶", "لا يحدث تفاعل أكسدة واختزال"],
+                correct: 0,
+                explain: "يتصاعد SO₂ ويختزل المنجنيز من +7 إلى +2 ويزول اللون البنفسجي."
+            },
+            {
+                q: "أيُّ أزواج الكاتيونات التالية يمكن ترسيب أحدهما دون الآخر عند تمرير غاز H₂S في وسط حمضي (HCl مخفف)؟",
+                options: ["Cu²⁺ و Na⁺", "Cu²⁺ و Pb²⁺", "Fe²⁺ و Fe³⁺", "K⁺ و Na⁺"],
+                correct: 0,
+                explain: "النحاس يترسب في الوسط الحمضي على هيئة كبريتيد نحاس CuS بينما الصوديوم لا يترسب."
+            },
+            {
+                q: "محلول يحتوي على خليط من أيونات Cl⁻ و SO₄²⁻. ما هو الكاشف المناسب لفصل أيون الكبريتات أولاً دون ترسيب أيون الكلوريد؟",
+                options: ["محلول AgNO₃", "محلول Ba(NO₃)₂", "محلول Na₂CO₃", "محلول NH₄OH"],
+                correct: 1,
+                explain: "نترات الباريوم ترسب الكبريتات على هيئة BaSO₄ بينما لا ترسب الكلوريد."
+            },
+            {
+                q: "تفاعل ملح نيتريت الصوديوم مع محلول KMnO₄ المحمَّض بحمض H₂SO₄ المركز. كم عدد مولات نيتريت الصوديوم اللازمة لاختزال 2 مول من برمنجنات البوتاسيوم تماماً وفق المعادلة الموزونة؟",
+                options: ["2 مول", "3 مولات", "5 مولات", "10 مولات"],
+                correct: 2,
+                explain: "نسبة التفاعل في المعادلة الموزونة هي 5 مولات نيتريت صوديوم لكل 2 مول برمنجنات."
+            },
+            {
+                q: "تم إجراء كشف تأكيدي لأنيون الكبريتيت (SO₃²⁻) باستخدام محلول AgNO₃ فتكوَّن راسب أبيض (X). وعند تسخين هذا الراسب (X) هادئاً يتحول إلى اللون (Y). ما هما X و Y؟",
+                options: ["X: Ag₂SO₄ ، Y: أصفر", "X: Ag₂SO₃ ، Y: أسود", "X: Ag₂S ، Y: أبيض", "X: AgCl ، Y: بنفسجي"],
+                correct: 1,
+                explain: "كبريتيت الفضة Ag₂SO₃ راسب أبيض يسود بالتسخين."
+            },
+            {
+                q: "إحدى عينات أملاح الحديد (X): عند إضافة محلول NH₄OH إليها تتكون راسب بني محمر، وعند إضافة حمض H₂SO₄ المركز للملح الصلب تتصاعد أبخرة بنية حمراء تزداد عند إضافة خُراطة النحاس. صيغة الملح X هي:",
+                options: ["FeCl₂", "Fe(NO₃)₃", "FeSO₄", "Fe(NO₂)₂"],
+                correct: 1,
+                explain: "الملح يحتوي على Fe³⁺ للراسب البني المحمر والنيترات NO₃⁻ للأبخرة البنية الحمراء."
+            },
+            {
+                q: "عند إضافة محلول هيدروكسيد الأمونيوم (NH₄OH) بالتنقيط حتى الزيادة إلى محلول يحتوي على كاتيونات Cu²⁺ و Al³⁺، فإن التغير الملاحَظ هو:",
+                options: ["يتكون راسب أبيض وراسب أزرق ويذوب كلاهما في الزيادة", "يترسب Al(OH)₃ الأبيض ولا يذوب في الزيادة من NH₄OH، بينما يدخل Cu²⁺ في معقد ذائب أزرق غامق", "يختفي الراسب الأبيض تماماً بينما يتبقى الراسب الأكوا", "لا يتكون أي راسب في المحلولين"],
+                correct: 1,
+                explain: "هيدروكسيد الألومنيوم لا يذوب في الزيادة من هيدروكسيد الأمونيوم بينما يشكل النحاس معقداً أزرق غامقاً."
+            },
+            {
+                q: "عنصر انتقالي ينتهي توزيعه الإلكتروني بـ 3d⁵ في حالته التأكسدية +3. عند إضافة هيدروكسيد الصوديوم إلى محلول كلوريده يتكون راسب ذو لون:",
+                options: ["أبيض يخضر", "بني محمر", "أزرق يتأسود بالتسخين", "أصفر كبريتي"],
+                correct: 1,
+                explain: "العنصر هو الحديد Fe³⁺ ويعطي راسباً بنياً محمراً Fe(OH)₃."
+            },
+            {
+                q: "أيُّ المواد التالية تُستخدم للتمييز التأكيدي بين أنيوني الكربونات والبيكربونات دون الحاجة للتسخين المباشر في الخطوة الأولى؟",
+                options: ["حمض HCl المخفف", "محلول MgSO₄", "محلول NaOH", "محلول K₂Cr₂O₇"],
+                correct: 1,
+                explain: "كبريتات الماغنسيوم تعطي راسباً على البارد مع الكربونات وعلى الساخن مع البيكربونات."
+            },
+            {
+                q: "غاز عديم اللون (A) عند تعرُّضه للهواء الجوي عند فوهة الأنبوبة يتحول إلى غاز (B) بني محمر. الغاز (A) ينتج من تفاعل حمض HCl المخفف مع ملح يحتوي على أنيون:",
+                options: ["النيترات NO₃⁻", "النيتريت NO₂⁻", "الكبريتيد S²⁻", "الكلوريد Cl⁻"],
+                correct: 1,
+                explain: "الغاز A هو اكسيد النيتريك NO يتأكسد إلى NO₂ البني المحمر عند فوهة الأنبوبة والأنيون هو النيتريت."
+            },
+            {
+                q: "عند إضافة حمض H₂SO₄ المخفف إلى كربونات الكالسيوم الصلبة، يتوقف التفاعل سريعاً بعد فترة وجيزة. السبب العلمي الأكثر دقة لذلك هو:",
+                options: ["استهلاك كامل كمية الكربونات", "تكوُّن طبقة من كبريتات الكالسيوم CaSO₄ شحيحة الذوبان تغطي سطح الملح وتمنع استمرار التفاعل", "تكوُّن غاز يُعطِّل التفاعل", "ضعف حمض الكبريتيك المخفف"],
+                correct: 1,
+                explain: "تتشكل طبقة CaSO₄ غير الذائبة التي تعزل الحمض عن التفاعل."
             }
         ];
 
@@ -390,6 +506,7 @@
             examDurationMinutes: 40,
             currentStudent: null,
             answers: {},
+            essayAnswers: {},
             timer: null,
             timeSpent: 0,
             questions: defaultQuestions,
@@ -451,10 +568,9 @@
                 return;
             }
 
-            // فحص منع تكرار كود الـ ID
             const alreadyExists = state.existingSubmissions.some(sub => sub.id === id);
             if (alreadyExists) {
-                alert(`عذراً، هذا الرقم المعرف (ID: ${id}) تم استخدامه وتسليم الامتحان به مسبقاً من قِبل طالب آخر!\nلا يمكن تكرار استخدام نفس الكود.`);
+                alert(`عذراً، هذا الرقم المعرف (ID: ${id}) تم استخدامه وتسليم الامتحان به مسبقاً من قِبل طالب آخر!`);
                 return;
             }
 
@@ -471,27 +587,47 @@
 
         function renderQuestions() {
             const container = document.getElementById('questions-container');
-            container.innerHTML = state.questions.map((q, idx) => `
+            container.innerHTML = state.questions.map((q, idx) => {
+                const isEssay = q.type === 'essay';
+                return `
                 <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-sm">
                     <div class="flex items-start gap-3 mb-4">
-                        <span class="bg-blue-600 text-white font-bold text-xs px-2.5 py-1 rounded-lg">السؤال ${idx + 1}</span>
-                        <h4 class="text-base font-bold text-white flex-1">${q.q}</h4>
+                        <span class="bg-blue-600 text-white font-bold text-xs px-2.5 py-1 rounded-lg">سؤال ${idx + 1} ${isEssay ? '(مقالي)' : ''}</span>
+                        <div class="flex-1 flex flex-col md:flex-row gap-4 justify-between items-start">
+                            <h4 class="text-base font-bold text-white flex-1">${q.q || q.text}</h4>
+                            ${q.img ? `<img src="${q.img}" class="max-h-40 rounded-lg border border-slate-700 shadow self-start">` : ''}
+                        </div>
                     </div>
+                    ${!isEssay ? `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        ${q.options.map((opt, oIdx) => `
+                        ${(q.options || q.choices).map((opt, oIdx) => `
                             <button onclick="selectOption(${idx}, ${oIdx})" id="opt-${idx}-${oIdx}" class="option-btn text-right p-3.5 bg-slate-900 border border-slate-700 hover:border-blue-500 rounded-xl text-sm text-slate-200 transition flex items-center justify-between">
                                 <span>${opt}</span>
                                 <i class="fa-regular fa-circle text-slate-600 text-lg"></i>
                             </button>
                         `).join('')}
                     </div>
+                    ` : `
+                    <div class="space-y-3">
+                        <textarea id="essay-text-${idx}" oninput="saveEssayText(${idx}, this.value)" placeholder="أكتب خطوات إجابتك هنا..." class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm outline-none focus:border-blue-500" rows="3"></textarea>
+                        <div class="flex items-center gap-3">
+                            <label class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs rounded-lg cursor-pointer flex items-center gap-2">
+                                <i class="fa-solid fa-camera"></i>
+                                <span>إرفاق صورة الإجابة/الكراسة</span>
+                                <input type="file" accept="image/*" class="hidden" onchange="uploadEssayImage(${idx}, this)">
+                            </label>
+                            <span id="essay-img-status-${idx}" class="text-xs text-emerald-400 font-bold hidden"><i class="fa-solid fa-check"></i> تم إرفاق الصورة</span>
+                        </div>
+                    </div>
+                    `}
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function selectOption(qIdx, oIdx) {
             state.answers[qIdx] = oIdx;
-            state.questions[qIdx].options.forEach((_, optIndex) => {
+            const choices = state.questions[qIdx].options || state.questions[qIdx].choices;
+            choices.forEach((_, optIndex) => {
                 const btn = document.getElementById(`opt-${qIdx}-${optIndex}`);
                 if (optIndex === oIdx) {
                     btn.className = "option-btn text-right p-3.5 bg-blue-900/40 border-2 border-blue-500 rounded-xl text-sm text-white font-bold transition flex items-center justify-between";
@@ -501,6 +637,23 @@
                     btn.querySelector('i').className = "fa-regular fa-circle text-slate-600 text-lg";
                 }
             });
+        }
+
+        function saveEssayText(idx, val) {
+            if (!state.essayAnswers[idx]) state.essayAnswers[idx] = {};
+            state.essayAnswers[idx].text = val;
+        }
+
+        function uploadEssayImage(idx, input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (!state.essayAnswers[idx]) state.essayAnswers[idx] = {};
+                    state.essayAnswers[idx].img = e.target.result;
+                    document.getElementById(`essay-img-status-${idx}`).classList.remove('hidden');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         }
 
         function startTimer() {
@@ -527,13 +680,16 @@
             clearInterval(state.timer);
             let score = 0;
             state.questions.forEach((q, idx) => {
-                if (state.answers[idx] === q.correct) score++;
+                const correct = q.correct !== undefined ? q.correct : q.answer;
+                if (q.type !== 'essay' && state.answers[idx] === correct) score++;
             });
 
             const percent = Math.round((score / state.questions.length) * 100);
             const minsSpent = Math.floor(state.timeSpent / 60);
             const secsSpent = state.timeSpent % 60;
             const timeStr = `${minsSpent}د ${secsSpent}ث`;
+            const now = new Date();
+            const dateStr = `${now.toLocaleDateString('ar-EG')} - ${now.toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}`;
 
             document.getElementById('res-score').innerText = `${score} / ${state.questions.length}`;
             document.getElementById('res-percent').innerText = `${percent}%`;
@@ -552,6 +708,7 @@
                     score: score,
                     totalQuestions: state.questions.length,
                     timeSpentStr: timeStr,
+                    submissionDate: dateStr,
                     timestamp: serverTimestamp()
                 });
             } catch (err) {
@@ -563,17 +720,19 @@
             const container = document.getElementById('review-container');
             container.innerHTML = state.questions.map((q, idx) => {
                 const userAns = state.answers[idx];
-                const isCorrect = userAns === q.correct;
+                const correct = q.correct !== undefined ? q.correct : q.answer;
+                const choices = q.options || q.choices;
+                const isCorrect = userAns === correct;
                 return `
                     <div class="bg-slate-800 border ${isCorrect ? 'border-emerald-700/60' : 'border-rose-700/60'} rounded-xl p-4 space-y-2">
                         <div class="flex items-center gap-2">
                             <span class="text-xs px-2 py-0.5 rounded ${isCorrect ? 'bg-emerald-900/60 text-emerald-300' : 'bg-rose-900/60 text-rose-300'} font-bold">
                                 ${isCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}
                             </span>
-                            <h4 class="font-bold text-sm text-white">${q.q}</h4>
+                            <h4 class="font-bold text-sm text-white">${q.q || q.text}</h4>
                         </div>
-                        <p class="text-xs text-slate-300">إجابتك: <span class="${isCorrect ? 'text-emerald-400' : 'text-rose-400'} font-bold">${userAns !== undefined ? q.options[userAns] : 'لم تجب'}</span></p>
-                        ${!isCorrect ? `<p class="text-xs text-emerald-400">الإجابة الصحيحة: <span class="font-bold">${q.options[q.correct]}</span></p>` : ''}
+                        <p class="text-xs text-slate-300">إجابتك: <span class="${isCorrect ? 'text-emerald-400' : 'text-rose-400'} font-bold">${userAns !== undefined ? choices[userAns] : 'لم تجب'}</span></p>
+                        ${!isCorrect ? `<p class="text-xs text-emerald-400">الإجابة الصحيحة: <span class="font-bold">${choices[correct]}</span></p>` : ''}
                         ${q.explain ? `<p class="text-xs text-slate-400 bg-slate-900/70 p-2 rounded border border-slate-700/50 mt-1">توضيح: ${q.explain}</p>` : ''}
                     </div>
                 `;
@@ -639,6 +798,10 @@
             }
         }
 
+        function printPDF() {
+            window.print();
+        }
+
         function renderTeacherTable(submissions) {
             const tbody = document.getElementById('teacher-table-body');
             if (!submissions || submissions.length === 0) {
@@ -661,7 +824,7 @@
                         <td class="p-3 font-semibold text-white">${sub.name}</td>
                         <td class="p-3 font-bold text-emerald-400">${sub.score} / ${sub.totalQuestions}</td>
                         <td class="p-3 text-slate-400">${sub.timeSpentStr}</td>
-                        <td class="p-3 text-slate-500 text-[10px]">مسجل سحابياً</td>
+                        <td class="p-3 text-slate-300 text-xs">${sub.submissionDate || 'اليوم'}</td>
                     </tr>
                 `;
             }).join('');
@@ -671,7 +834,7 @@
             document.getElementById('stat-high').innerText = `${maxScore} / ${state.questions.length}`;
         }
 
-        // محرّر الأسئلة
+        // محرّر الأسئلة للـ Teacher
         function openExamEditor() {
             document.getElementById('exam-editor-modal').classList.remove('hidden');
             document.getElementById('editor-questions-count').value = state.questions.length;
@@ -685,6 +848,15 @@
 
         function switchTab(tab) {
             currentTab = tab;
+            const tabs = ['symbols', 'anions', 'cations', 'oxides', 'acids', 'elements'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tab) {
+                    btn.className = "tab-btn px-2.5 py-1 bg-blue-600 text-white rounded text-xs font-bold transition";
+                } else {
+                    btn.className = "tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs transition";
+                }
+            });
             renderChemKeyboard();
         }
 
@@ -711,33 +883,81 @@
             activeInputRef = elem;
         }
 
+        function loadTemplate(id) {
+            if (confirm(`هل تريد استبدال/تحميل النموذج رقم (${id})؟ سيمكنك التعديل عليه وحفظه.`)) {
+                currentTemplateId = id;
+                const savedTpl = localStorage.getItem(`template_${id}`);
+                if (savedTpl) {
+                    state.questions = JSON.parse(savedTpl);
+                } else {
+                    state.questions = JSON.parse(JSON.stringify(defaultQuestions));
+                }
+                renderEditorQuestions();
+            }
+        }
+
+        function uploadQuestionImage(idx, input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    state.questions[idx].img = e.target.result;
+                    renderEditorQuestions();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         function renderEditorQuestions() {
             const container = document.getElementById('editor-questions-container');
-            container.innerHTML = state.questions.map((q, idx) => `
+            container.innerHTML = state.questions.map((q, idx) => {
+                const choices = q.options || q.choices || ["أ", "ب", "ج", "د"];
+                const correct = q.correct !== undefined ? q.correct : (q.answer !== undefined ? q.answer : 0);
+                return `
                 <div class="bg-slate-900 border border-slate-700 rounded-xl p-4 space-y-3">
                     <div class="flex items-center justify-between">
                         <span class="bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-lg">سؤال رقم ${idx + 1}</span>
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-3">
+                            <label class="text-xs text-slate-300">نوع السؤال:</label>
+                            <select id="ed-type-${idx}" onchange="state.questions[${idx}].type = this.value; renderEditorQuestions();" class="bg-slate-800 border border-slate-700 text-xs font-bold text-blue-300 rounded-lg px-2 py-1 outline-none">
+                                <option value="choice" ${q.type !== 'essay' ? 'selected' : ''}>اختياري</option>
+                                <option value="essay" ${q.type === 'essay' ? 'selected' : ''}>مقالي</option>
+                            </select>
+                            
+                            ${q.type !== 'essay' ? `
                             <label class="text-xs text-slate-300">الإجابة الصحيحة:</label>
                             <select id="ed-correct-${idx}" class="bg-slate-800 border border-slate-700 text-xs font-bold text-emerald-400 rounded-lg px-2 py-1 outline-none">
-                                <option value="0" ${q.correct === 0 ? 'selected' : ''}>أ</option>
-                                <option value="1" ${q.correct === 1 ? 'selected' : ''}>ب</option>
-                                <option value="2" ${q.correct === 2 ? 'selected' : ''}>ج</option>
-                                <option value="3" ${q.correct === 3 ? 'selected' : ''}>د</option>
+                                <option value="0" ${correct === 0 ? 'selected' : ''}>أ</option>
+                                <option value="1" ${correct === 1 ? 'selected' : ''}>ب</option>
+                                <option value="2" ${correct === 2 ? 'selected' : ''}>ج</option>
+                                <option value="3" ${correct === 3 ? 'selected' : ''}>د</option>
                             </select>
+                            ` : ''}
                         </div>
                     </div>
-                    <div>
-                        <textarea onfocus="trackFocus(this)" id="ed-q-${idx}" placeholder="نص السؤال..." class="w-full p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm outline-none focus:border-purple-500" rows="2">${q.q}</textarea>
+
+                    <div class="flex flex-col md:flex-row gap-3 items-start">
+                        <textarea onfocus="trackFocus(this)" id="ed-q-${idx}" placeholder="نص السؤال..." class="flex-1 p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm outline-none focus:border-purple-500 chem-input" rows="2">${q.q || q.text || ''}</textarea>
+                        
+                        <div class="flex flex-col gap-2">
+                            <label class="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs text-slate-300 cursor-pointer flex items-center gap-2">
+                                <i class="fa-solid fa-image text-purple-400"></i>
+                                <span>رفع صورة للسؤال</span>
+                                <input type="file" accept="image/*" class="hidden" onchange="uploadQuestionImage(${idx}, this)">
+                            </label>
+                            ${q.img ? `<div class="relative"><img src="${q.img}" class="h-12 rounded border border-slate-700"><button onclick="state.questions[${idx}].img = null; renderEditorQuestions();" class="absolute -top-1 -right-1 bg-rose-600 text-white rounded-full w-4 h-4 text-[10px] flex items-center justify-center">×</button></div>` : ''}
+                        </div>
                     </div>
+
+                    ${q.type !== 'essay' ? `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-0" value="${q.options[0] || ''}" placeholder="اختيار (أ)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none">
-                        <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-1" value="${q.options[1] || ''}" placeholder="اختيار (ب)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none">
-                        <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-2" value="${q.options[2] || ''}" placeholder="اختيار (ج)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none">
-                        <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-3" value="${q.options[3] || ''}" placeholder="اختيار (د)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none">
+                        <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-0" value="${choices[0] || ''}" placeholder="اختيار (أ)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none chem-input">
+                        <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-1" value="${choices[1] || ''}" placeholder="اختيار (ب)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none chem-input">
+                        <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-2" value="${choices[2] || ''}" placeholder="اختيار (ج)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none chem-input">
+                        <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-3" value="${choices[3] || ''}" placeholder="اختيار (د)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none chem-input">
                     </div>
+                    ` : ''}
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function updateEditorQuestionsCount() {
@@ -748,7 +968,7 @@
                     newQuestions.push(state.questions[i]);
                 } else {
                     newQuestions.push({
-                        q: `سؤال كيمياء جديد رقم ${i + 1}`,
+                        q: `سؤال جديد رقم ${i + 1}`,
                         options: ["اختيار أ", "اختيار ب", "اختيار ج", "اختيار د"],
                         correct: 0,
                         explain: ""
@@ -766,24 +986,45 @@
         }
 
         async function saveAndPublishExam() {
+            const tplExists = localStorage.getItem(`template_${currentTemplateId}`);
+            if (tplExists) {
+                if (!confirm(`تحذير: هل تود استبدال هذا التحديث بالنسخة القديمة المحفوظة في (نموذج ${currentTemplateId})؟`)) {
+                    return;
+                }
+            }
+
             let updatedQuestions = [];
             for (let i = 0; i < state.questions.length; i++) {
                 const qText = document.getElementById(`ed-q-${i}`).value.trim();
-                const opt0 = document.getElementById(`ed-opt-${i}-0`).value.trim();
-                const opt1 = document.getElementById(`ed-opt-${i}-1`).value.trim();
-                const opt2 = document.getElementById(`ed-opt-${i}-2`).value.trim();
-                const opt3 = document.getElementById(`ed-opt-${i}-3`).value.trim();
-                const correctIdx = parseInt(document.getElementById(`ed-correct-${i}`).value);
+                const isEssay = state.questions[i].type === 'essay';
 
-                updatedQuestions.push({
-                    q: qText || `السؤال ${i + 1}`,
-                    options: [opt0 || 'أ', opt1 || 'ب', opt2 || 'ج', opt3 || 'د'],
-                    correct: correctIdx,
-                    explain: state.questions[i]?.explain || ""
-                });
+                if (!isEssay) {
+                    const opt0 = document.getElementById(`ed-opt-${i}-0`).value.trim();
+                    const opt1 = document.getElementById(`ed-opt-${i}-1`).value.trim();
+                    const opt2 = document.getElementById(`ed-opt-${i}-2`).value.trim();
+                    const opt3 = document.getElementById(`ed-opt-${i}-3`).value.trim();
+                    const correctIdx = parseInt(document.getElementById(`ed-correct-${i}`).value);
+
+                    updatedQuestions.push({
+                        q: qText || `السؤال ${i + 1}`,
+                        options: [opt0 || 'أ', opt1 || 'ب', opt2 || 'ج', opt3 || 'د'],
+                        correct: correctIdx,
+                        explain: state.questions[i]?.explain || "",
+                        img: state.questions[i]?.img || null,
+                        type: 'choice'
+                    });
+                } else {
+                    updatedQuestions.push({
+                        q: qText || `سؤال مقالي ${i + 1}`,
+                        explain: state.questions[i]?.explain || "",
+                        img: state.questions[i]?.img || null,
+                        type: 'essay'
+                    });
+                }
             }
 
             state.questions = updatedQuestions;
+            localStorage.setItem(`template_${currentTemplateId}`, JSON.stringify(updatedQuestions));
 
             try {
                 await setDoc(doc(db, "exam_config", "main"), {
@@ -796,7 +1037,7 @@
                 console.log("Exam save error", e);
             }
 
-            alert("تم حفظ الامتحان ونشره سحابياً بنجاح لكل الطلاب!");
+            alert(`تم حفظ الامتحان ونشره سحابياً بنجاح في (نموذج ${currentTemplateId})!`);
             closeExamEditor();
         }
     </script>

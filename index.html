@@ -2,39 +2,28 @@
 <html lang="ar" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>منصة الكيمياء</title>
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
-    
+
+    <!-- Beautiful SVG Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232563eb'/%3E%3Cstop offset='50%25' stop-color='%237c3aed'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3CradialGradient id='g2' cx='50%25' cy='30%25' r='40%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff' stop-opacity='0.3'/%3E%3Cstop offset='100%25' stop-color='%23ffffff' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='url(%23g1)'/%3E%3Crect width='100' height='100' rx='22' fill='url(%23g2)'/%3E%3Cellipse cx='50' cy='52' rx='18' ry='28' fill='none' stroke='%23ffffff' stroke-width='4.5' stroke-linecap='round'/%3E%3Crect x='34' y='18' width='32' height='8' rx='4' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='44' cy='68' r='4' fill='%2360a5fa' opacity='0.9'/%3E%3Ccircle cx='56' cy='72' r='3' fill='%2334d399' opacity='0.8'/%3E%3Ccircle cx='50' cy='62' r='2.5' fill='%23f9a8d4' opacity='0.9'/%3E%3Cpath d='M34 38 Q28 45 32 55' stroke='%23ffffff' stroke-width='3' fill='none' stroke-linecap='round' opacity='0.5'/%3E%3C/svg%3E">
+
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        theme: {
-                            bg: 'var(--bg-color)',
-                            card: 'var(--card-color)',
-                            primary: 'var(--primary-color)',
-                            accent: 'var(--accent-color)'
-                        }
-                    }
-                }
-            }
+            theme: { extend: {} }
         };
     </script>
-    
-    <!-- FontAwesome icons -->
+
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Firebase SDK -->
+
+    <!-- Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
         const firebaseConfig = {
             apiKey: "AIzaSyA2iP6vpzNbK1eXzzNzr4eekd2HXvUm4EE",
             authDomain: "chemistry-exam-amani.firebaseapp.com",
@@ -43,995 +32,1657 @@
             messagingSenderId: "732680929251",
             appId: "1:732680929251:web:c2707b38788265ac6daad6"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
-        window.db = db;
-        window.doc = doc;
-        window.setDoc = setDoc;
-        window.getDoc = getDoc;
-        window.collection = collection;
-        window.onSnapshot = onSnapshot;
-        window.serverTimestamp = serverTimestamp;
-
+        window.db = db; window.doc = doc; window.setDoc = setDoc;
+        window.getDoc = getDoc; window.collection = collection;
+        window.onSnapshot = onSnapshot; window.serverTimestamp = serverTimestamp;
         window.dispatchEvent(new Event('firebase-ready'));
     </script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
-        
+
         :root {
-            --bg-color: #0f172a;
-            --card-color: #1e293b;
-            --primary-color: #2563eb;
-            --accent-color: #3b82f6;
-            --text-main: #f8fafc;
+            --bg: #0a0f1e; --card: #111827; --border: rgba(255,255,255,0.08);
+            --primary: #3b82f6; --primary-glow: rgba(59,130,246,0.25);
+            --accent: #60a5fa; --text: #f1f5f9; --muted: rgba(241,245,249,0.5);
+            --surface: rgba(255,255,255,0.04);
         }
+        [data-theme="purple"] { --bg:#0d0618; --card:#160d2a; --primary:#8b5cf6; --primary-glow:rgba(139,92,246,0.25); --accent:#a78bfa; }
+        [data-theme="emerald"] { --bg:#041510; --card:#071f16; --primary:#10b981; --primary-glow:rgba(16,185,129,0.25); --accent:#34d399; }
+        [data-theme="rose"] { --bg:#140508; --card:#1f0a12; --primary:#f43f5e; --primary-glow:rgba(244,63,94,0.25); --accent:#fb7185; }
+        [data-theme="amber"] { --bg:#14100a; --card:#1c160e; --primary:#f59e0b; --primary-glow:rgba(245,158,11,0.25); --accent:#fbbf24; }
+        [data-theme="cyan"] { --bg:#041418; --card:#071e24; --primary:#06b6d4; --primary-glow:rgba(6,182,212,0.25); --accent:#22d3ee; }
+        [data-theme="indigo"] { --bg:#0a0d1f; --card:#10163a; --primary:#6366f1; --primary-glow:rgba(99,102,241,0.25); --accent:#818cf8; }
+        /* Light themes */
+        [data-theme="light-blue"] { --bg:#f0f7ff; --card:#ffffff; --border:rgba(0,0,0,0.08); --primary:#2563eb; --primary-glow:rgba(37,99,235,0.15); --accent:#3b82f6; --text:#0f172a; --muted:rgba(15,23,42,0.5); --surface:rgba(0,0,0,0.03); }
+        [data-theme="light-purple"] { --bg:#faf5ff; --card:#ffffff; --border:rgba(0,0,0,0.08); --primary:#7c3aed; --primary-glow:rgba(124,58,237,0.15); --accent:#8b5cf6; --text:#0f172a; --muted:rgba(15,23,42,0.5); --surface:rgba(0,0,0,0.03); }
+        [data-theme="light-emerald"] { --bg:#f0fdf4; --card:#ffffff; --border:rgba(0,0,0,0.08); --primary:#059669; --primary-glow:rgba(5,150,105,0.15); --accent:#10b981; --text:#0f172a; --muted:rgba(15,23,42,0.5); --surface:rgba(0,0,0,0.03); }
 
-        /* كلاس الوضع الفاتح المعالج */
-        .light-mode {
-            --bg-color: #f8fafc !important;
-            --card-color: #ffffff !important;
-            --primary-color: #2563eb !important;
-            --text-main: #0f172a !important;
-        }
-
-        /* Themes definitions */
-        [data-theme="blue"] { --bg-color: #0f172a; --card-color: #1e293b; --primary-color: #2563eb; --accent-color: #3b82f6; }
-        [data-theme="purple"] { --bg-color: #1a102f; --card-color: #261745; --primary-color: #9333ea; --accent-color: #c084fc; }
-        [data-theme="emerald"] { --bg-color: #062016; --card-color: #0d3322; --primary-color: #10b981; --accent-color: #34d399; }
-        [data-theme="cyberpunk"] { --bg-color: #180828; --card-color: #2b0b47; --primary-color: #ec4899; --accent-color: #06b6d4; }
-        [data-theme="gold"] { --bg-color: #1c1917; --card-color: #292524; --primary-color: #d97706; --accent-color: #fbbf24; }
-        [data-theme="rose"] { --bg-color: #1f0910; --card-color: #36101c; --primary-color: #e11d48; --accent-color: #fb7185; }
-        [data-theme="midnight"] { --bg-color: #020617; --card-color: #0f172a; --primary-color: #6366f1; --accent-color: #818cf8; }
-        [data-theme="light-blue"] { --bg-color: #f0f9ff; --card-color: #ffffff; --primary-color: #0284c7; --accent-color: #38bdf8; --text-main: #0f172a; }
-        [data-theme="light-emerald"] { --bg-color: #f0fdf4; --card-color: #ffffff; --primary-color: #059669; --accent-color: #34d399; --text-main: #0f172a; }
-        [data-theme="light-purple"] { --bg-color: #faf5ff; --card-color: #ffffff; --primary-color: #7e22ce; --accent-color: #a855f7; --text-main: #0f172a; }
-
+        * { box-sizing: border-box; padding-top: 0; }
+        html { scroll-padding-top: env(safe-area-inset-top, 0px); }
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            transition: background-color 0.3s ease, color 0.3s ease;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.4s, color 0.4s;
+            padding-bottom: 72px;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
         }
+        @media (min-width: 768px) { body { padding-bottom: 0; } }
 
-        .bidi-input {
-            direction: auto;
-            text-align: right;
-            unicode-bidi: plaintext;
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; }
+        .card-sm { background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+        .surface { background: var(--surface); border: 1px solid var(--border); }
+        .text-muted { color: var(--muted); }
+        .primary { color: var(--primary); }
+        .btn-primary {
+            background: var(--primary);
+            color: white; border: none;
+            box-shadow: 0 4px 20px var(--primary-glow);
+            transition: opacity 0.2s, transform 0.15s;
         }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-ghost { background: var(--surface); border: 1px solid var(--border); transition: background 0.2s; }
+        .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+        input, textarea, select {
+            background: var(--surface) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text) !important;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus, textarea:focus, select:focus { border-color: var(--primary) !important; }
 
-        .bg-custom-card { background-color: var(--card-color); }
-        .text-custom-primary { color: var(--primary-color); }
-        .bg-custom-primary { background-color: var(--primary-color); }
+        /* Nav glow active */
+        .nav-active { color: var(--primary) !important; }
+        .nav-active i { filter: drop-shadow(0 0 6px var(--primary)); }
+
+        /* Live pulse */
+        @keyframes livePulse { 0%,100%{opacity:1; transform:scale(1)} 50%{opacity:0.6; transform:scale(1.3)} }
+        .live-dot { animation: livePulse 1.4s infinite; }
+
+        /* Reaction float */
+        @keyframes floatUp { from{opacity:1;transform:translateY(0) scale(1)} to{opacity:0;transform:translateY(-80px) scale(1.4)} }
+        .reaction-anim { animation: floatUp 2s ease forwards; pointer-events:none; }
+
+        /* Viewer counter pulse */
+        @keyframes countPulse { 0%,100%{opacity:0.7} 50%{opacity:1} }
+        .count-pulse { animation: countPulse 2s infinite; }
+
+        /* Theme card hover */
+        .theme-card { transition: transform 0.2s, box-shadow 0.2s; }
+        .theme-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px var(--primary-glow); }
+        .theme-card.active { box-shadow: 0 0 0 2px var(--primary), 0 8px 24px var(--primary-glow); }
+
+        /* Screen share preview */
+        #screen-preview { object-fit: contain; width: 100%; height: 100%; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+        .bidi-input { direction: auto; text-align: right; unicode-bidi: plaintext; }
+        .fade-in { animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+        /* Toggle switch */
+        .toggle-track { width: 44px; height: 24px; border-radius: 12px; cursor: pointer; transition: background 0.3s; position: relative; }
+        .toggle-thumb { width: 20px; height: 20px; border-radius: 50%; background: white; position: absolute; top: 2px; left: 2px; transition: transform 0.3s; box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+        .toggle-on .toggle-thumb { transform: translateX(20px); }
+
+        /* Spectrum preview bar */
+        .spectrum { height: 4px; border-radius: 2px; background: linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6, #ec4899); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col pb-20 md:pb-0">
+<body>
 
-    <!-- Navbar -->
-    <header class="bg-custom-card/80 backdrop-blur border-b border-white/10 sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-custom-primary flex items-center justify-center text-white shadow-lg">
-                    <i class="fa-solid fa-flask text-xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-bold tracking-tight">منصة الكيمياء</h1>
-                    <p class="text-xs text-custom-primary font-medium">المعلمة : أماني منصور</p>
-                </div>
+<!-- HEADER -->
+<header style="background:var(--card); border-bottom:1px solid var(--border);" class="sticky top-0 z-40 backdrop-blur-xl" id="main-header">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <!-- Logo SVG -->
+            <div class="w-10 h-10 rounded-xl flex-shrink-0 overflow-hidden" style="background:linear-gradient(135deg,var(--primary),#8b5cf6);">
+                <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+                    <defs>
+                        <radialGradient id="lg" cx="50%" cy="30%" r="60%">
+                            <stop offset="0%" stop-color="rgba(255,255,255,0.3)"/>
+                            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+                        </radialGradient>
+                    </defs>
+                    <rect width="40" height="40" rx="10" fill="url(#lg)"/>
+                    <ellipse cx="20" cy="22" rx="7" ry="11" fill="none" stroke="white" stroke-width="2"/>
+                    <rect x="14" y="8" width="12" height="4" rx="2" fill="white" opacity="0.9"/>
+                    <circle cx="17" cy="27" r="1.8" fill="#60a5fa"/>
+                    <circle cx="22" cy="30" r="1.4" fill="#34d399"/>
+                    <circle cx="20" cy="23" r="1.2" fill="#f9a8d4"/>
+                </svg>
             </div>
-
-            <!-- Desktop Nav Buttons -->
-            <div class="hidden md:flex items-center gap-2">
-                <button onclick="switchPage('exams')" id="nav-btn-exams" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-custom-primary text-white">
-                    <i class="fa-solid fa-file-pen"></i>
-                    <span>الامتحانات</span>
-                </button>
-                <button onclick="switchPage('lectures')" id="nav-btn-lectures" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 hover:bg-white/10">
-                    <i class="fa-solid fa-video"></i>
-                    <span>المحاضرات والـ Live</span>
-                </button>
-                <button onclick="switchPage('settings')" id="nav-btn-settings" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 hover:bg-white/10">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>الإعدادات والمظهر</span>
-                </button>
+            <div>
+                <h1 class="text-base font-extrabold leading-tight tracking-tight">منصة الكيمياء</h1>
+                <p class="text-xs font-medium" style="color:var(--primary)">Mrs. Amani Mansour</p>
             </div>
-
-            <button onclick="openTeacherAuthModal()" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/10 text-xs rounded-lg flex items-center gap-2 transition">
-                <i class="fa-solid fa-user-shield text-custom-primary"></i>
-                <span>لوحة المعلمة</span>
-            </button>
         </div>
-    </header>
 
-    <!-- Main Container Pages -->
-    <main class="flex-1 max-w-5xl w-full mx-auto p-4 md:p-6">
-
-        <!-- ================= PAGE 1: EXAMS ================= -->
-        <section id="page-exams" class="space-y-6">
-            <!-- Login Screen -->
-            <div id="login-screen" class="bg-custom-card border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden max-w-md mx-auto">
-                <div class="text-center">
-                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-custom-primary/20 text-custom-primary mb-4 border border-custom-primary/30">
-                        <i class="fa-solid fa-graduation-cap text-2xl"></i>
-                    </div>
-                    <h2 class="text-2xl font-bold mb-2">تسجيل دخول الطالب</h2>
-                    <p class="text-xs opacity-70 mb-6">أدخل اسمك ورقم المعرف لبدء الاختبار وحفظ نتائجك سحابياً</p>
-
-                    <div class="space-y-4 text-right mb-6">
-                        <div>
-                            <label class="block text-xs font-semibold mb-1">اسم الطالب رباعي</label>
-                            <input type="text" id="student-name" placeholder="أدخل اسمك بالكامل..." class="bidi-input w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm" disabled>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold mb-1">رقم المعرف (Student ID)</label>
-                            <input type="number" id="student-id" placeholder="أدخل كود الطالب..." class="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm" disabled>
-                            <p id="student-id-hint" class="text-[11px] text-amber-400 mt-1 flex items-center gap-1">
-                                <i class="fa-solid fa-lock"></i>
-                                <span>التسجيل مغلق مؤقتاً لحين فتح الامتحان من قِبل المعلمة.</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <button id="start-exam-btn" onclick="startExam()" class="w-full py-3.5 bg-custom-primary hover:opacity-90 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2 opacity-50 cursor-not-allowed" disabled>
-                        <span>بدء الامتحان الآن</span>
-                        <i class="fa-solid fa-arrow-left"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Quiz Screen -->
-            <div id="quiz-screen" class="hidden space-y-6">
-                <div class="bg-custom-card border border-white/10 rounded-xl p-4 flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <span class="text-xs opacity-70">الطالب:</span>
-                        <span id="quiz-student-name" class="font-bold">---</span>
-                        <span id="quiz-student-id" class="text-xs bg-white/10 px-2 py-0.5 rounded text-custom-primary">#--</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-custom-primary/20 border border-custom-primary/30 px-3 py-1.5 rounded-lg text-custom-primary text-sm font-bold">
-                        <i class="fa-regular fa-clock"></i>
-                        <span>الوقت المتبقي: </span>
-                        <span id="timer-display" class="font-mono">00:00</span>
-                    </div>
-                </div>
-
-                <div id="questions-container" class="space-y-6"></div>
-
-                <div class="text-center pt-4">
-                    <button onclick="submitExam()" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2 mx-auto">
-                        <i class="fa-solid fa-paper-plane"></i>
-                        <span>تأكيد وتسليم الإجابات</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Result Screen -->
-            <div id="result-screen" class="hidden space-y-6 max-w-2xl mx-auto">
-                <div class="bg-custom-card border border-white/10 rounded-2xl p-6 text-center shadow-xl">
-                    <div class="w-20 h-20 bg-emerald-500/20 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400 mx-auto mb-4 text-3xl">
-                        <i class="fa-solid fa-trophy"></i>
-                    </div>
-                    <h2 class="text-2xl font-bold mb-1">تم تسليم الاختبار بنجاح</h2>
-                    <p class="text-xs opacity-70 mb-6">إليك نتائجك وحالة الإجابات المفصلة</p>
-
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-                        <div class="bg-black/20 p-3 rounded-xl border border-white/10">
-                            <span class="block text-[11px] opacity-70">الدرجة الكلية</span>
-                            <span id="res-score" class="text-xl font-extrabold text-emerald-400">0 / 0</span>
-                        </div>
-                        <div class="bg-black/20 p-3 rounded-xl border border-white/10">
-                            <span class="block text-[11px] opacity-70">النسبة المئوية</span>
-                            <span id="res-percent" class="text-xl font-extrabold text-custom-primary">0%</span>
-                        </div>
-                        <div class="bg-black/20 p-3 rounded-xl border border-white/10">
-                            <span class="block text-[11px] opacity-70">الوقت المستغرق</span>
-                            <span id="res-time" class="text-xl font-extrabold text-amber-400">00:00</span>
-                        </div>
-                        <div class="bg-black/20 p-3 rounded-xl border border-white/10">
-                            <span class="block text-[11px] opacity-70">كود الطالب</span>
-                            <span id="res-id" class="text-xl font-extrabold text-purple-400">#0</span>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center justify-center gap-3">
-                        <button onclick="toggleReviewSection()" class="px-5 py-2.5 bg-custom-primary hover:opacity-90 text-white font-semibold rounded-xl text-sm transition flex items-center gap-2">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <span>مراجعة الأخطاء والإجابات</span>
-                        </button>
-                        <button onclick="exitExam()" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 font-semibold rounded-xl text-sm transition flex items-center gap-2">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            <span>خروج</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div id="review-section" class="hidden space-y-4">
-                    <h3 class="text-lg font-bold flex items-center gap-2 border-b border-white/10 pb-2">
-                        <i class="fa-solid fa-list-check text-custom-primary"></i>
-                        <span>مراجعة الإجابات والحل النموذجي:</span>
-                    </h3>
-                    <div id="review-container" class="space-y-4"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= PAGE 2: LECTURES & LIVE ================= -->
-        <section id="page-lectures" class="hidden space-y-6">
-            
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
-                <!-- Live Video Broadcast Area -->
-                <div class="lg:col-span-2 bg-custom-card border border-white/10 rounded-2xl p-4 shadow-xl space-y-4">
-                    <div class="flex items-center justify-between border-b border-white/10 pb-3">
-                        <div class="flex items-center gap-2">
-                            <span id="live-indicator" class="w-3 h-3 rounded-full bg-slate-500"></span>
-                            <h3 class="font-bold text-sm">البث المباشر (Live Chemistry Room)</h3>
-                        </div>
-                        <span id="live-status-badge" class="text-xs bg-slate-700 text-white px-2.5 py-0.5 rounded-full font-bold">غير نشط</span>
-                    </div>
-
-                    <!-- Video / Screen Window -->
-                    <div id="live-video-box" class="relative aspect-video bg-black/60 rounded-xl border border-white/10 overflow-hidden flex items-center justify-center">
-                        <div id="live-placeholder" class="text-center space-y-3 p-4">
-                            <div class="w-16 h-16 rounded-full bg-custom-primary/20 text-custom-primary flex items-center justify-center mx-auto text-2xl border border-custom-primary/30">
-                                <i class="fa-solid fa-video-slash"></i>
-                            </div>
-                            <p class="text-xs opacity-70">البث غير نشط حالياً، سينطلق فور بدء المعلمة للمحاضرة.</p>
-                        </div>
-                        <video id="live-video-element" class="w-full h-full object-contain hidden" autoplay playsinline muted></video>
-
-                        <div id="reactions-container" class="absolute bottom-4 right-4 flex gap-2 pointer-events-none"></div>
-                    </div>
-
-                    <!-- Live Controls & Emojis Bar -->
-                    <div class="flex flex-wrap items-center justify-between gap-3 bg-black/20 p-3 rounded-xl border border-white/10">
-                        <div class="flex items-center gap-2">
-                            <button onclick="sendReaction('👍')" class="p-2 bg-white/10 hover:bg-white/20 rounded-lg text-lg">👍</button>
-                            <button onclick="sendReaction('❤️')" class="p-2 bg-white/10 hover:bg-white/20 rounded-lg text-lg">❤️</button>
-                            <button onclick="sendReaction('🧪')" class="p-2 bg-white/10 hover:bg-white/20 rounded-lg text-lg">🧪</button>
-                            <button onclick="sendReaction('🔥')" class="p-2 bg-white/10 hover:bg-white/20 rounded-lg text-lg">🔥</button>
-                            <button onclick="sendReaction('🙋‍♂️')" class="p-2 bg-white/10 hover:bg-white/20 rounded-lg text-lg">🙋‍♂️</button>
-                        </div>
-
-                        <!-- Teacher Live Actions -->
-                        <div class="flex items-center gap-2">
-                            <button id="toggle-screen-share-btn" onclick="toggleScreenShare()" class="px-3 py-1.5 bg-custom-primary text-white text-xs font-bold rounded-lg flex items-center gap-1.5">
-                                <i class="fa-solid fa-desktop"></i>
-                                <span>مشاركة الشاشة / الكاميرا</span>
-                            </button>
-                            <button id="start-rec-btn" onclick="toggleRecordLive()" class="px-3 py-1.5 bg-rose-600 text-white text-xs font-bold rounded-lg flex items-center gap-1.5 opacity-50 cursor-not-allowed">
-                                <i class="fa-solid fa-circle"></i>
-                                <span>تسجيل الـ Live</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Live Audio & Student Mute Control Box -->
-                <div class="bg-custom-card border border-white/10 rounded-2xl p-4 shadow-xl flex flex-col justify-between">
-                    <div>
-                        <h4 class="font-bold text-xs text-custom-primary mb-3 flex items-center gap-2 border-b border-white/10 pb-2">
-                            <i class="fa-solid fa-users"></i>
-                            <span>الحضور في الغرفة والتحكم بالصوت</span>
-                        </h4>
-                        <div class="space-y-2 max-h-64 overflow-y-auto" id="students-audio-list">
-                            <div class="flex items-center justify-between p-2 bg-black/20 rounded-lg text-xs border border-white/5">
-                                <span class="font-bold">أحمد محمود (طالب)</span>
-                                <div class="flex items-center gap-2">
-                                    <button onclick="muteStudent(this)" class="p-1.5 bg-white/10 hover:bg-rose-600 rounded text-[10px] transition"><i class="fa-solid fa-microphone text-emerald-400"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 pt-3 border-t border-white/10 text-center">
-                        <span class="text-[11px] opacity-60">💡 تقنية البث تعمل بنظام موفر للبيانات لمنع التقطيع.</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Records & Materials Sections -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                
-                <!-- Saved Records -->
-                <div class="bg-custom-card border border-white/10 rounded-2xl p-5 space-y-4">
-                    <div class="flex items-center justify-between border-b border-white/10 pb-2">
-                        <h3 class="font-bold text-sm flex items-center gap-2">
-                            <i class="fa-solid fa-photo-film text-purple-400"></i>
-                            <span>البثوث والمحاضرات (الريكوردات)</span>
-                        </h3>
-                        <div class="flex gap-2">
-                            <label class="text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg font-bold cursor-pointer transition flex items-center gap-1">
-                                <i class="fa-solid fa-upload"></i> رفع ريكورد
-                                <input type="file" accept="video/*" class="hidden" onchange="uploadRecordVideo(this)">
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="space-y-2 max-h-60 overflow-y-auto pr-1" id="records-list">
-                        <p class="text-xs opacity-50 text-center p-4">لا توجد ريكوردات. يمكنك الرفع من جهازك أو تسجيل البث المباشر.</p>
-                    </div>
-                </div>
-
-                <!-- Books, Notes & Sheets Section -->
-                <div class="bg-custom-card border border-white/10 rounded-2xl p-5 space-y-4">
-                    <div class="flex items-center justify-between border-b border-white/10 pb-2">
-                        <h3 class="font-bold text-sm flex items-center gap-2">
-                            <i class="fa-solid fa-book-open text-emerald-400"></i>
-                            <span>الكتب والملفات والشيتات</span>
-                        </h3>
-                        <label class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg font-bold cursor-pointer transition flex items-center gap-1">
-                            <i class="fa-solid fa-upload"></i> رفع ملف PDF
-                            <input type="file" accept=".pdf,.doc,.docx" class="hidden" onchange="uploadStudyFile(this)">
-                        </label>
-                    </div>
-
-                    <div class="grid grid-cols-1 gap-2 text-xs max-h-60 overflow-y-auto pr-1" id="files-list">
-                        <p class="text-xs opacity-50 text-center p-4">لم يتم رفع أي ملفات أو شيتات حتى الآن.</p>
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- ================= PAGE 3: SETTINGS & THEMES ================= -->
-        <section id="page-settings" class="hidden space-y-6 max-w-3xl mx-auto">
-            
-            <div class="bg-custom-card border border-white/10 rounded-2xl p-6 shadow-xl space-y-6">
-                <div class="border-b border-white/10 pb-4">
-                    <h2 class="text-xl font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-palette text-custom-primary"></i>
-                        <span>إعدادات المظهر والألوان (10 ثيمات)</span>
-                    </h2>
-                    <p class="text-xs opacity-70">اختر الشكل واللون المناسب لك للعين والأناقة</p>
-                </div>
-
-                <!-- Dark / Light Toggle -->
-                <div class="flex items-center justify-between bg-black/20 p-4 rounded-xl border border-white/10">
-                    <div>
-                        <h4 class="font-bold text-sm">الوضع الداكن / الفاتح (Dark / Light Mode)</h4>
-                        <p class="text-xs opacity-60">التنقل السريع بين الخلفية المظلمة والمضيئة</p>
-                    </div>
-                    <button onclick="toggleDarkMode()" class="px-4 py-2 bg-custom-primary text-white text-xs font-bold rounded-xl flex items-center gap-2 transition hover:opacity-90">
-                        <i class="fa-solid fa-circle-half-stroke"></i>
-                        <span id="dark-mode-label">الوضع الفاتح</span>
-                    </button>
-                </div>
-
-                <!-- 10 Color Themes Grid -->
-                <div>
-                    <h4 class="font-bold text-sm mb-3">اختر ثيم الألوان المفضل من بين 10 مظاهر:</h4>
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                        <button onclick="setTheme('blue')" class="p-3 rounded-xl bg-slate-900 border-2 border-blue-500 text-center text-xs font-bold text-blue-400">الأزرق الملكي</button>
-                        <button onclick="setTheme('purple')" class="p-3 rounded-xl bg-purple-950 border-2 border-purple-500 text-center text-xs font-bold text-purple-300">البنفسجي الساطع</button>
-                        <button onclick="setTheme('emerald')" class="p-3 rounded-xl bg-emerald-950 border-2 border-emerald-500 text-center text-xs font-bold text-emerald-300">الزمردي</button>
-                        <button onclick="setTheme('cyberpunk')" class="p-3 rounded-xl bg-fuchsia-950 border-2 border-pink-500 text-center text-xs font-bold text-pink-300">السايبر بنك</button>
-                        <button onclick="setTheme('gold')" class="p-3 rounded-xl bg-stone-900 border-2 border-amber-500 text-center text-xs font-bold text-amber-300">الذهب الكلاسيكي</button>
-                        <button onclick="setTheme('rose')" class="p-3 rounded-xl bg-rose-950 border-2 border-rose-500 text-center text-xs font-bold text-rose-300">الوردي الفاخر</button>
-                        <button onclick="setTheme('midnight')" class="p-3 rounded-xl bg-slate-950 border-2 border-indigo-500 text-center text-xs font-bold text-indigo-300">منتصف الليل</button>
-                        <button onclick="setTheme('light-blue')" class="p-3 rounded-xl bg-sky-100 border-2 border-sky-600 text-center text-xs font-bold text-sky-800">فاتح سماوي</button>
-                        <button onclick="setTheme('light-emerald')" class="p-3 rounded-xl bg-emerald-100 border-2 border-emerald-600 text-center text-xs font-bold text-emerald-800">فاتح زمرّد</button>
-                        <button onclick="setTheme('light-purple')" class="p-3 rounded-xl bg-purple-100 border-2 border-purple-600 text-center text-xs font-bold text-purple-800">فاتح بنفسج</button>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-
-    </main>
-
-    <!-- Bottom Navigation Bar -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-custom-card/95 backdrop-blur border-t border-white/10 z-40 md:hidden">
-        <div class="grid grid-cols-3 text-center py-2">
-            <button onclick="switchPage('exams')" id="mob-nav-exams" class="flex flex-col items-center gap-1 text-custom-primary">
-                <i class="fa-solid fa-file-pen text-lg"></i>
-                <span class="text-[10px] font-bold">الامتحانات</span>
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex items-center gap-1">
+            <button onclick="switchPage('exams')" id="nav-exams" class="px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 btn-primary">
+                <i class="fa-solid fa-file-pen"></i> الامتحانات
             </button>
-            <button onclick="switchPage('lectures')" id="mob-nav-lectures" class="flex flex-col items-center gap-1 opacity-60">
-                <i class="fa-solid fa-video text-lg"></i>
-                <span class="text-[10px] font-bold">الـ Live</span>
+            <button onclick="switchPage('live')" id="nav-live" class="px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 btn-ghost">
+                <i class="fa-solid fa-broadcast-tower"></i> Live & Lectures
             </button>
-            <button onclick="switchPage('settings')" id="mob-nav-settings" class="flex flex-col items-center gap-1 opacity-60">
-                <i class="fa-solid fa-gear text-lg"></i>
-                <span class="text-[10px] font-bold">الإعدادات</span>
+            <button onclick="switchPage('settings')" id="nav-settings" class="px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 btn-ghost">
+                <i class="fa-solid fa-sliders"></i> Settings
             </button>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- Teacher Auth Modal -->
-    <div id="teacher-auth-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-custom-card border border-white/10 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-            <button onclick="closeTeacherAuthModal()" class="absolute top-4 left-4 opacity-60 hover:opacity-100"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <div class="text-center mb-5">
-                <div class="w-12 h-12 bg-custom-primary/20 text-custom-primary rounded-full flex items-center justify-center mx-auto mb-2 border border-custom-primary/30">
-                    <i class="fa-solid fa-key"></i>
-                </div>
-                <h3 class="text-lg font-bold">لوحة المعلمة</h3>
-                <p class="text-xs opacity-70">أدخل الرمز السري للدخول المباشر</p>
-            </div>
-            <input type="password" id="teacher-passcode" placeholder="أدخل الرمز السري..." class="w-full px-4 py-2.5 bg-black/30 border border-white/10 rounded-xl text-center text-lg tracking-widest outline-none focus:border-blue-500 mb-4">
-            <button onclick="verifyTeacherPasscode()" class="w-full py-3 bg-custom-primary text-white font-bold rounded-xl transition">تأكيد والدخول للوحة</button>
-        </div>
+        <button onclick="openTeacherAuth()" class="btn-ghost px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 flex-shrink-0">
+            <i class="fa-solid fa-user-shield" style="color:var(--primary)"></i>
+            <span class="hidden sm:inline">Teacher Panel</span>
+        </button>
     </div>
+</header>
 
-    <!-- Teacher Dashboard Modal -->
-    <div id="teacher-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden overflow-y-auto p-4 md:p-6">
-        <div class="max-w-5xl mx-auto bg-custom-card border border-white/10 rounded-2xl shadow-2xl p-6 space-y-6">
-            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+<!-- PAGES WRAPPER -->
+<main class="max-w-6xl mx-auto px-4 py-5 md:py-7">
+
+    <!-- ===== PAGE: EXAMS (unchanged logic) ===== -->
+    <section id="page-exams" class="space-y-6 fade-in">
+        <!-- Login Screen -->
+        <div id="login-screen" class="card p-6 md:p-8 max-w-md mx-auto shadow-2xl">
+            <div class="text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4" style="background:var(--primary-glow); border:1px solid var(--primary);">
+                    <i class="fa-solid fa-graduation-cap text-2xl" style="color:var(--primary)"></i>
+                </div>
+                <h2 class="text-xl font-bold mb-1">Student Login</h2>
+                <p class="text-xs text-muted mb-6">Enter your name and ID to start the exam</p>
+                <div class="space-y-4 text-right mb-6">
+                    <div>
+                        <label class="block text-xs font-semibold mb-1">Full Name</label>
+                        <input type="text" id="student-name" placeholder="Enter your full name..." class="w-full px-4 py-3 rounded-xl text-sm" disabled>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold mb-1">Student ID</label>
+                        <input type="number" id="student-id" placeholder="Enter your student code..." class="w-full px-4 py-3 rounded-xl text-sm" disabled>
+                        <p id="student-id-hint" class="text-xs mt-1 flex items-center gap-1 text-amber-400">
+                            <i class="fa-solid fa-lock"></i> Registration closed until exam is opened by teacher.
+                        </p>
+                    </div>
+                </div>
+                <button id="start-exam-btn" onclick="startExam()" class="w-full py-3.5 btn-primary rounded-xl font-bold flex items-center justify-center gap-2 opacity-50 cursor-not-allowed" disabled>
+                    Start Exam <i class="fa-solid fa-arrow-left"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden space-y-5">
+            <div class="card p-4 flex items-center justify-between flex-wrap gap-3">
                 <div class="flex items-center gap-3">
-                    <h2 class="text-xl font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-sliders text-custom-primary"></i>
-                        <span>لوحة تحكم المعلمة</span>
-                    </h2>
-                    <button onclick="openExamEditor()" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl shadow-lg transition flex items-center gap-2 border border-purple-400/30">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                        <span>تعديل / إنشاء اختبار جديد</span>
-                    </button>
+                    <span class="text-xs text-muted">Student:</span>
+                    <span id="quiz-student-name" class="font-bold text-sm">---</span>
+                    <span id="quiz-student-id" class="text-xs px-2 py-0.5 rounded-lg surface" style="color:var(--primary)">#--</span>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="printPDF()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-print"></i>
-                        <span>طباعة / تصدير PDF</span>
-                    </button>
-                    <button onclick="resetAllData()" class="px-3 py-1.5 bg-rose-700 hover:bg-rose-600 text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-trash-can"></i>
-                        <span>تصفير النتائج</span>
-                    </button>
-                    <button onclick="closeTeacherModal()" class="opacity-60 hover:opacity-100 px-3 py-1.5 bg-white/10 rounded-lg text-sm">
-                        <i class="fa-solid fa-xmark"></i> إغلاق
-                    </button>
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg" style="background:var(--primary-glow); border:1px solid var(--primary)">
+                    <i class="fa-regular fa-clock" style="color:var(--primary)"></i>
+                    <span class="text-xs">Time Remaining:</span>
+                    <span id="timer-display" class="font-mono font-bold text-sm" style="color:var(--primary)">00:00</span>
                 </div>
             </div>
-
-            <!-- Settings Panel -->
-            <div class="bg-black/30 border border-white/10 rounded-xl p-4 space-y-4">
-                <h3 class="text-sm font-bold text-custom-primary">إعدادات الامتحان والتسجيل</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold opacity-80 mb-1">أقصى عدد للطلاب (Max Student ID)</label>
-                        <input type="number" id="setting-max-id" placeholder="مثال: 30" value="20" class="w-full px-3 py-2 bg-black/40 border border-white/10 rounded-lg outline-none text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold opacity-80 mb-1">مدة الامتحان (بالدقائق)</label>
-                        <input type="number" id="setting-duration" placeholder="مثال: 40" value="40" class="w-full px-3 py-2 bg-black/40 border border-white/10 rounded-lg outline-none text-sm">
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap items-center gap-3 pt-2">
-                    <button onclick="saveExamSettings()" class="px-5 py-2.5 bg-custom-primary text-white text-sm font-bold rounded-xl transition flex items-center gap-2 shadow-lg">
-                        <i class="fa-solid fa-lock-open"></i>
-                        <span>حفظ الإعدادات وتفعيل التسجيل</span>
-                    </button>
-                    <button onclick="disableExamSettings()" class="px-5 py-2.5 bg-amber-600 text-white text-sm font-bold rounded-xl transition flex items-center gap-2">
-                        <i class="fa-solid fa-ban"></i>
-                        <span>إلغاء التفعيل وتصفير الإعدادات</span>
-                    </button>
-                </div>
+            <div id="questions-container" class="space-y-5"></div>
+            <div class="text-center pt-4">
+                <button onclick="submitExam()" class="px-8 py-3.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 mx-auto" style="background:#059669; box-shadow:0 4px 20px rgba(5,150,105,0.3);">
+                    <i class="fa-solid fa-paper-plane"></i> Submit Answers
+                </button>
             </div>
-
-            <!-- Stats Bar -->
-            <div class="grid grid-cols-3 gap-3">
-                <div class="bg-black/30 p-4 rounded-xl border border-white/10 text-center">
-                    <span class="block text-xs opacity-70">إجمالي الطلاب</span>
-                    <span id="stat-total" class="text-2xl font-bold text-blue-400">0 / 0</span>
-                </div>
-                <div class="bg-black/30 p-4 rounded-xl border border-white/10 text-center">
-                    <span class="block text-xs opacity-70">متوسط الدرجات</span>
-                    <span id="stat-avg" class="text-2xl font-bold text-emerald-400">0</span>
-                </div>
-                <div class="bg-black/30 p-4 rounded-xl border border-white/10 text-center">
-                    <span class="block text-xs opacity-70">أعلى درجة</span>
-                    <span id="stat-high" class="text-2xl font-bold text-amber-400">0</span>
-                </div>
-            </div>
-
-            <!-- Results Table -->
-            <div class="overflow-x-auto bg-black/30 border border-white/10 rounded-xl">
-                <p class="text-[11px] text-custom-primary p-2 text-center bg-white/5 border-b border-white/5">💡 انقر على سطر أي طالب لعرض ورقة إجاباته بالتفصيل مع كتابته وصور حلوله</p>
-                <table class="w-full text-right text-xs" id="pdf-table">
-                    <thead class="bg-white/10 opacity-90">
-                        <tr>
-                            <th class="p-3">رقم المعرف (ID)</th>
-                            <th class="p-3">اسم الطالب</th>
-                            <th class="p-3">الدرجة</th>
-                            <th class="p-3">الوقت المستغرق</th>
-                            <th class="p-3">تاريخ التسليم</th>
-                        </tr>
-                    </thead>
-                    <tbody id="teacher-table-body" class="divide-y divide-white/5">
-                        <tr><td colspan="5" class="p-6 text-center opacity-50">لا توجد نتائج مسجلة حتى الآن.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
         </div>
-    </div>
 
-    <!-- Student Detail View Modal -->
-    <div id="student-detail-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden overflow-y-auto p-4 md:p-6">
-        <div class="max-w-3xl mx-auto bg-custom-card border border-white/10 rounded-2xl shadow-2xl p-6 space-y-4">
-            <div class="flex items-center justify-between border-b border-white/10 pb-3">
-                <h3 class="text-lg font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-file-invoice text-custom-primary"></i>
-                    <span>تفاصيل ورقة الطالب: </span>
-                    <span id="detail-student-name" class="text-custom-primary">---</span>
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden space-y-5 max-w-2xl mx-auto fade-in">
+            <div class="card p-6 text-center shadow-xl">
+                <div class="w-20 h-20 rounded-full flex items-center justify-center text-3xl mx-auto mb-4" style="background:rgba(5,150,105,0.15); border:1px solid rgba(5,150,105,0.4); color:#34d399;">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <h2 class="text-xl font-bold mb-1">Exam Submitted Successfully</h2>
+                <p class="text-xs text-muted mb-6">Here are your detailed results</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                    <div class="surface p-3 rounded-xl text-center">
+                        <span class="block text-xs text-muted mb-1">Total Score</span>
+                        <span id="res-score" class="text-xl font-extrabold" style="color:#34d399">0/0</span>
+                    </div>
+                    <div class="surface p-3 rounded-xl text-center">
+                        <span class="block text-xs text-muted mb-1">Percentage</span>
+                        <span id="res-percent" class="text-xl font-extrabold" style="color:var(--primary)">0%</span>
+                    </div>
+                    <div class="surface p-3 rounded-xl text-center">
+                        <span class="block text-xs text-muted mb-1">Time Spent</span>
+                        <span id="res-time" class="text-xl font-extrabold" style="color:#fbbf24">00:00</span>
+                    </div>
+                    <div class="surface p-3 rounded-xl text-center">
+                        <span class="block text-xs text-muted mb-1">Student ID</span>
+                        <span id="res-id" class="text-xl font-extrabold" style="color:#a78bfa">#0</span>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center gap-3 flex-wrap">
+                    <button onclick="toggleReviewSection()" class="px-5 py-2.5 btn-primary rounded-xl text-sm font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass"></i> Review Answers
+                    </button>
+                    <button onclick="exitExam()" class="px-5 py-2.5 btn-ghost rounded-xl text-sm font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i> Exit
+                    </button>
+                </div>
+            </div>
+            <div id="review-section" class="hidden space-y-4">
+                <h3 class="font-bold flex items-center gap-2 pb-2" style="border-bottom:1px solid var(--border)">
+                    <i class="fa-solid fa-list-check" style="color:var(--primary)"></i> Answer Review
                 </h3>
-                <button onclick="closeStudentDetailModal()" class="opacity-60 hover:opacity-100 px-3 py-1 bg-white/10 rounded-lg text-sm">
-                    <i class="fa-solid fa-xmark"></i> إغلاق
-                </button>
+                <div id="review-container" class="space-y-4"></div>
             </div>
-            <div id="student-answers-list" class="space-y-4"></div>
         </div>
-    </div>
+    </section>
 
-    <!-- Exam Editor Modal -->
-    <div id="exam-editor-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-50 hidden overflow-y-auto p-4 md:p-6">
-        <div class="max-w-5xl mx-auto bg-custom-card border border-white/10 rounded-2xl shadow-2xl p-6 space-y-6">
-            <div class="flex items-center justify-between border-b border-white/10 pb-4">
-                <div>
-                    <h2 class="text-xl font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-vial-circle-check text-purple-400"></i>
-                        <span>محرر الاختبارات والأسئلة التفاعلي</span>
-                    </h2>
-                    <p class="text-xs opacity-70">قم بإضافة وتعديل الأسئلة وإرفاق الصور وكتابة الرموز الكيميائية</p>
+    <!-- ===== PAGE: LIVE & LECTURES ===== -->
+    <section id="page-live" class="hidden space-y-6 fade-in">
+
+        <!-- Live Banner -->
+        <div class="card p-4 flex items-center justify-between flex-wrap gap-3" style="background:linear-gradient(135deg, var(--card) 0%, rgba(239,68,68,0.08) 100%);">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3);">
+                    <i class="fa-solid fa-broadcast-tower text-red-400"></i>
                 </div>
-                <button onclick="closeExamEditor()" class="opacity-60 hover:opacity-100 px-3 py-1.5 bg-white/10 rounded-lg text-sm">
-                    <i class="fa-solid fa-xmark"></i> إغلاق
-                </button>
+                <div>
+                    <h2 class="font-bold text-sm">Live Chemistry Classroom</h2>
+                    <p class="text-xs text-muted">Real-time screen sharing & student interaction</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span id="viewer-count" class="count-pulse text-xs surface px-3 py-1.5 rounded-lg flex items-center gap-2">
+                    <i class="fa-solid fa-eye text-red-400"></i> <span id="viewer-num">0</span> watching
+                </span>
+                <span id="live-status-badge" class="text-xs px-3 py-1.5 rounded-lg font-bold" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3);">
+                    <span class="live-dot inline-block w-2 h-2 rounded-full bg-red-500 mr-1"></span> OFFLINE
+                </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+            <!-- Main Video Area -->
+            <div class="lg:col-span-2 space-y-4">
+                <div class="card p-4 space-y-4">
+                    <!-- Video Box -->
+                    <div id="live-video-box" class="relative rounded-xl overflow-hidden" style="aspect-ratio:16/9; background:#000; border:1px solid var(--border);">
+                        <!-- Offline Placeholder -->
+                        <div id="live-placeholder" class="absolute inset-0 flex flex-col items-center justify-center gap-4">
+                            <div class="w-20 h-20 rounded-full flex items-center justify-center" style="background:var(--primary-glow); border:1px solid var(--primary);">
+                                <i class="fa-solid fa-video text-3xl" style="color:var(--primary)"></i>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-bold mb-1">No Live Session Active</p>
+                                <p class="text-xs text-muted">The teacher will start broadcasting shortly</p>
+                            </div>
+                            <div class="flex gap-2 text-xs text-muted">
+                                <span class="surface px-3 py-1.5 rounded-lg"><i class="fa-solid fa-desktop mr-1"></i>Screen Share</span>
+                                <span class="surface px-3 py-1.5 rounded-lg"><i class="fa-solid fa-microphone mr-1"></i>Audio</span>
+                                <span class="surface px-3 py-1.5 rounded-lg"><i class="fa-solid fa-comments mr-1"></i>Chat</span>
+                            </div>
+                        </div>
+                        <!-- Active Stream -->
+                        <video id="live-video-el" class="hidden w-full h-full" autoplay playsinline muted></video>
+                        <!-- Screen Share Stream (viewer) -->
+                        <video id="screen-share-el" class="hidden w-full h-full" autoplay playsinline muted></video>
+                        <!-- LIVE overlay -->
+                        <div id="live-overlay" class="hidden absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1.5">
+                            <span class="live-dot inline-block w-2 h-2 rounded-full bg-white"></span> LIVE
+                        </div>
+                        <!-- Reactions overlay -->
+                        <div id="reactions-overlay" class="absolute bottom-4 left-4 flex flex-col-reverse gap-1 pointer-events-none" style="max-height:120px; overflow:hidden;"></div>
+                    </div>
+
+                    <!-- Controls Bar -->
+                    <div class="surface rounded-xl p-3 flex flex-wrap items-center justify-between gap-3">
+                        <!-- Emoji Reactions -->
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-xs text-muted mr-1">React:</span>
+                            <button onclick="sendReaction('👍')" class="btn-ghost p-2 rounded-lg text-base hover:scale-110 transition-transform">👍</button>
+                            <button onclick="sendReaction('❤️')" class="btn-ghost p-2 rounded-lg text-base hover:scale-110 transition-transform">❤️</button>
+                            <button onclick="sendReaction('🧪')" class="btn-ghost p-2 rounded-lg text-base hover:scale-110 transition-transform">🧪</button>
+                            <button onclick="sendReaction('🔥')" class="btn-ghost p-2 rounded-lg text-base hover:scale-110 transition-transform">🔥</button>
+                            <button onclick="sendReaction('✋')" class="btn-ghost p-2 rounded-lg text-base hover:scale-110 transition-transform">✋</button>
+                            <button onclick="sendReaction('🎉')" class="btn-ghost p-2 rounded-lg text-base hover:scale-110 transition-transform">🎉</button>
+                        </div>
+                        <!-- Teacher Controls -->
+                        <div class="flex items-center gap-2">
+                            <button id="btn-screen-share" onclick="toggleScreenShare()" class="btn-primary px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5">
+                                <i class="fa-solid fa-desktop"></i> Share Screen
+                            </button>
+                            <button id="btn-mic" onclick="toggleMic()" class="btn-ghost px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5">
+                                <i class="fa-solid fa-microphone" id="mic-icon"></i> Mic
+                            </button>
+                            <button id="btn-rec" onclick="toggleRecording()" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5" style="background:rgba(239,68,68,0.2); border:1px solid rgba(239,68,68,0.4); color:#f87171;">
+                                <i class="fa-solid fa-circle" id="rec-icon"></i> <span id="rec-label">Record</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Live Chat -->
+                    <div class="surface rounded-xl overflow-hidden" style="border-radius:12px;">
+                        <div class="p-3 flex items-center justify-between" style="border-bottom:1px solid var(--border)">
+                            <span class="text-xs font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-comments" style="color:var(--primary)"></i> Live Chat
+                            </span>
+                            <span class="text-xs text-muted" id="chat-count">0 messages</span>
+                        </div>
+                        <div id="chat-messages" class="p-3 space-y-2 overflow-y-auto" style="max-height:160px; min-height:80px;">
+                            <p class="text-xs text-muted text-center italic">Chat will appear here when session is live…</p>
+                        </div>
+                        <div class="p-3 flex gap-2" style="border-top:1px solid var(--border)">
+                            <input type="text" id="chat-input" placeholder="Type a message..." class="flex-1 px-3 py-2 rounded-lg text-xs" onkeydown="if(event.key==='Enter') sendChatMessage()">
+                            <button onclick="sendChatMessage()" class="btn-primary px-4 py-2 rounded-lg text-xs font-bold">Send</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Templates Tabs -->
-            <div class="bg-black/30 border border-white/10 rounded-xl p-3 space-y-2">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-purple-300">النماذج المحفوظة (10 نماذج):</span>
-                    <button onclick="renameCurrentTemplate()" class="px-2.5 py-1 bg-purple-900/60 border border-purple-600/50 text-purple-200 text-xs rounded-lg transition flex items-center gap-1">
-                        <i class="fa-solid fa-pen"></i> تسمية النموذج الحالي
+            <!-- Sidebar: Students & Info -->
+            <div class="space-y-4">
+                <!-- Online Students -->
+                <div class="card p-4 space-y-3">
+                    <h4 class="text-xs font-bold flex items-center gap-2 pb-2" style="border-bottom:1px solid var(--border); color:var(--primary)">
+                        <i class="fa-solid fa-users"></i> Online Students (<span id="online-count">0</span>)
+                    </h4>
+                    <div id="students-list" class="space-y-2 overflow-y-auto" style="max-height:220px;">
+                        <p class="text-xs text-muted text-center italic py-4">No students online yet</p>
+                    </div>
+                    <button onclick="joinAsStudent()" class="w-full btn-primary py-2 rounded-lg text-xs font-bold">
+                        <i class="fa-solid fa-sign-in-alt mr-1"></i> Join Session
                     </button>
                 </div>
-                <div class="flex gap-1.5 overflow-x-auto pb-1" id="templates-bar"></div>
-            </div>
 
-            <!-- Keyboard & Controls -->
-            <div class="bg-black/30 border border-white/10 rounded-xl p-4 space-y-3">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-custom-primary flex items-center gap-1.5">
-                        <i class="fa-solid fa-keyboard"></i> كيبورد الرموز والمعادلات الكيميائية:
-                    </span>
-                    <div class="flex gap-1 overflow-x-auto pb-1" id="keyboard-tabs">
-                        <button onclick="switchTab('symbols')" id="tab-symbols" class="tab-btn px-2.5 py-1 bg-custom-primary text-white rounded text-xs font-bold">الرموز</button>
-                        <button onclick="switchTab('anions')" id="tab-anions" class="tab-btn px-2.5 py-1 bg-white/10 opacity-70 rounded text-xs">الأنيونات</button>
-                        <button onclick="switchTab('cations')" id="tab-cations" class="tab-btn px-2.5 py-1 bg-white/10 opacity-70 rounded text-xs">الكاتيونات</button>
-                        <button onclick="switchTab('oxides')" id="tab-oxides" class="tab-btn px-2.5 py-1 bg-white/10 opacity-70 rounded text-xs">الأكاسيد</button>
-                        <button onclick="switchTab('acids')" id="tab-acids" class="tab-btn px-2.5 py-1 bg-white/10 opacity-70 rounded text-xs">الأحماض</button>
-                        <button onclick="switchTab('elements')" id="tab-elements" class="tab-btn px-2.5 py-1 bg-white/10 opacity-70 rounded text-xs">العناصر</button>
+                <!-- Session Info -->
+                <div class="card p-4 space-y-3">
+                    <h4 class="text-xs font-bold" style="color:var(--primary)"><i class="fa-solid fa-info-circle mr-1"></i> Session Info</h4>
+                    <div class="space-y-2 text-xs text-muted">
+                        <div class="flex justify-between surface px-3 py-2 rounded-lg">
+                            <span>Duration</span>
+                            <span id="session-duration" class="font-bold" style="color:var(--text)">00:00:00</span>
+                        </div>
+                        <div class="flex justify-between surface px-3 py-2 rounded-lg">
+                            <span>Topic</span>
+                            <span id="session-topic" class="font-bold" style="color:var(--text)">—</span>
+                        </div>
+                        <div class="flex justify-between surface px-3 py-2 rounded-lg">
+                            <span>Recording</span>
+                            <span id="rec-status" class="font-bold text-muted">Off</span>
+                        </div>
+                    </div>
+                    <input type="text" id="topic-input" placeholder="Set session topic..." class="w-full px-3 py-2 rounded-lg text-xs" oninput="document.getElementById('session-topic').textContent = this.value || '—'">
+                </div>
+            </div>
+        </div>
+
+        <!-- Recorded Lectures Library -->
+        <div class="card p-5 space-y-4">
+            <div class="flex items-center justify-between flex-wrap gap-3">
+                <h3 class="font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-photo-film" style="color:#a78bfa"></i> Recorded Lectures Library
+                </h3>
+                <div class="flex items-center gap-2">
+                    <select id="lecture-filter" onchange="filterLectures()" class="px-3 py-1.5 rounded-lg text-xs">
+                        <option value="all">All Topics</option>
+                        <option value="anions">Anions Chapter</option>
+                        <option value="cations">Cations Chapter</option>
+                        <option value="organic">Organic Chemistry</option>
+                        <option value="review">Final Reviews</option>
+                    </select>
+                    <button onclick="openAddLectureModal()" class="btn-primary px-3 py-1.5 rounded-lg text-xs font-bold">
+                        <i class="fa-solid fa-plus mr-1"></i> Add Lecture
+                    </button>
+                </div>
+            </div>
+            <div id="lectures-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                <!-- Sample lectures -->
+                <div class="surface rounded-xl p-4 space-y-3 lecture-card" data-cat="anions">
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(139,92,246,0.2); color:#a78bfa;">
+                            <i class="fa-solid fa-play text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h5 class="font-bold text-sm leading-tight">Anions Detection Mechanism</h5>
+                            <p class="text-xs text-muted mt-0.5">Anions • 45 min</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="flex-1 btn-primary py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-play"></i> Watch
+                        </button>
+                        <button class="btn-ghost p-1.5 rounded-lg text-xs"><i class="fa-solid fa-download"></i></button>
                     </div>
                 </div>
-                <div id="chem-symbols-keyboard" class="flex flex-wrap gap-1.5 p-2 bg-black/40 rounded-lg border border-white/5 max-h-36 overflow-y-auto"></div>
+                <div class="surface rounded-xl p-4 space-y-3 lecture-card" data-cat="cations">
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(16,185,129,0.2); color:#34d399;">
+                            <i class="fa-solid fa-play text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h5 class="font-bold text-sm leading-tight">Cations Group Analysis</h5>
+                            <p class="text-xs text-muted mt-0.5">Cations • 60 min</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="flex-1 btn-primary py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-play"></i> Watch
+                        </button>
+                        <button class="btn-ghost p-1.5 rounded-lg text-xs"><i class="fa-solid fa-download"></i></button>
+                    </div>
+                </div>
+                <div class="surface rounded-xl p-4 space-y-3 lecture-card" data-cat="review">
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(245,158,11,0.2); color:#fbbf24;">
+                            <i class="fa-solid fa-play text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h5 class="font-bold text-sm leading-tight">Final Exam Review Session</h5>
+                            <p class="text-xs text-muted mt-0.5">Review • 90 min</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="flex-1 btn-primary py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-play"></i> Watch
+                        </button>
+                        <button class="btn-ghost p-1.5 rounded-lg text-xs"><i class="fa-solid fa-download"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Materials Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="card p-4 space-y-3">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-1" style="background:rgba(239,68,68,0.15); color:#f87171;">
+                    <i class="fa-solid fa-file-pdf text-lg"></i>
+                </div>
+                <h4 class="font-bold text-sm">Notes & PDFs</h4>
+                <p class="text-xs text-muted">Lecture summaries, chapter notes, and study guides in PDF format.</p>
+                <button class="w-full btn-ghost py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-folder-open"></i> Browse Files
+                </button>
+            </div>
+            <div class="card p-4 space-y-3">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-1" style="background:rgba(245,158,11,0.15); color:#fbbf24;">
+                    <i class="fa-solid fa-calculator text-lg"></i>
+                </div>
+                <h4 class="font-bold text-sm">Problem Sheets</h4>
+                <p class="text-xs text-muted">Solved worksheets and practice tests for exam preparation.</p>
+                <button class="w-full btn-ghost py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-folder-open"></i> Browse Sheets
+                </button>
+            </div>
+            <div class="card p-4 space-y-3">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-1" style="background:rgba(99,102,241,0.15); color:#818cf8;">
+                    <i class="fa-solid fa-link text-lg"></i>
+                </div>
+                <h4 class="font-bold text-sm">Useful Links</h4>
+                <p class="text-xs text-muted">External resources, reference videos, and chemistry tools.</p>
+                <button class="w-full btn-ghost py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-external-link-alt"></i> View Links
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PAGE: SETTINGS (ENGLISH) ===== -->
+    <section id="page-settings" class="hidden max-w-3xl mx-auto space-y-5 fade-in">
+
+        <!-- Header Card -->
+        <div class="card p-5" style="background:linear-gradient(135deg, var(--card), rgba(99,102,241,0.08));">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-2xl flex items-center justify-center" style="background:var(--primary-glow); border:1px solid var(--primary);">
+                    <i class="fa-solid fa-sliders text-2xl" style="color:var(--primary)"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold">Appearance & Settings</h2>
+                    <p class="text-xs text-muted mt-0.5">Customize your platform experience — themes, colors, display mode</p>
+                </div>
+            </div>
+            <div class="spectrum mt-4 rounded-full"></div>
+        </div>
+
+        <!-- Dark / Light Mode -->
+        <div class="card p-5">
+            <h3 class="font-bold text-sm mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-circle-half-stroke" style="color:var(--primary)"></i> Display Mode
+            </h3>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="setDisplayMode('dark')" id="mode-dark" class="surface rounded-xl p-4 flex items-center gap-3 transition theme-card border-2" style="border-color:var(--primary)">
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:#0a0f1e; border:1px solid rgba(255,255,255,0.1);">
+                        <i class="fa-solid fa-moon text-blue-400"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-bold text-sm">Dark Mode</p>
+                        <p class="text-xs text-muted">Easy on the eyes</p>
+                    </div>
+                    <i class="fa-solid fa-check ml-auto" style="color:var(--primary)" id="check-dark"></i>
+                </button>
+                <button onclick="setDisplayMode('light')" id="mode-light" class="surface rounded-xl p-4 flex items-center gap-3 transition theme-card border-2" style="border-color:transparent">
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:#f0f9ff; border:1px solid rgba(0,0,0,0.1);">
+                        <i class="fa-solid fa-sun text-amber-500"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-bold text-sm">Light Mode</p>
+                        <p class="text-xs text-muted">Bright & clean</p>
+                    </div>
+                    <i class="fa-solid fa-check ml-auto text-muted opacity-0" id="check-light"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Color Themes -->
+        <div class="card p-5">
+            <h3 class="font-bold text-sm mb-1 flex items-center gap-2">
+                <i class="fa-solid fa-palette" style="color:var(--primary)"></i> Color Theme
+            </h3>
+            <p class="text-xs text-muted mb-4">Choose your accent color — 9 dark themes + 3 light themes available</p>
+
+            <p class="text-xs font-bold text-muted uppercase tracking-wider mb-3">Dark Themes</p>
+            <div class="grid grid-cols-3 md:grid-cols-6 gap-3 mb-5">
+                <button onclick="setTheme('blue')" data-theme-btn="blue" class="theme-card surface rounded-xl p-3 text-center space-y-2 group">
+                    <div class="w-8 h-8 rounded-lg mx-auto" style="background:linear-gradient(135deg,#2563eb,#1d4ed8); box-shadow:0 4px 12px rgba(37,99,235,0.4)"></div>
+                    <p class="text-xs font-bold">Blue</p>
+                </button>
+                <button onclick="setTheme('purple')" data-theme-btn="purple" class="theme-card surface rounded-xl p-3 text-center space-y-2">
+                    <div class="w-8 h-8 rounded-lg mx-auto" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed); box-shadow:0 4px 12px rgba(139,92,246,0.4)"></div>
+                    <p class="text-xs font-bold">Purple</p>
+                </button>
+                <button onclick="setTheme('emerald')" data-theme-btn="emerald" class="theme-card surface rounded-xl p-3 text-center space-y-2">
+                    <div class="w-8 h-8 rounded-lg mx-auto" style="background:linear-gradient(135deg,#10b981,#059669); box-shadow:0 4px 12px rgba(16,185,129,0.4)"></div>
+                    <p class="text-xs font-bold">Emerald</p>
+                </button>
+                <button onclick="setTheme('rose')" data-theme-btn="rose" class="theme-card surface rounded-xl p-3 text-center space-y-2">
+                    <div class="w-8 h-8 rounded-lg mx-auto" style="background:linear-gradient(135deg,#f43f5e,#e11d48); box-shadow:0 4px 12px rgba(244,63,94,0.4)"></div>
+                    <p class="text-xs font-bold">Rose</p>
+                </button>
+                <button onclick="setTheme('amber')" data-theme-btn="amber" class="theme-card surface rounded-xl p-3 text-center space-y-2">
+                    <div class="w-8 h-8 rounded-lg mx-auto" style="background:linear-gradient(135deg,#f59e0b,#d97706); box-shadow:0 4px 12px rgba(245,158,11,0.4)"></div>
+                    <p class="text-xs font-bold">Amber</p>
+                </button>
+                <button onclick="setTheme('cyan')" data-theme-btn="cyan" class="theme-card surface rounded-xl p-3 text-center space-y-2">
+                    <div class="w-8 h-8 rounded-lg mx-auto" style="background:linear-gradient(135deg,#06b6d4,#0891b2); box-shadow:0 4px 12px rgba(6,182,212,0.4)"></div>
+                    <p class="text-xs font-bold">Cyan</p>
+                </button>
+                <button onclick="setTheme('indigo')" data-theme-btn="indigo" class="theme-card surface rounded-xl p-3 text-center space-y-2">
+                    <div class="w-8 h-8 rounded-lg mx-auto" style="background:linear-gradient(135deg,#6366f1,#4f46e5); box-shadow:0 4px 12px rgba(99,102,241,0.4)"></div>
+                    <p class="text-xs font-bold">Indigo</p>
+                </button>
             </div>
 
-            <div class="flex items-center justify-between bg-black/20 p-4 border border-white/10 rounded-xl">
-                <div class="flex items-center gap-3">
-                    <label class="text-xs font-bold">عدد الأسئلة:</label>
-                    <input type="number" id="editor-questions-count" min="1" max="50" value="20" class="w-16 px-2 py-1 bg-black/40 border border-white/10 rounded-lg text-center font-bold text-sm">
-                    <button onclick="updateEditorQuestionsCount()" class="px-3 py-1 bg-white/10 hover:bg-white/20 text-xs rounded-lg">تطبيق</button>
+            <p class="text-xs font-bold text-muted uppercase tracking-wider mb-3">Light Themes</p>
+            <div class="grid grid-cols-3 gap-3">
+                <button onclick="setTheme('light-blue'); setDisplayMode('light');" data-theme-btn="light-blue" class="theme-card rounded-xl p-3 text-center space-y-2 border" style="background:#f0f7ff; border-color:#bfdbfe;">
+                    <div class="w-8 h-8 rounded-lg mx-auto" style="background:linear-gradient(135deg,#2563eb,#3b82f6); box-shadow:0 4px 12px rgba(37,99,235,0.3)"></div>
+                    <p class="text-xs font-bold" style="color:#1e40af">Sky Blue</p>
+                </button>
+                <button onclick="setTheme('light-purple'); setDisplayMode('light');" data-theme-btn="light-purple" class="theme-card rounded-xl p-3 text-center space-y-2 border" style="background:#faf5ff; border-color:#e9d5ff;">
+                    <div class="w-8 h-8 rounded-lg mx-auto" style="background:linear-gradient(135deg,#7c3aed,#8b5cf6); box-shadow:0 4px 12px rgba(124,58,237,0.3)"></div>
+                    <p class="text-xs font-bold" style="color:#6d28d9">Lavender</p>
+                </button>
+                <button onclick="setTheme('light-emerald'); setDisplayMode('light');" data-theme-btn="light-emerald" class="theme-card rounded-xl p-3 text-center space-y-2 border" style="background:#f0fdf4; border-color:#bbf7d0;">
+                    <div class="w-8 h-8 rounded-lg mx-auto" style="background:linear-gradient(135deg,#059669,#10b981); box-shadow:0 4px 12px rgba(5,150,105,0.3)"></div>
+                    <p class="text-xs font-bold" style="color:#065f46">Mint</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- Font Size -->
+        <div class="card p-5">
+            <h3 class="font-bold text-sm mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-text-height" style="color:var(--primary)"></i> Font Size
+            </h3>
+            <div class="flex items-center gap-4">
+                <span class="text-xs text-muted">A</span>
+                <input type="range" id="font-size-slider" min="14" max="20" value="16" class="flex-1 accent-current" oninput="applyFontSize(this.value)">
+                <span class="text-lg font-bold">A</span>
+                <span class="text-xs surface px-2 py-1 rounded-lg" id="font-size-label">16px</span>
+            </div>
+        </div>
+
+        <!-- Language & Region -->
+        <div class="card p-5">
+            <h3 class="font-bold text-sm mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-globe" style="color:var(--primary)"></i> Language & Interface Direction
+            </h3>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="setLang('ar')" id="lang-ar" class="surface rounded-xl p-4 flex items-center gap-3 theme-card border-2" style="border-color:var(--primary)">
+                    <span class="text-2xl">🇪🇬</span>
+                    <div class="text-right flex-1">
+                        <p class="font-bold text-sm">العربية</p>
+                        <p class="text-xs text-muted">Right to Left</p>
+                    </div>
+                    <i class="fa-solid fa-check" style="color:var(--primary)" id="check-ar"></i>
+                </button>
+                <button onclick="setLang('en')" id="lang-en" class="surface rounded-xl p-4 flex items-center gap-3 theme-card border-2" style="border-color:transparent">
+                    <span class="text-2xl">🇬🇧</span>
+                    <div class="text-right flex-1">
+                        <p class="font-bold text-sm">English</p>
+                        <p class="text-xs text-muted">Left to Right</p>
+                    </div>
+                    <i class="fa-solid fa-check opacity-0" id="check-en"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- About Platform -->
+        <div class="card p-5" style="background:linear-gradient(135deg,var(--card),rgba(99,102,241,0.06))">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0" style="background:linear-gradient(135deg,var(--primary),#8b5cf6);">
+                    <svg viewBox="0 0 56 56" width="56" height="56">
+                        <ellipse cx="28" cy="32" rx="10" ry="15" fill="none" stroke="white" stroke-width="2.5"/>
+                        <rect x="20" y="12" width="16" height="6" rx="3" fill="white" opacity="0.9"/>
+                        <circle cx="24" cy="38" r="2.5" fill="#60a5fa"/>
+                        <circle cx="31" cy="42" r="2" fill="#34d399"/>
+                        <circle cx="28" cy="33" r="1.8" fill="#f9a8d4"/>
+                    </svg>
                 </div>
-                <div class="flex gap-2">
-                    <button onclick="restoreDefaultQuestions()" class="px-4 py-2 bg-amber-700/80 hover:bg-amber-600 text-white text-xs font-bold rounded-xl">استعادة الـ 20 سؤالاً الافتراضيين</button>
-                    <button onclick="saveAndPublishExam()" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-lg">حفظ ونشر الامتحان للطلاب</button>
+                <div>
+                    <h3 class="font-bold">Chemistry Platform v2.0</h3>
+                    <p class="text-xs text-muted mt-0.5">By Mrs. Amani Mansour — All rights reserved © 2025</p>
+                    <p class="text-xs mt-2" style="color:var(--primary)">Firebase Cloud Sync • Real-time Live • 10 Themes</p>
                 </div>
             </div>
-            <div id="editor-questions-container" class="space-y-6"></div>
+        </div>
+    </section>
+
+</main>
+
+<!-- BOTTOM NAV (Mobile) -->
+<nav class="fixed bottom-0 left-0 right-0 md:hidden z-40" style="background:var(--card); border-top:1px solid var(--border); padding-bottom:env(safe-area-inset-bottom, 0px);">
+    <div class="grid grid-cols-3 text-center py-2">
+        <button onclick="switchPage('exams')" id="mob-exams" class="flex flex-col items-center gap-1 py-1 nav-active">
+            <i class="fa-solid fa-file-pen text-lg"></i>
+            <span class="text-[10px] font-bold">Exams</span>
+        </button>
+        <button onclick="switchPage('live')" id="mob-live" class="flex flex-col items-center gap-1 py-1 text-muted">
+            <i class="fa-solid fa-broadcast-tower text-lg"></i>
+            <span class="text-[10px] font-bold">Live</span>
+        </button>
+        <button onclick="switchPage('settings')" id="mob-settings" class="flex flex-col items-center gap-1 py-1 text-muted">
+            <i class="fa-solid fa-sliders text-lg"></i>
+            <span class="text-[10px] font-bold">Settings</span>
+        </button>
+    </div>
+</nav>
+
+<!-- ============ MODALS ============ -->
+
+<!-- Teacher Auth Modal -->
+<div id="modal-teacher-auth" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="card p-6 max-w-sm w-full shadow-2xl">
+        <button onclick="closeTeacherAuth()" class="absolute top-4 right-4 text-muted hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+        <div class="text-center mb-5">
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3" style="background:var(--primary-glow); border:1px solid var(--primary);">
+                <i class="fa-solid fa-key text-xl" style="color:var(--primary)"></i>
+            </div>
+            <h3 class="text-lg font-bold">Teacher Panel</h3>
+            <p class="text-xs text-muted">Enter your secure passcode</p>
+        </div>
+        <input type="password" id="teacher-passcode" placeholder="••••••" class="w-full px-4 py-3 rounded-xl text-center text-lg tracking-widest mb-4" onkeydown="if(event.key==='Enter') verifyTeacher()">
+        <button onclick="verifyTeacher()" class="w-full py-3 btn-primary rounded-xl font-bold">Verify & Enter</button>
+    </div>
+</div>
+
+<!-- Teacher Dashboard Modal -->
+<div id="modal-teacher" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden overflow-y-auto p-4 md:p-6">
+    <div class="max-w-5xl mx-auto card p-6 space-y-5 shadow-2xl">
+        <div class="flex items-center justify-between flex-wrap gap-3 pb-4" style="border-bottom:1px solid var(--border)">
+            <h2 class="text-xl font-bold flex items-center gap-2">
+                <i class="fa-solid fa-sliders" style="color:var(--primary)"></i> Teacher Dashboard
+            </h2>
+            <div class="flex items-center gap-2 flex-wrap">
+                <button onclick="openExamEditor()" class="px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 text-white" style="background:#7c3aed; box-shadow:0 4px 12px rgba(124,58,237,0.3);">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit / Create Exam
+                </button>
+                <button onclick="printPDF()" class="btn-ghost px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5">
+                    <i class="fa-solid fa-print"></i> Print PDF
+                </button>
+                <button onclick="resetAllData()" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3);">
+                    <i class="fa-solid fa-trash-can"></i> Reset Results
+                </button>
+                <button onclick="closeTeacherModal()" class="btn-ghost px-3 py-1.5 rounded-lg text-sm">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="surface rounded-xl p-4 space-y-4">
+            <h3 class="text-sm font-bold" style="color:var(--primary)">Exam Settings</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-muted mb-1">Max Student ID</label>
+                    <input type="number" id="setting-max-id" value="20" class="w-full px-3 py-2 rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-muted mb-1">Duration (minutes)</label>
+                    <input type="number" id="setting-duration" value="40" class="w-full px-3 py-2 rounded-lg text-sm">
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-3 pt-1">
+                <button onclick="saveExamSettings()" class="px-5 py-2.5 btn-primary rounded-xl text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-lock-open"></i> Save & Activate Registration
+                </button>
+                <button onclick="disableExamSettings()" class="px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 text-white" style="background:rgba(245,158,11,0.3); border:1px solid rgba(245,158,11,0.4);">
+                    <i class="fa-solid fa-ban"></i> Deactivate
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-3">
+            <div class="surface p-4 rounded-xl text-center">
+                <span class="block text-xs text-muted">Total Students</span>
+                <span id="stat-total" class="text-2xl font-bold" style="color:var(--primary)">0 / 0</span>
+            </div>
+            <div class="surface p-4 rounded-xl text-center">
+                <span class="block text-xs text-muted">Average Score</span>
+                <span id="stat-avg" class="text-2xl font-bold" style="color:#34d399">0</span>
+            </div>
+            <div class="surface p-4 rounded-xl text-center">
+                <span class="block text-xs text-muted">Highest Score</span>
+                <span id="stat-high" class="text-2xl font-bold" style="color:#fbbf24">0</span>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <div class="overflow-x-auto rounded-xl" style="border:1px solid var(--border)">
+            <p class="text-xs text-center py-2 text-muted" style="background:var(--surface); border-bottom:1px solid var(--border)">💡 Click any row to view that student's detailed answer sheet</p>
+            <table class="w-full text-right text-xs" id="pdf-table">
+                <thead style="background:var(--surface)">
+                    <tr>
+                        <th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Score</th><th class="p-3">Time</th><th class="p-3">Date</th>
+                    </tr>
+                </thead>
+                <tbody id="teacher-table-body">
+                    <tr><td colspan="5" class="p-6 text-center text-muted">No results yet.</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
-    <!-- App Logic Scripts (JS Backend) -->
-    <script>
-        // 1. تعريف الكيبورد الكيميائي
-        const chemKeyboardCategories = {
-            symbols: ["₀","₁","₂","₃","₄","₅","₆","₇","₈","₉","⁺","⁻","²⁺","³⁺","⁴⁺","⁻²","⁻³","→","⇌","↑","↓","Δ","conc","dil","(s)","(l)","(g)","(aq)"],
-            anions: ["CO₃²⁻","HCO₃⁻","SO₃²⁻","S²⁻","S₂O₃²⁻","NO₂⁻","Cl⁻","Br⁻","I⁻","NO₃⁻","PO₄³⁻","SO₄²⁻","CH₃COO⁻","OH⁻","C₂O₄²⁻"],
-            cations: ["Fe²⁺","Fe³⁺","Al³⁺","Cu²⁺","Ca²⁺","Ba²⁺","NH₄⁺","Ag⁺","Mg²⁺","Zn²⁺","Mn²⁺","Cr³⁺","Na⁺","K⁺","Pb²⁺"],
-            oxides: ["Fe₂O₃","Fe₃O₄","FeO","Al₂O₃","CuO","MnO₂","Cr₂O₃","KMnO₄","K₂Cr₂O₇","NaAlO₂","AgCl","AgBr","AgI","BaSO₄","CaSO₄","CaCO₃"],
-            acids: ["HCl","H₂SO₄","HNO₃","HNO₂","H₂S","H₂SO₃","H₃PO₄","CH₃COOH","NaOH","KOH","NH₄OH","Ca(OH)₂","H₂CO₃"],
-            elements: ["Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ba","Ca","Ag","Pb","Al","Na","K","O","H","N","C","S","Cl","Br","I","P"]
-        };
+<!-- Student Detail Modal -->
+<div id="modal-student-detail" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden overflow-y-auto p-4 md:p-6">
+    <div class="max-w-3xl mx-auto card p-6 space-y-4">
+        <div class="flex items-center justify-between pb-3" style="border-bottom:1px solid var(--border)">
+            <h3 class="font-bold flex items-center gap-2">
+                <i class="fa-solid fa-file-invoice" style="color:var(--primary)"></i>
+                Student: <span id="detail-student-name" style="color:var(--primary)">---</span>
+            </h3>
+            <button onclick="closeStudentDetail()" class="btn-ghost px-3 py-1 rounded-lg text-sm"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="student-answers-list" class="space-y-4"></div>
+    </div>
+</div>
 
-        // 2. المتغيرات العامة للبث المباشر وتسجيل الفيديو والملفات
-        let mediaStream = null;
-        let mediaRecorder = null;
-        let recordedChunks = [];
-        let savedRecords = [];
-        let savedFiles = [];
-        
-        let currentTab = 'symbols';
-        let activeInputRef = null;
-        let currentTemplateId = 1;
+<!-- Exam Editor Modal -->
+<div id="modal-exam-editor" class="fixed inset-0 bg-black/95 backdrop-blur-md z-50 hidden overflow-y-auto p-4 md:p-6">
+    <div class="max-w-5xl mx-auto card p-6 space-y-5">
+        <div class="flex items-center justify-between pb-4" style="border-bottom:1px solid var(--border)">
+            <div>
+                <h2 class="text-xl font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-vial-circle-check" style="color:#a78bfa"></i> Exam Editor
+                </h2>
+                <p class="text-xs text-muted">Add, edit and arrange questions with chemistry symbols</p>
+            </div>
+            <button onclick="closeExamEditor()" class="btn-ghost px-3 py-1.5 rounded-lg text-sm"><i class="fa-solid fa-xmark"></i></button>
+        </div>
 
-        // 3. بنك الأسئلة الافتراضي
-        const defaultQuestions = [
-            { q: "عند إضافة حمض الهيدروكلوريك المخفف إلى ملح صلب صيغته Na₂X، تصاعد غاز (A)...", options: ["SO₂ ، Ag₂SO₃", "H₂S ، Ag₂S", "CO₂ ، CaCO₃", "NO ، AgNO₂"], correct: 1, explain: "الغاز A هو H₂S والراسب B هو Ag₂S الأسود." },
-            { q: "مخلوط صلب يحتوي على (كربونات صوديوم + كبريتات باريوم). أيُّ الخطوات...", options: ["الذوبان في الماء ثم الترشيح والتبخير", "إضافة HCl مخفف ثم الترشيح", "الذوبان في الماء ثم إضافة AgNO₃", "الذوبان في H₂SO₄ مركز ثم التبخير"], correct: 0, explain: "تذوب الكربونات في الماء." }
-        ];
+        <!-- Templates -->
+        <div class="surface rounded-xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold" style="color:#a78bfa">Saved Templates (10):</span>
+                <button onclick="renameTemplate()" class="btn-ghost px-2.5 py-1 rounded-lg text-xs flex items-center gap-1">
+                    <i class="fa-solid fa-pen"></i> Rename
+                </button>
+            </div>
+            <div class="flex gap-1.5 overflow-x-auto pb-1" id="templates-bar"></div>
+        </div>
 
-        let state = {
-            isSystemActive: false,
-            maxStudentId: 20,
-            examDurationMinutes: 40,
-            currentStudent: null,
-            answers: {},
-            essayAnswers: {},
-            timer: null,
-            timeSpent: 0,
-            questions: defaultQuestions,
-            existingSubmissions: []
-        };
+        <!-- Chem Keyboard -->
+        <div class="surface rounded-xl p-4 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="text-xs font-bold flex items-center gap-1.5" style="color:var(--primary)">
+                    <i class="fa-solid fa-keyboard"></i> Chemistry Symbol Keyboard
+                </span>
+                <div class="flex gap-1 overflow-x-auto pb-1" id="keyboard-tabs">
+                    <button onclick="switchKbTab('symbols')" id="kbtab-symbols" class="px-2.5 py-1 rounded text-xs font-bold btn-primary">Symbols</button>
+                    <button onclick="switchKbTab('anions')" id="kbtab-anions" class="px-2.5 py-1 rounded text-xs btn-ghost">Anions</button>
+                    <button onclick="switchKbTab('cations')" id="kbtab-cations" class="px-2.5 py-1 rounded text-xs btn-ghost">Cations</button>
+                    <button onclick="switchKbTab('oxides')" id="kbtab-oxides" class="px-2.5 py-1 rounded text-xs btn-ghost">Oxides</button>
+                    <button onclick="switchKbTab('acids')" id="kbtab-acids" class="px-2.5 py-1 rounded text-xs btn-ghost">Acids/Bases</button>
+                    <button onclick="switchKbTab('elements')" id="kbtab-elements" class="px-2.5 py-1 rounded text-xs btn-ghost">Elements</button>
+                </div>
+            </div>
+            <div id="chem-keyboard" class="flex flex-wrap gap-1.5 p-2 rounded-lg overflow-y-auto" style="max-height:120px; background:rgba(0,0,0,0.3); border:1px solid var(--border)"></div>
+        </div>
 
-        // ==========================================
-        // وظائف الوضع الفاتح والداكن (إصلاح الثيمات)
-        // ==========================================
-        function toggleDarkMode() {
-            document.body.classList.toggle('light-mode');
-            const isLight = document.body.classList.contains('light-mode');
-            document.getElementById('dark-mode-label').innerText = isLight ? "الوضع الداكن" : "الوضع الفاتح";
+        <div class="flex items-center justify-between flex-wrap gap-3 surface p-4 rounded-xl">
+            <div class="flex items-center gap-3">
+                <label class="text-xs font-bold">Questions:</label>
+                <input type="number" id="editor-q-count" min="1" max="50" value="20" class="w-16 px-2 py-1 rounded-lg text-center font-bold text-sm">
+                <button onclick="updateQCount()" class="btn-ghost px-3 py-1 rounded-lg text-xs">Apply</button>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="restoreDefaults()" class="px-4 py-2 rounded-xl text-xs font-bold text-white" style="background:rgba(245,158,11,0.3); border:1px solid rgba(245,158,11,0.4);">Restore Defaults</button>
+                <button onclick="saveAndPublish()" class="px-6 py-2 rounded-xl text-xs font-bold text-white" style="background:#059669; box-shadow:0 4px 16px rgba(5,150,105,0.3);">Save & Publish</button>
+            </div>
+        </div>
+        <div id="editor-questions" class="space-y-5"></div>
+    </div>
+</div>
+
+<!-- Add Lecture Modal -->
+<div id="modal-add-lecture" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="card p-6 max-w-md w-full">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold">Add New Lecture</h3>
+            <button onclick="document.getElementById('modal-add-lecture').classList.add('hidden')" class="text-muted"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="space-y-3">
+            <input type="text" id="new-lecture-title" placeholder="Lecture title..." class="w-full px-4 py-2.5 rounded-xl text-sm">
+            <select id="new-lecture-cat" class="w-full px-4 py-2.5 rounded-xl text-sm">
+                <option value="anions">Anions Chapter</option>
+                <option value="cations">Cations Chapter</option>
+                <option value="organic">Organic Chemistry</option>
+                <option value="review">Final Review</option>
+            </select>
+            <input type="text" id="new-lecture-url" placeholder="YouTube URL or embed link..." class="w-full px-4 py-2.5 rounded-xl text-sm">
+            <input type="text" id="new-lecture-dur" placeholder="Duration (e.g. 45 min)" class="w-full px-4 py-2.5 rounded-xl text-sm">
+        </div>
+        <button onclick="addLecture()" class="w-full mt-4 py-3 btn-primary rounded-xl font-bold">Add Lecture</button>
+    </div>
+</div>
+
+<!-- ============ SCRIPTS ============ -->
+<script>
+// ---- DATA ----
+const chemKB = {
+    symbols: ["₀","₁","₂","₃","₄","₅","₆","₇","₈","₉","⁺","⁻","²⁺","³⁺","⁴⁺","⁻²","⁻³","→","⇌","↑","↓","Δ","conc","dil","(s)","(l)","(g)","(aq)"],
+    anions: ["CO₃²⁻","HCO₃⁻","SO₃²⁻","S²⁻","S₂O₃²⁻","NO₂⁻","Cl⁻","Br⁻","I⁻","NO₃⁻","PO₄³⁻","SO₄²⁻","CH₃COO⁻","OH⁻","C₂O₄²⁻"],
+    cations: ["Fe²⁺","Fe³⁺","Al³⁺","Cu²⁺","Ca²⁺","Ba²⁺","NH₄⁺","Ag⁺","Mg²⁺","Zn²⁺","Mn²⁺","Cr³⁺","Na⁺","K⁺","Pb²⁺"],
+    oxides: ["Fe₂O₃","Fe₃O₄","FeO","Al₂O₃","CuO","MnO₂","Cr₂O₃","KMnO₄","K₂Cr₂O₇","NaAlO₂","AgCl","AgBr","AgI","BaSO₄","CaSO₄","CaCO₃"],
+    acids: ["HCl","H₂SO₄","HNO₃","HNO₂","H₂S","H₂SO₃","H₃PO₄","CH₃COOH","NaOH","KOH","NH₄OH","Ca(OH)₂","H₂CO₃"],
+    elements: ["Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ba","Ca","Ag","Pb","Al","Na","K","O","H","N","C","S","Cl","Br","I","P"]
+};
+
+const defaultQuestions = [
+    {q:"عند إضافة حمض الهيدروكلوريك المخفف إلى ملح صلب صيغته Na₂X، تصاعد غاز (A) عديم اللون يُسبب اسوداد ورقة مبللة بـ (CH₃COO)₂Pb. وعند إضافة محلول AgNO₃ إلى محلول نفس الملح يتكون راسب (B). ما هما (A) و (B) على الترتيب؟",options:["SO₂ ، Ag₂SO₃","H₂S ، Ag₂S","CO₂ ، CaCO₃","NO ، AgNO₂"],correct:1,explain:"الغاز A هو H₂S والراسب B هو Ag₂S الأسود."},
+    {q:"مخلوط صلب يحتوي على (كربونات صوديوم + كبريتات باريوم). أيُّ الخطوات التالية هي الأفضل والأسرع لفصل المكوِّنين؟",options:["الذوبان في الماء ثم الترشيح والتبخير","إضافة HCl مخفف ثم الترشيح","الذوبان في الماء ثم إضافة AgNO₃","الذوبان في H₂SO₄ مركز ثم التبخير"],correct:0,explain:"كربونات الصوديوم تذوب في الماء بينما كبريتات الباريوم لا تذوب، فيسهل الفصل بالترشيح والتبخير."},
+    {q:"أُضيف حمض الكبريتيك المركز إلى ملحين صلبين (X) و (Y). مع (X) تصاعدت أبخرة برتقالية حمراء تُصفِّر ورقة مبللة بالنشا، ومع (Y) تصاعدت أبخرة بنفسجية تُزرِّق ورقة مبللة بالنشا.",options:["أنيون X هو اليوديد وأنيون Y هو البروميد","أنيون X يتأكسد أسهل من أنيون Y","أنيون Y أقوى كعامل مختزل من أنيون X في هذا التفاعل","كلا الأنيونين يتبعان مجموعة كلوريد الباريوم"],correct:2,explain:"أنيون اليوديد Y يتأكسد أسهل وبالتالي فهو عامل مختزل أقوى من البروميد X."},
+    {q:"عند إجراء تجربة الحلقة البنية للكشف عن أنيون النيترات NO₃⁻، ما هو التغير في عدد أكسدة الحديد في المركب الأساسي الناتج؟",options:["يتحول الحديد من +2 إلى +1","يتحول الحديد من +3 إلى +2","يبقى عدد أكسدة الحديد +2 كما هو","يكون عدد أكسدة الحديد في المعقد +1"],correct:3,explain:"عدد أكسدة الحديد في مركب الحلقة البنية هو +1."},
+    {q:"عند تفاعل حمض HCl المخفف مع ملح ثيوكبريتات الصوديوم Na₂S₂O₃، ثم إضافة محلول K₂Cr₂O₇ المحمَّض للغاز المتصاعد، ما التغير المشاهَد؟",options:["الغاز يتحول للأحمر وراسب أبيض","المحلول المحمَّض يتحول للون الأخضر وراسب أصفر معلق","الغاز يُسوِّد الورقة وراسب بني محمر","الغاز يتسامى وراسب أسود"],correct:1,explain:"يتصاعد SO₂ الذي يخضر محلول الكرومات وتترسب الكبريت الأصفر المعلق."},
+    {q:"عند إضافة كمية وفيرة من محلول NaOH إلى محلول يحتوي على خليط من أيونات (Fe²⁺، Fe³⁺، Al³⁺)، ثم ترشيح الراسب الناتج، فإن المادة الصلبة المتبقية تتكون من:",options:["Fe(OH)₂ فقط","Fe(OH)₃ و Al(OH)₃","Fe(OH)₂ و Fe(OH)₃ فقط","NaAlO₂ و Fe(OH)₃"],correct:2,explain:"يدوب هيدروكسيد الألومنيوم في الزيادة من NaOH بينما يتبقى هيدروكسيد الحديد."},
+    {q:"التمييز بين راسبين أبيضين (فوسفات باريوم وكبريتات باريوم) باستخدام حمض HCl المخفف. سبب الذوبان وعدم الذوبان يرجع إلى أن:",options:["حمض الفوسفوريك أضعف وأكثر تطايراً من حمض الهيدروكلوريك","كبريتات الباريوم مركب إلكتروليتي قوي جداً","فوسفات الباريوم تذوب في الماء أصلاً","حمض HCl لا يتفاعل إطلاقاً مع أملاح الباريوم"],correct:0,explain:"تذوب فوسفات الباريوم في HCl بينما لا تذوب كبريتات الباريوم."},
+    {q:"ثلاثة محاليل لأملاح فضة أُضيفت إلى ثلاثة أنيونات مختلفة. أيها الصحيح؟",options:["A: فوسفات ، B: يوديد ، C: كلوريد","A: يوديد ، B: فوسفات ، C: بروميد","A: كلوريد ، B: بروميد ، C: يوديد","A: فوسفات ، B: كلوريد ، C: يوديد"],correct:0,explain:"فوسفات الفضة راسب أصفر يذوب في النشادر، ويوديد الفضة أصفر لا يذوب، وكلوريد الفضة أبيض يذوب."},
+    {q:"كاتيون ينتمي للمجموعة التحليلية الخامسة، لهبه أحمر طوبي وعند إضافة (NH₄)₂CO₃ يتكون راسب أبيض يذوب في حمض الكربونيك.",options:["Ba²⁺","Ca²⁺","Cu²⁺","Fe²⁺"],correct:1,explain:"كاتيون الكالسيوم Ca²⁺ يعطي لوناً أحمر طوبياً مع لهب بنزن."},
+    {q:"عند حرق H₂S في كمية محدودة من الأكسجين ثم تمرير الناتج على محلول KMnO₄ المحمَّض، ما التغير على الأيون الانتقالي؟",options:["يختزل Mn⁺⁷ إلى Mn⁺² ويزول اللون البنفسجي","يتحول Mn⁺² إلى Mn⁺⁷ ويكتسب لوناً وردياً","يتأكسد Mn⁺⁴ إلى Mn⁺⁶","لا يحدث تفاعل أكسدة واختزال"],correct:0,explain:"يتصاعد SO₂ ويختزل المنجنيز من +7 إلى +2 ويزول اللون البنفسجي."},
+    {q:"أيُّ أزواج الكاتيونات يمكن ترسيب أحدهما دون الآخر عند تمرير H₂S في وسط HCl مخفف؟",options:["Cu²⁺ و Na⁺","Cu²⁺ و Pb²⁺","Fe²⁺ و Fe³⁺","K⁺ و Na⁺"],correct:0,explain:"النحاس يترسب في الوسط الحمضي على هيئة كبريتيد نحاس CuS بينما الصوديوم لا يترسب."},
+    {q:"محلول يحتوي على خليط من أيونات Cl⁻ و SO₄²⁻. الكاشف المناسب لفصل أيون الكبريتات أولاً دون ترسيب أيون الكلوريد؟",options:["محلول AgNO₃","محلول Ba(NO₃)₂","محلول Na₂CO₃","محلول NH₄OH"],correct:1,explain:"نترات الباريوم ترسب الكبريتات على هيئة BaSO₄ بينما لا ترسب الكلوريد."},
+    {q:"تفاعل نيتريت الصوديوم مع KMnO₄ المحمَّض بـ H₂SO₄ المركز. كم مول نيتريت صوديوم لاختزال 2 مول KMnO₄؟",options:["2 مول","3 مولات","5 مولات","10 مولات"],correct:2,explain:"نسبة التفاعل في المعادلة الموزونة هي 5 مولات نيتريت صوديوم لكل 2 مول برمنجنات."},
+    {q:"الكشف التأكيدي لأنيون الكبريتيت SO₃²⁻ باستخدام AgNO₃ يتكوَّن راسب أبيض (X). عند تسخينه يتحول للون (Y). ما X و Y؟",options:["X: Ag₂SO₄ ، Y: أصفر","X: Ag₂SO₃ ، Y: أسود","X: Ag₂S ، Y: أبيض","X: AgCl ، Y: بنفسجي"],correct:1,explain:"كبريتيت الفضة Ag₂SO₃ راسب أبيض يسود بالتسخين."},
+    {q:"ملح Fe (X): عند إضافة NH₄OH يتكون راسب بني محمر، وعند إضافة H₂SO₄ مركز تتصاعد أبخرة بنية حمراء تزداد مع خُراطة النحاس.",options:["FeCl₂","Fe(NO₃)₃","FeSO₄","Fe(NO₂)₂"],correct:1,explain:"الملح يحتوي على Fe³⁺ للراسب البني المحمر والنيترات NO₃⁻ للأبخرة البنية الحمراء."},
+    {q:"عند إضافة NH₄OH بالتنقيط حتى الزيادة إلى محلول Cu²⁺ و Al³⁺، فإن التغير الملاحَظ هو:",options:["يتكون راسب أبيض وأزرق ويذوب كلاهما في الزيادة","يترسب Al(OH)₃ الأبيض ولا يذوب في الزيادة، بينما يدخل Cu²⁺ في معقد أزرق غامق","يختفي الراسب الأبيض تماماً بينما يتبقى الراسب الأكوا","لا يتكون أي راسب"],correct:1,explain:"هيدروكسيد الألومنيوم لا يذوب في الزيادة من هيدروكسيد الأمونيوم بينما يشكل النحاس معقداً أزرق غامقاً."},
+    {q:"عنصر انتقالي ينتهي توزيعه الإلكتروني بـ 3d⁵ في حالته التأكسدية +3. لون راسب هيدروكسيده مع NaOH:",options:["أبيض يخضر","بني محمر","أزرق يتأسود بالتسخين","أصفر كبريتي"],correct:1,explain:"العنصر هو الحديد Fe³⁺ ويعطي راسباً بنياً محمراً Fe(OH)₃."},
+    {q:"المادة المستخدمة للتمييز التأكيدي بين أنيوني الكربونات والبيكربونات دون التسخين المباشر في الخطوة الأولى:",options:["حمض HCl المخفف","محلول MgSO₄","محلول NaOH","محلول K₂Cr₂O₇"],correct:1,explain:"كبريتات الماغنسيوم تعطي راسباً على البارد مع الكربونات وعلى الساخن مع البيكربونات."},
+    {q:"غاز عديم اللون (A) يتحول لغاز بني محمر عند فوهة الأنبوبة. الأنيون المسؤول هو:",options:["النيترات NO₃⁻","النيتريت NO₂⁻","الكبريتيد S²⁻","الكلوريد Cl⁻"],correct:1,explain:"الغاز A هو NO يتأكسد إلى NO₂ البني المحمر، الأنيون هو النيتريت."},
+    {q:"عند إضافة H₂SO₄ المخفف إلى CaCO₃ الصلبة، يتوقف التفاعل سريعاً. السبب:",options:["استهلاك كامل كمية الكربونات","تكوُّن طبقة من CaSO₄ شحيحة الذوبان تغطي سطح الملح وتمنع استمرار التفاعل","تكوُّن غاز يُعطِّل التفاعل","ضعف حمض الكبريتيك المخفف"],correct:1,explain:"تتشكل طبقة CaSO₄ غير الذائبة التي تعزل الحمض عن التفاعل."}
+];
+
+let appState = {
+    currentPage: 'exams',
+    isActive: false,
+    maxId: 20,
+    duration: 40,
+    student: null,
+    answers: {},
+    essayAnswers: {},
+    timer: null,
+    timeSpent: 0,
+    questions: defaultQuestions,
+    submissions: [],
+    // Live
+    isLive: false,
+    screenStream: null,
+    micStream: null,
+    isRecording: false,
+    mediaRecorder: null,
+    recordedChunks: [],
+    sessionStartTime: null,
+    sessionTimer: null,
+    chatMessages: [],
+    onlineStudents: [],
+    // Editor
+    currentTemplateId: 1,
+    currentKbTab: 'symbols',
+    activeInput: null,
+    // Settings
+    currentTheme: localStorage.getItem('theme') || 'blue',
+    currentMode: localStorage.getItem('mode') || 'dark',
+    lectures: []
+};
+
+// ---- INIT ----
+window.addEventListener('DOMContentLoaded', () => {
+    applyTheme(appState.currentTheme);
+    applyMode(appState.currentMode);
+    updateThemeButtons();
+    initLiveSessionTimer();
+});
+
+window.addEventListener('firebase-ready', () => {
+    window.onSnapshot(window.doc(window.db,"exam_config","main"), snap => {
+        if(snap.exists()){
+            const d = snap.data();
+            appState.isActive = d.isSystemActive || false;
+            appState.maxId = d.maxStudentId || 20;
+            appState.duration = d.examDurationMinutes || 40;
+            if(d.questions && d.questions.length) appState.questions = d.questions;
+            updateLoginUI();
         }
+    });
+    window.onSnapshot(window.collection(window.db,"submissions"), snap => {
+        appState.submissions = [];
+        snap.forEach(d => appState.submissions.push(d.data()));
+        renderTeacherTable(appState.submissions);
+    });
+});
 
-        function setTheme(themeName) {
-            document.documentElement.setAttribute('data-theme', themeName);
-            localStorage.setItem('preferred_theme', themeName);
+// ---- NAVIGATION ----
+function switchPage(page) {
+    appState.currentPage = page;
+    ['exams','live','settings'].forEach(p => {
+        const sec = document.getElementById(`page-${p}`);
+        const dn = document.getElementById(`nav-${p}`);
+        const mn = document.getElementById(`mob-${p}`);
+        if(p === page){
+            sec.classList.remove('hidden'); sec.classList.add('fade-in');
+            if(dn){ dn.className = 'px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 btn-primary'; }
+            if(mn){ mn.className = 'flex flex-col items-center gap-1 py-1 nav-active'; }
+        } else {
+            sec.classList.add('hidden'); sec.classList.remove('fade-in');
+            if(dn){ dn.className = 'px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 btn-ghost'; }
+            if(mn){ mn.className = 'flex flex-col items-center gap-1 py-1 text-muted'; }
         }
+    });
+}
 
-        function switchPage(pageId) {
-            ['exams', 'lectures', 'settings'].forEach(p => {
-                const sec = document.getElementById(`page-${p}`);
-                const desktopBtn = document.getElementById(`nav-btn-${p}`);
-                const mobBtn = document.getElementById(`mob-nav-${p}`);
-                if (p === pageId) {
-                    sec.classList.remove('hidden');
-                    if (desktopBtn) desktopBtn.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-custom-primary text-white";
-                    if (mobBtn) mobBtn.className = "flex flex-col items-center gap-1 text-custom-primary font-bold";
-                } else {
-                    sec.classList.add('hidden');
-                    if (desktopBtn) desktopBtn.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 hover:bg-white/10";
-                    if (mobBtn) mobBtn.className = "flex flex-col items-center gap-1 opacity-60";
-                }
+// ---- THEME / MODE ----
+function setTheme(t){
+    appState.currentTheme = t;
+    localStorage.setItem('theme', t);
+    // If light theme, force light mode
+    if(t.startsWith('light-')) { setDisplayMode('light'); } else { setDisplayMode('dark'); }
+    applyTheme(t);
+    updateThemeButtons();
+}
+
+function applyTheme(t){
+    document.documentElement.setAttribute('data-theme', t);
+}
+
+function setDisplayMode(mode){
+    appState.currentMode = mode;
+    localStorage.setItem('mode', mode);
+    applyMode(mode);
+    // Update UI
+    const dm = document.getElementById('mode-dark');
+    const lm = document.getElementById('mode-light');
+    const cd = document.getElementById('check-dark');
+    const cl = document.getElementById('check-light');
+    if(dm && lm){
+        if(mode === 'dark'){
+            dm.style.borderColor = 'var(--primary)'; lm.style.borderColor = 'transparent';
+            cd.style.opacity = '1'; cl.style.opacity = '0';
+        } else {
+            lm.style.borderColor = 'var(--primary)'; dm.style.borderColor = 'transparent';
+            cl.style.opacity = '1'; cd.style.opacity = '0';
+        }
+    }
+}
+
+function applyMode(mode){
+    if(mode === 'light'){
+        document.documentElement.classList.remove('dark');
+    } else {
+        document.documentElement.classList.add('dark');
+    }
+}
+
+function updateThemeButtons(){
+    document.querySelectorAll('[data-theme-btn]').forEach(btn => {
+        const t = btn.getAttribute('data-theme-btn');
+        btn.classList.toggle('active', t === appState.currentTheme);
+        if(t === appState.currentTheme){
+            btn.style.boxShadow = '0 0 0 2px var(--primary), 0 8px 24px var(--primary-glow)';
+        } else {
+            btn.style.boxShadow = '';
+        }
+    });
+}
+
+function setLang(lang){
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    const ca = document.getElementById('check-ar');
+    const ce = document.getElementById('check-en');
+    const la = document.getElementById('lang-ar');
+    const le = document.getElementById('lang-en');
+    if(lang === 'ar'){
+        la.style.borderColor = 'var(--primary)'; le.style.borderColor = 'transparent';
+        ca.style.opacity = '1'; ce.style.opacity = '0';
+    } else {
+        le.style.borderColor = 'var(--primary)'; la.style.borderColor = 'transparent';
+        ce.style.opacity = '1'; ca.style.opacity = '0';
+    }
+}
+
+function applyFontSize(v){
+    document.body.style.fontSize = v + 'px';
+    const lbl = document.getElementById('font-size-label');
+    if(lbl) lbl.textContent = v + 'px';
+}
+
+// ---- EXAM LOGIC ----
+function updateLoginUI(){
+    const name = document.getElementById('student-name');
+    const id = document.getElementById('student-id');
+    const btn = document.getElementById('start-exam-btn');
+    const hint = document.getElementById('student-id-hint');
+    if(appState.isActive){
+        name.disabled = false; id.disabled = false;
+        btn.disabled = false; btn.classList.remove('opacity-50','cursor-not-allowed');
+        hint.innerHTML = `<i class="fa-solid fa-circle-check text-green-400"></i><span class="text-green-400 ml-1">Registration open. ID range: 1–${appState.maxId}. Duration: ${appState.duration} min.</span>`;
+    } else {
+        name.disabled = true; id.disabled = true;
+        btn.disabled = true; btn.classList.add('opacity-50','cursor-not-allowed');
+        hint.innerHTML = `<i class="fa-solid fa-lock"></i> Registration closed until exam is opened by teacher.`;
+    }
+}
+
+function startExam(){
+    const name = document.getElementById('student-name').value.trim();
+    const id = parseInt(document.getElementById('student-id').value);
+    if(!name){ alert('Please enter your full name.'); return; }
+    if(!id || id < 1 || id > appState.maxId){ alert(`Please enter a valid ID between 1 and ${appState.maxId}`); return; }
+    if(appState.submissions.some(s => s.id === id)){ alert(`ID #${id} has already been used to submit this exam.`); return; }
+    appState.student = { name, id };
+    document.getElementById('quiz-student-name').textContent = name;
+    document.getElementById('quiz-student-id').textContent = `#${id}`;
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    renderQuestions();
+    startTimer();
+}
+
+function renderQuestions(){
+    const c = document.getElementById('questions-container');
+    c.innerHTML = appState.questions.map((q,i) => {
+        const isEssay = q.type === 'essay';
+        return `<div class="card p-5 space-y-4 fade-in">
+            <div class="flex items-start gap-3">
+                <span class="btn-primary px-2.5 py-1 rounded-lg text-xs font-bold flex-shrink-0">Q${i+1}</span>
+                <div class="flex-1">
+                    <h4 class="text-sm font-bold leading-relaxed bidi-input">${q.q||q.text}</h4>
+                    ${q.img?`<img src="${q.img}" class="mt-2 max-h-40 rounded-lg" style="border:1px solid var(--border)">`:''}
+                </div>
+            </div>
+            ${!isEssay?`
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                ${(q.options||q.choices).map((o,oi)=>`
+                <button onclick="pickOption(${i},${oi})" id="opt-${i}-${oi}" class="text-right p-3.5 rounded-xl text-sm flex items-center justify-between gap-2 bidi-input transition" style="background:var(--surface); border:1px solid var(--border)">
+                    <span>${o}</span><i class="fa-regular fa-circle opacity-50 text-base flex-shrink-0"></i>
+                </button>`).join('')}
+            </div>`:`
+            <div class="space-y-3">
+                <textarea id="essay-${i}" oninput="saveEssay(${i},this.value)" placeholder="Write your answer here..." class="w-full p-3 rounded-xl text-sm bidi-input resize-none" rows="3"></textarea>
+                <div class="flex items-center gap-3">
+                    <label class="btn-ghost px-3 py-1.5 rounded-lg text-xs cursor-pointer flex items-center gap-2">
+                        <i class="fa-solid fa-camera"></i> Attach Image
+                        <input type="file" accept="image/*" class="hidden" onchange="uploadEssayImg(${i},this)">
+                    </label>
+                    <span id="essay-img-${i}" class="text-xs text-green-400 font-bold hidden"><i class="fa-solid fa-check mr-1"></i>Image attached</span>
+                </div>
+            </div>`}
+        </div>`;
+    }).join('');
+}
+
+function pickOption(qi,oi){
+    appState.answers[qi] = oi;
+    const q = appState.questions[qi];
+    (q.options||q.choices).forEach((_,k)=>{
+        const b = document.getElementById(`opt-${qi}-${k}`);
+        if(!b) return;
+        if(k===oi){
+            b.style.background='var(--primary-glow)'; b.style.borderColor='var(--primary)'; b.style.fontWeight='700';
+            b.querySelector('i').className='fa-solid fa-circle-check text-base flex-shrink-0';
+            b.querySelector('i').style.color='var(--primary)';
+        } else {
+            b.style.background='var(--surface)'; b.style.borderColor='var(--border)'; b.style.fontWeight='';
+            b.querySelector('i').className='fa-regular fa-circle opacity-50 text-base flex-shrink-0';
+            b.querySelector('i').style.color='';
+        }
+    });
+}
+
+function saveEssay(i,v){ if(!appState.essayAnswers[i]) appState.essayAnswers[i]={}; appState.essayAnswers[i].text=v; }
+function uploadEssayImg(i,inp){
+    if(inp.files&&inp.files[0]){
+        const r=new FileReader(); r.onload=e=>{
+            if(!appState.essayAnswers[i]) appState.essayAnswers[i]={};
+            appState.essayAnswers[i].img=e.target.result;
+            document.getElementById(`essay-img-${i}`).classList.remove('hidden');
+        }; r.readAsDataURL(inp.files[0]);
+    }
+}
+
+function startTimer(){
+    let left = appState.duration * 60;
+    appState.timeSpent = 0;
+    const disp = document.getElementById('timer-display');
+    appState.timer = setInterval(()=>{
+        left--; appState.timeSpent++;
+        const m=Math.floor(left/60), s=left%60;
+        disp.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        if(left<=300) disp.style.color='#f87171'; // Red warning
+        if(left<=0){ clearInterval(appState.timer); alert('Time is up! Submitting your exam.'); submitExam(); }
+    },1000);
+}
+
+async function submitExam(){
+    clearInterval(appState.timer);
+    let score=0;
+    appState.questions.forEach((q,i)=>{
+        const c=q.correct!==undefined?q.correct:q.answer;
+        if(q.type!=='essay'&&appState.answers[i]===c) score++;
+    });
+    const pct=Math.round((score/appState.questions.length)*100);
+    const ms=Math.floor(appState.timeSpent/60), ss=appState.timeSpent%60;
+    const timeStr=`${ms}m ${ss}s`;
+    const now=new Date();
+    const dateStr=`${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+    document.getElementById('res-score').textContent=`${score} / ${appState.questions.length}`;
+    document.getElementById('res-percent').textContent=`${pct}%`;
+    document.getElementById('res-time').textContent=timeStr;
+    document.getElementById('res-id').textContent=`#${appState.student.id}`;
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
+    renderReview();
+    try {
+        await window.setDoc(window.doc(window.db,"submissions",`student_${appState.student.id}`),{
+            id:appState.student.id, name:appState.student.name, score, totalQuestions:appState.questions.length,
+            timeSpentStr:timeStr, submissionDate:dateStr, studentAnswers:appState.answers,
+            studentEssayAnswers:appState.essayAnswers, examQuestions:appState.questions, timestamp:window.serverTimestamp()
+        });
+    } catch(e){ console.log(e); }
+}
+
+function renderReview(){
+    const c=document.getElementById('review-container');
+    c.innerHTML=appState.questions.map((q,i)=>{
+        const ua=appState.answers[i], correct=q.correct!==undefined?q.correct:q.answer;
+        const ch=q.options||q.choices||[]; const ok=ua===correct;
+        return `<div class="card p-4 space-y-2" style="border-color:${ok?'rgba(16,185,129,0.4)':'rgba(239,68,68,0.4)'}">
+            <div class="flex items-center gap-2">
+                <span class="text-xs px-2 py-0.5 rounded font-bold" style="background:${ok?'rgba(16,185,129,0.15)':'rgba(239,68,68,0.15)'}; color:${ok?'#34d399':'#f87171'}">${ok?'✓ Correct':'✗ Incorrect'}</span>
+                <span class="text-sm font-bold bidi-input">${q.q||q.text}</span>
+            </div>
+            <p class="text-xs text-muted">Your answer: <span class="font-bold bidi-input" style="color:${ok?'#34d399':'#f87171'}">${ua!==undefined?ch[ua]:'Not answered'}</span></p>
+            ${!ok&&ch[correct]?`<p class="text-xs" style="color:#34d399">Correct answer: <span class="font-bold bidi-input">${ch[correct]}</span></p>`:''}
+            ${q.explain?`<p class="text-xs text-muted p-2 rounded bidi-input" style="background:var(--surface); border:1px solid var(--border)">${q.explain}</p>`:''}
+        </div>`;
+    }).join('');
+}
+
+function toggleReviewSection(){ document.getElementById('review-section').classList.toggle('hidden'); }
+function exitExam(){ location.reload(); }
+
+// ---- LIVE SECTION ----
+function initLiveSessionTimer(){
+    // Keep session duration ticking if live
+}
+
+async function toggleScreenShare(){
+    if(!appState.isLive){
+        // Start live session
+        try {
+            const stream = await navigator.mediaDevices.getDisplayMedia({
+                video: { cursor: 'always' }, audio: true
             });
-        }
-
-        // ==========================================
-        // وظائف البث المباشر (WebRTC) وتسجيل الشاشة
-        // ==========================================
-        async function toggleScreenShare() {
-            const videoElem = document.getElementById('live-video-element');
-            const placeholder = document.getElementById('live-placeholder');
-            const btn = document.getElementById('toggle-screen-share-btn');
-            const badge = document.getElementById('live-status-badge');
-            const indicator = document.getElementById('live-indicator');
-            const recBtn = document.getElementById('start-rec-btn');
-
-            if (!mediaStream) {
-                try {
-                    mediaStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-                    videoElem.srcObject = mediaStream;
-                    videoElem.classList.remove('hidden');
-                    placeholder.classList.add('hidden');
-                    
-                    btn.innerHTML = '<i class="fa-solid fa-desktop"></i><span>إيقاف البث</span>';
-                    btn.classList.replace('bg-custom-primary', 'bg-rose-600');
-                    badge.className = "text-xs bg-rose-500 text-white px-2.5 py-0.5 rounded-full font-bold animate-pulse";
-                    badge.innerText = "مباشر الآن";
-                    indicator.classList.replace('bg-slate-500', 'bg-rose-500');
-                    indicator.classList.add('animate-pulse');
-                    recBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-
-                    mediaStream.getVideoTracks()[0].onended = stopLiveStream;
-                } catch (err) {
-                    alert("عذراً، تعذر بدء البث أو تم إلغاؤه.");
-                }
-            } else {
-                stopLiveStream();
-            }
-        }
-
-        function stopLiveStream() {
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                toggleRecordLive(); // Stop recording if running
-            }
-            if (mediaStream) {
-                mediaStream.getTracks().forEach(track => track.stop());
-                mediaStream = null;
-            }
-            const videoElem = document.getElementById('live-video-element');
-            videoElem.srcObject = null;
-            videoElem.classList.add('hidden');
-            document.getElementById('live-placeholder').classList.remove('hidden');
-            
-            const btn = document.getElementById('toggle-screen-share-btn');
-            btn.innerHTML = '<i class="fa-solid fa-desktop"></i><span>مشاركة الشاشة / الكاميرا</span>';
-            btn.classList.replace('bg-rose-600', 'bg-custom-primary');
-            
-            const badge = document.getElementById('live-status-badge');
-            badge.className = "text-xs bg-slate-700 text-white px-2.5 py-0.5 rounded-full font-bold";
-            badge.innerText = "غير نشط";
-            
-            const indicator = document.getElementById('live-indicator');
-            indicator.classList.replace('bg-rose-500', 'bg-slate-500');
-            indicator.classList.remove('animate-pulse');
-
-            document.getElementById('start-rec-btn').classList.add('opacity-50', 'cursor-not-allowed');
-        }
-
-        function toggleRecordLive() {
-            const btn = document.getElementById('start-rec-btn');
-            if (!mediaStream) {
-                alert("يجب بدء مشاركة الشاشة والبث أولاً حتى تتمكني من تسجيله!");
-                return;
-            }
-
-            if (!mediaRecorder || mediaRecorder.state === 'inactive') {
-                recordedChunks = [];
-                mediaRecorder = new MediaRecorder(mediaStream);
-                mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
-                mediaRecorder.onstop = saveRecordedVideo;
-                mediaRecorder.start();
-                
-                btn.innerHTML = '<i class="fa-solid fa-stop"></i><span>إيقاف وحفظ التسجيل</span>';
-                btn.classList.add('animate-pulse');
-            } else {
-                mediaRecorder.stop();
-                btn.innerHTML = '<i class="fa-solid fa-circle"></i><span>تسجيل الـ Live</span>';
-                btn.classList.remove('animate-pulse');
-            }
-        }
-
-        function saveRecordedVideo() {
-            const blob = new Blob(recordedChunks, { type: 'video/webm' });
-            const url = URL.createObjectURL(blob);
-            const title = prompt("تم إيقاف التسجيل بنجاح! أدخلي عنوان المحاضرة المسجلة:", "محاضرة مباشرة " + new Date().toLocaleDateString('ar-EG'));
-            if (title) {
-                savedRecords.push({ title, url, desc: "مُسجلة من البث المباشر - " + new Date().toLocaleTimeString('ar-EG') });
-                renderRecordsList();
-                alert("تم إضافة الريكورد بنجاح لقائمة الريكوردات.");
-            }
-        }
-
-        // ==========================================
-        // وظائف رفع الملفات والفيديوهات محلياً
-        // ==========================================
-        function uploadRecordVideo(input) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                const url = URL.createObjectURL(file);
-                savedRecords.push({ title: file.name, url, desc: "فيديو مرفوع من الجهاز" });
-                renderRecordsList();
-                alert("تم رفع الفيديو بنجاح.");
-            }
-        }
-
-        function renderRecordsList() {
-            const container = document.getElementById('records-list');
-            if (savedRecords.length === 0) {
-                container.innerHTML = '<p class="text-xs opacity-50 text-center p-4">لا توجد ريكوردات.</p>';
-                return;
-            }
-            container.innerHTML = savedRecords.map(rec => `
-                <div class="p-3 bg-black/20 rounded-xl border border-white/5 flex items-center justify-between text-xs transition hover:bg-white/5">
-                    <div>
-                        <h5 class="font-bold text-white">${rec.title}</h5>
-                        <span class="text-[10px] opacity-60">${rec.desc}</span>
-                    </div>
-                    <a href="${rec.url}" target="_blank" class="px-3 py-1.5 bg-custom-primary hover:bg-blue-600 text-white rounded-lg font-bold flex items-center gap-1 transition">
-                        <i class="fa-solid fa-play"></i> تشغيل
-                    </a>
-                </div>
-            `).join('');
-        }
-
-        function uploadStudyFile(input) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                const url = URL.createObjectURL(file);
-                savedFiles.push({ name: file.name, url });
-                renderFilesList();
-                alert("تم إضافة الملف بنجاح.");
-            }
-        }
-
-        function renderFilesList() {
-            const container = document.getElementById('files-list');
-            if (savedFiles.length === 0) {
-                container.innerHTML = '<p class="text-xs opacity-50 text-center p-4">لم يتم رفع أي ملفات.</p>';
-                return;
-            }
-            container.innerHTML = savedFiles.map(f => `
-                <div class="p-3 bg-black/20 rounded-xl border border-white/5 flex items-center justify-between text-xs transition hover:bg-white/5">
-                    <span class="font-bold flex items-center gap-2"><i class="fa-solid fa-file-pdf text-emerald-400 text-lg"></i> ${f.name}</span>
-                    <a href="${f.url}" download="${f.name}" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold flex items-center gap-1 transition">
-                        <i class="fa-solid fa-download"></i> تنزيل
-                    </a>
-                </div>
-            `).join('');
-        }
-
-        function muteStudent(btn) {
-            const icon = btn.querySelector('i');
-            if (icon.classList.contains('fa-microphone')) {
-                icon.className = "fa-solid fa-microphone-slash text-rose-400";
-            } else {
-                icon.className = "fa-solid fa-microphone text-emerald-400";
-            }
-        }
-
-        function sendReaction(emoji) {
-            const container = document.getElementById('reactions-container');
-            const el = document.createElement('div');
-            el.className = "text-2xl animate-bounce";
-            el.innerText = emoji;
-            container.appendChild(el);
-            setTimeout(() => el.remove(), 2000);
-        }
-
-        // ==========================================
-        // وظائف الامتحان (الطالب والمعلمة)
-        // ==========================================
-        function applyLoginUIState() {
-            const nameInput = document.getElementById('student-name');
-            const idInput = document.getElementById('student-id');
-            const startBtn = document.getElementById('start-exam-btn');
-            const idHint = document.getElementById('student-id-hint');
-
-            if (state.isSystemActive) {
-                nameInput.disabled = false;
-                idInput.disabled = false;
-                startBtn.disabled = false;
-                startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                idHint.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i><span class="text-emerald-400">التسجيل مفتوح. المسموح من 1 إلى ${state.maxStudentId}. المدة: ${state.examDurationMinutes} دقيقة.</span>`;
-            }
-        }
-
-        function startExam() {
-            const name = document.getElementById('student-name').value.trim();
-            const id = parseInt(document.getElementById('student-id').value);
-
-            if (!name || !id || id < 1 || id > state.maxStudentId) { alert("بيانات غير صحيحة."); return; }
-
-            state.currentStudent = { name, id };
-            document.getElementById('quiz-student-name').innerText = name;
-            document.getElementById('quiz-student-id').innerText = `#${id}`;
-
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('quiz-screen').classList.remove('hidden');
-
-            renderQuestions();
-            startTimer();
-        }
-
-        function renderQuestions() {
-            const container = document.getElementById('questions-container');
-            container.innerHTML = state.questions.map((q, idx) => {
-                const isEssay = q.type === 'essay';
-                return `
-                <div class="bg-custom-card border border-white/10 rounded-xl p-5 shadow-sm">
-                    <div class="flex items-start gap-3 mb-4">
-                        <span class="bg-custom-primary text-white font-bold text-xs px-2.5 py-1 rounded-lg">سؤال ${idx + 1}</span>
-                        <h4 class="text-base font-bold flex-1 bidi-input">${q.q || q.text}</h4>
-                    </div>
-                    ${!isEssay ? `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        ${(q.options || q.choices).map((opt, oIdx) => `
-                            <button onclick="selectOption(${idx}, ${oIdx})" id="opt-${idx}-${oIdx}" class="option-btn text-right p-3.5 bg-black/20 border border-white/10 rounded-xl text-sm transition flex items-center justify-between bidi-input">
-                                <span>${opt}</span><i class="fa-regular fa-circle opacity-50 text-lg"></i>
-                            </button>
-                        `).join('')}
-                    </div>
-                    ` : `
-                    <textarea oninput="saveEssayText(${idx}, this.value)" placeholder="أكتب الإجابة..." class="bidi-input w-full p-3 bg-black/20 border border-white/10 rounded-xl text-sm outline-none" rows="3"></textarea>
-                    `}
-                </div>
-            `}).join('');
-        }
-
-        function selectOption(qIdx, oIdx) {
-            state.answers[qIdx] = oIdx;
-            const choices = state.questions[qIdx].options || state.questions[qIdx].choices;
-            choices.forEach((_, optIndex) => {
-                const btn = document.getElementById(`opt-${qIdx}-${optIndex}`);
-                if (optIndex === oIdx) {
-                    btn.className = "option-btn text-right p-3.5 bg-custom-primary/30 border-2 border-custom-primary rounded-xl text-sm font-bold transition flex items-center justify-between bidi-input";
-                    btn.querySelector('i').className = "fa-solid fa-circle-check text-custom-primary text-lg";
-                } else {
-                    btn.className = "option-btn text-right p-3.5 bg-black/20 border border-white/10 rounded-xl text-sm transition flex items-center justify-between bidi-input";
-                    btn.querySelector('i').className = "fa-regular fa-circle opacity-50 text-lg";
-                }
-            });
-        }
-
-        function saveEssayText(idx, val) {
-            if (!state.essayAnswers[idx]) state.essayAnswers[idx] = {};
-            state.essayAnswers[idx].text = val;
-        }
-
-        function startTimer() {
-            let secondsLeft = state.examDurationMinutes * 60;
-            state.timer = setInterval(() => {
-                secondsLeft--;
-                state.timeSpent++;
-                const mins = Math.floor(secondsLeft / 60);
-                const secs = secondsLeft % 60;
-                document.getElementById('timer-display').innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-
-                if (secondsLeft <= 0) {
-                    clearInterval(state.timer);
-                    submitExam();
-                }
+            appState.screenStream = stream;
+            const vid = document.getElementById('screen-share-el');
+            vid.srcObject = stream;
+            vid.classList.remove('hidden');
+            document.getElementById('live-placeholder').classList.add('hidden');
+            document.getElementById('live-overlay').classList.remove('hidden');
+            document.getElementById('live-status-badge').innerHTML = '<span class="live-dot inline-block w-2 h-2 rounded-full bg-red-500 mr-1"></span> LIVE';
+            document.getElementById('live-status-badge').style.color = '#f87171';
+            const btn = document.getElementById('btn-screen-share');
+            btn.innerHTML = '<i class="fa-solid fa-stop"></i> Stop Sharing';
+            btn.style.background = 'rgba(239,68,68,0.3)';
+            btn.style.borderColor = 'rgba(239,68,68,0.5)';
+            appState.isLive = true;
+            // Start session timer
+            appState.sessionStartTime = Date.now();
+            appState.sessionTimer = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - appState.sessionStartTime) / 1000);
+                const h = Math.floor(elapsed/3600), m = Math.floor((elapsed%3600)/60), s = elapsed%60;
+                document.getElementById('session-duration').textContent =
+                    `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
             }, 1000);
-        }
+            stream.getVideoTracks()[0].onended = () => stopScreenShare();
+            addChatMessage('System','Screen sharing started ▶️', true);
+        } catch(e){ console.log('Screen share error:', e); alert('Could not start screen sharing. Please allow permission.'); }
+    } else {
+        stopScreenShare();
+    }
+}
 
-        async function submitExam() {
-            clearInterval(state.timer);
-            let score = 0;
-            state.questions.forEach((q, idx) => {
-                const correct = q.correct !== undefined ? q.correct : q.answer;
-                if (q.type !== 'essay' && state.answers[idx] === correct) score++;
-            });
+function stopScreenShare(){
+    if(appState.screenStream){ appState.screenStream.getTracks().forEach(t=>t.stop()); appState.screenStream=null; }
+    document.getElementById('screen-share-el').classList.add('hidden');
+    document.getElementById('screen-share-el').srcObject = null;
+    document.getElementById('live-placeholder').classList.remove('hidden');
+    document.getElementById('live-overlay').classList.add('hidden');
+    document.getElementById('live-status-badge').innerHTML = '<span class="live-dot inline-block w-2 h-2 rounded-full bg-red-500 mr-1"></span> OFFLINE';
+    document.getElementById('live-status-badge').style.color = '#f87171';
+    const btn = document.getElementById('btn-screen-share');
+    btn.innerHTML = '<i class="fa-solid fa-desktop"></i> Share Screen';
+    btn.style.background = ''; btn.style.borderColor = '';
+    appState.isLive = false;
+    clearInterval(appState.sessionTimer);
+    if(appState.isRecording) toggleRecording();
+    addChatMessage('System','Session ended ⏹️', true);
+}
 
-            document.getElementById('res-score').innerText = `${score} / ${state.questions.length}`;
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
+async function toggleMic(){
+    const icon = document.getElementById('mic-icon');
+    const btn = document.getElementById('btn-mic');
+    if(!appState.micStream){
+        try {
+            appState.micStream = await navigator.mediaDevices.getUserMedia({audio:true});
+            icon.className = 'fa-solid fa-microphone';
+            btn.style.borderColor = 'var(--primary)';
+            btn.style.color = 'var(--primary)';
+        } catch(e){ alert('Microphone permission denied.'); }
+    } else {
+        appState.micStream.getTracks().forEach(t=>t.stop());
+        appState.micStream = null;
+        icon.className = 'fa-solid fa-microphone-slash';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+    }
+}
 
-            try {
-                await setDoc(doc(db, "submissions", `student_${state.currentStudent.id}`), {
-                    id: state.currentStudent.id, name: state.currentStudent.name, score: score,
-                    totalQuestions: state.questions.length, timeSpentStr: `${Math.floor(state.timeSpent/60)}د`
-                });
-            } catch (err) {}
-        }
+function toggleRecording(){
+    const icon = document.getElementById('rec-icon');
+    const label = document.getElementById('rec-label');
+    const status = document.getElementById('rec-status');
+    if(!appState.isRecording){
+        const stream = appState.screenStream || (appState.micStream ? new MediaStream(appState.micStream.getTracks()) : null);
+        if(!stream){ alert('Start screen sharing first to record.'); return; }
+        appState.recordedChunks = [];
+        appState.mediaRecorder = new MediaRecorder(stream, {mimeType:'video/webm;codecs=vp9'});
+        appState.mediaRecorder.ondataavailable = e => { if(e.data.size>0) appState.recordedChunks.push(e.data); };
+        appState.mediaRecorder.onstop = saveRecording;
+        appState.mediaRecorder.start(1000);
+        appState.isRecording = true;
+        icon.className = 'fa-solid fa-stop';
+        label.textContent = 'Stop Recording';
+        status.textContent = '● Recording';
+        status.style.color = '#f87171';
+        icon.style.animation = 'livePulse 1s infinite';
+    } else {
+        appState.mediaRecorder.stop();
+        appState.isRecording = false;
+        icon.className = 'fa-solid fa-circle';
+        label.textContent = 'Record';
+        status.textContent = 'Off';
+        status.style.color = '';
+        icon.style.animation = '';
+    }
+}
 
-        function exitExam() { location.reload(); }
-        function toggleReviewSection() { document.getElementById('review-section').classList.toggle('hidden'); }
+function saveRecording(){
+    const blob = new Blob(appState.recordedChunks, {type:'video/webm'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `lecture-${new Date().toISOString().slice(0,10)}.webm`;
+    a.click(); URL.revokeObjectURL(url);
+    addChatMessage('System','Recording saved to your device 💾', true);
+}
 
-        // لوحة المعلمة والمحرر
-        function openTeacherAuthModal() { document.getElementById('teacher-auth-modal').classList.remove('hidden'); }
-        function closeTeacherAuthModal() { document.getElementById('teacher-auth-modal').classList.add('hidden'); }
-        function verifyTeacherPasscode() {
-            if (document.getElementById('teacher-passcode').value === "505050") {
-                closeTeacherAuthModal();
-                document.getElementById('teacher-modal').classList.remove('hidden');
-            } else { alert("الرمز خطأ!"); }
+function sendReaction(emoji){
+    const overlay = document.getElementById('reactions-overlay');
+    const el = document.createElement('div');
+    el.className = 'reaction-anim text-2xl';
+    el.textContent = emoji;
+    overlay.appendChild(el);
+    setTimeout(()=>el.remove(), 2100);
+    // Also add to chat briefly
+    addChatMessage('You', emoji, false);
+}
+
+function addChatMessage(from, text, isSystem){
+    const c = document.getElementById('chat-messages');
+    const p = c.querySelector('.italic');
+    if(p) p.remove();
+    const div = document.createElement('div');
+    div.className = 'text-xs';
+    if(isSystem){
+        div.innerHTML = `<span class="text-muted italic">${text}</span>`;
+    } else {
+        div.innerHTML = `<span style="color:var(--primary)" class="font-bold">${from}: </span><span>${text}</span>`;
+    }
+    c.appendChild(div);
+    c.scrollTop = c.scrollHeight;
+    appState.chatMessages.push({from,text});
+    document.getElementById('chat-count').textContent = appState.chatMessages.length + ' messages';
+}
+
+function sendChatMessage(){
+    const inp = document.getElementById('chat-input');
+    const text = inp.value.trim();
+    if(!text) return;
+    addChatMessage('You', text, false);
+    inp.value = '';
+}
+
+function joinAsStudent(){
+    const name = appState.student?.name || prompt('Enter your name:');
+    if(!name) return;
+    appState.onlineStudents.push({name, joined: new Date().toLocaleTimeString()});
+    renderOnlineStudents();
+    document.getElementById('viewer-num').textContent = appState.onlineStudents.length;
+    addChatMessage(name, 'joined the session 👋', false);
+}
+
+function renderOnlineStudents(){
+    const c = document.getElementById('students-list');
+    c.innerHTML = appState.onlineStudents.length === 0 ?
+        '<p class="text-xs text-muted text-center italic py-4">No students online yet</p>' :
+        appState.onlineStudents.map(s=>`
+            <div class="flex items-center gap-2 surface p-2 rounded-lg text-xs">
+                <span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>
+                <span class="font-bold flex-1">${s.name}</span>
+                <span class="text-muted">${s.joined}</span>
+            </div>`).join('');
+    document.getElementById('online-count').textContent = appState.onlineStudents.length;
+}
+
+function filterLectures(){
+    const filter = document.getElementById('lecture-filter').value;
+    document.querySelectorAll('.lecture-card').forEach(card => {
+        const show = filter === 'all' || card.dataset.cat === filter;
+        card.style.display = show ? '' : 'none';
+    });
+}
+
+function openAddLectureModal(){ document.getElementById('modal-add-lecture').classList.remove('hidden'); }
+
+function addLecture(){
+    const title = document.getElementById('new-lecture-title').value.trim();
+    const cat = document.getElementById('new-lecture-cat').value;
+    const url = document.getElementById('new-lecture-url').value.trim();
+    const dur = document.getElementById('new-lecture-dur').value.trim();
+    if(!title) return;
+    const grid = document.getElementById('lectures-grid');
+    const colors = {anions:'rgba(139,92,246,0.2)',cations:'rgba(16,185,129,0.2)',organic:'rgba(6,182,212,0.2)',review:'rgba(245,158,11,0.2)'};
+    const textColors = {anions:'#a78bfa',cations:'#34d399',organic:'#22d3ee',review:'#fbbf24'};
+    const div = document.createElement('div');
+    div.className = 'surface rounded-xl p-4 space-y-3 lecture-card'; div.dataset.cat = cat;
+    div.innerHTML = `<div class="flex items-start gap-2">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:${colors[cat]||'rgba(99,102,241,0.2)'}; color:${textColors[cat]||'#818cf8'}"><i class="fa-solid fa-play text-sm"></i></div>
+        <div class="flex-1 min-w-0"><h5 class="font-bold text-sm leading-tight">${title}</h5><p class="text-xs text-muted mt-0.5">${cat} • ${dur||'—'}</p></div>
+    </div>
+    <div class="flex items-center gap-2">
+        <button onclick="${url?`window.open('${url}','_blank')`:'alert(\"No URL provided\")'}" class="flex-1 btn-primary py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1"><i class="fa-solid fa-play"></i> Watch</button>
+        <button class="btn-ghost p-1.5 rounded-lg text-xs"><i class="fa-solid fa-download"></i></button>
+    </div>`;
+    grid.appendChild(div);
+    document.getElementById('modal-add-lecture').classList.add('hidden');
+    ['new-lecture-title','new-lecture-url','new-lecture-dur'].forEach(id=>document.getElementById(id).value='');
+}
+
+// ---- TEACHER MODALS ----
+function openTeacherAuth(){ document.getElementById('modal-teacher-auth').classList.remove('hidden'); }
+function closeTeacherAuth(){ document.getElementById('modal-teacher-auth').classList.add('hidden'); }
+function verifyTeacher(){
+    if(document.getElementById('teacher-passcode').value === '505050'){
+        closeTeacherAuth();
+        document.getElementById('modal-teacher').classList.remove('hidden');
+    } else { alert('Incorrect passcode!'); }
+}
+function closeTeacherModal(){ document.getElementById('modal-teacher').classList.add('hidden'); }
+
+async function saveExamSettings(){
+    const maxId = parseInt(document.getElementById('setting-max-id').value)||20;
+    const dur = parseInt(document.getElementById('setting-duration').value)||40;
+    await window.setDoc(window.doc(window.db,"exam_config","main"),{
+        isSystemActive:true, maxStudentId:maxId, examDurationMinutes:dur, questions:appState.questions
+    });
+    alert('Settings saved and registration activated!');
+}
+async function disableExamSettings(){
+    await window.setDoc(window.doc(window.db,"exam_config","main"),{
+        isSystemActive:false, maxStudentId:20, examDurationMinutes:40, questions:appState.questions
+    });
+    alert('Registration closed.');
+}
+async function resetAllData(){
+    if(confirm('Reset ALL student results? This cannot be undone.')) alert('Done. (Full deletion requires Firestore console access.)');
+}
+function printPDF(){ window.print(); }
+
+function renderTeacherTable(subs){
+    const tbody = document.getElementById('teacher-table-body');
+    if(!subs||!subs.length){
+        tbody.innerHTML='<tr><td colspan="5" class="p-6 text-center text-muted">No results yet.</td></tr>';
+        document.getElementById('stat-total').textContent=`0 / ${appState.maxId}`;
+        document.getElementById('stat-avg').textContent='0';
+        document.getElementById('stat-high').textContent='0';
+        return;
+    }
+    let total=0, high=0;
+    tbody.innerHTML = subs.map(s=>{
+        total+=s.score; if(s.score>high) high=s.score;
+        return `<tr onclick="viewStudentDetail(${s.id})" class="cursor-pointer transition" style="border-bottom:1px solid var(--border)" onmouseover="this.style.background='var(--surface)'" onmouseout="this.style.background=''">
+            <td class="p-3 font-mono font-bold" style="color:var(--primary)">#${s.id}</td>
+            <td class="p-3 font-semibold">${s.name}</td>
+            <td class="p-3 font-bold" style="color:#34d399">${s.score} / ${s.totalQuestions}</td>
+            <td class="p-3 text-muted">${s.timeSpentStr}</td>
+            <td class="p-3 text-muted text-xs">${s.submissionDate||'Today'}</td>
+        </tr>`;
+    }).join('');
+    document.getElementById('stat-total').textContent=`${subs.length} / ${appState.maxId}`;
+    document.getElementById('stat-avg').textContent=(total/subs.length).toFixed(1);
+    document.getElementById('stat-high').textContent=`${high} / ${appState.questions.length}`;
+}
+
+function viewStudentDetail(id){
+    const sub = appState.submissions.find(s=>s.id===id);
+    if(!sub) return;
+    document.getElementById('detail-student-name').textContent=`${sub.name} (#${sub.id})`;
+    const c = document.getElementById('student-answers-list');
+    const qs = sub.examQuestions||appState.questions;
+    c.innerHTML = qs.map((q,i)=>{
+        const isE=q.type==='essay', ua=sub.studentAnswers?.[i], corr=q.correct!==undefined?q.correct:q.answer;
+        const ch=q.options||q.choices||[]; const ok=ua===corr;
+        const essay=sub.studentEssayAnswers?.[i]||{};
+        return `<div class="surface rounded-xl p-4 space-y-2" style="border-color:${!isE?(ok?'rgba(16,185,129,0.4)':'rgba(239,68,68,0.4)'):'rgba(99,102,241,0.4)'}">
+            <div class="flex items-center justify-between gap-2">
+                <span class="text-xs font-bold bidi-input">Q${i+1}: ${q.q||q.text}</span>
+                <span class="text-xs font-bold px-2 py-0.5 rounded" style="background:${!isE?(ok?'rgba(16,185,129,0.15)':'rgba(239,68,68,0.15)'):'rgba(99,102,241,0.15)'}; color:${!isE?(ok?'#34d399':'#f87171'):'#818cf8'}">${isE?'Essay':ok?'Correct':'Wrong'}</span>
+            </div>
+            ${!isE?`<p class="text-xs text-muted">Answer: <span class="font-bold bidi-input" style="color:${ok?'#34d399':'#f87171'}">${ua!==undefined?ch[ua]:'—'}</span></p>${!ok&&ch[corr]?`<p class="text-xs" style="color:#34d399">Correct: <span class="font-bold bidi-input">${ch[corr]}</span></p>`:''}`:
+            `<p class="text-xs text-muted">Written: <span class="font-semibold bidi-input" style="color:var(--text)">${essay.text||'—'}</span></p>${essay.img?`<img src="${essay.img}" class="max-h-48 rounded mt-2" style="border:1px solid var(--border)">`:''}`}
+        </div>`;
+    }).join('');
+    document.getElementById('modal-student-detail').classList.remove('hidden');
+}
+function closeStudentDetail(){ document.getElementById('modal-student-detail').classList.add('hidden'); }
+
+// ---- EXAM EDITOR ----
+function openExamEditor(){
+    document.getElementById('modal-exam-editor').classList.remove('hidden');
+    document.getElementById('editor-q-count').value = appState.questions.length;
+    renderTemplatesBar();
+    renderKb();
+    renderEditorQuestions();
+}
+function closeExamEditor(){ document.getElementById('modal-exam-editor').classList.add('hidden'); }
+
+function renderTemplatesBar(){
+    const bar = document.getElementById('templates-bar');
+    bar.innerHTML = Array.from({length:10},(_,i)=>{
+        const name = localStorage.getItem(`tpl_name_${i+1}`)||`Template ${i+1}`;
+        const active = i+1 === appState.currentTemplateId;
+        return `<button onclick="loadTemplate(${i+1})" class="px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap transition ${active?'btn-primary':'btn-ghost'}">${name}</button>`;
+    }).join('');
+}
+
+function renameTemplate(){
+    const cur = localStorage.getItem(`tpl_name_${appState.currentTemplateId}`)||`Template ${appState.currentTemplateId}`;
+    const n = prompt(`Rename Template ${appState.currentTemplateId}:`, cur);
+    if(n&&n.trim()) { localStorage.setItem(`tpl_name_${appState.currentTemplateId}`, n.trim()); renderTemplatesBar(); }
+}
+
+function loadTemplate(id){
+    const n = localStorage.getItem(`tpl_name_${id}`)||`Template ${id}`;
+    if(!confirm(`Load ${n}? Current changes will be overwritten.`)) return;
+    appState.currentTemplateId = id;
+    const saved = localStorage.getItem(`tpl_${id}`);
+    appState.questions = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(defaultQuestions));
+    renderTemplatesBar(); renderEditorQuestions();
+}
+
+function switchKbTab(tab){
+    appState.currentKbTab = tab;
+    Object.keys(chemKB).forEach(t=>{
+        const btn = document.getElementById(`kbtab-${t}`);
+        if(btn) btn.className = `px-2.5 py-1 rounded text-xs font-bold ${t===tab?'btn-primary':'btn-ghost'}`;
+    });
+    renderKb();
+}
+
+function renderKb(){
+    const c = document.getElementById('chem-keyboard');
+    c.innerHTML = (chemKB[appState.currentKbTab]||chemKB.symbols).map(s=>`
+        <button onclick="insertSym('${s}')" class="btn-ghost px-2.5 py-1.5 rounded font-mono text-xs font-bold transition hover:bg-opacity-80">${s}</button>
+    `).join('');
+}
+
+function insertSym(s){
+    if(appState.activeInput){
+        const el=appState.activeInput;
+        const st=el.selectionStart||el.value.length, en=el.selectionEnd||el.value.length;
+        el.value=el.value.slice(0,st)+s+el.value.slice(en);
+        el.focus(); el.setSelectionRange(st+s.length, st+s.length);
+    }
+}
+function trackFocus(el){ appState.activeInput = el; }
+
+function renderEditorQuestions(){
+    const c = document.getElementById('editor-questions');
+    c.innerHTML = appState.questions.map((q,i)=>{
+        const ch=q.options||q.choices||['','','',''];
+        const corr=q.correct!==undefined?q.correct:(q.answer!==undefined?q.answer:0);
+        return `<div class="surface rounded-xl p-4 space-y-3" style="border-color:var(--border)">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+                <span class="px-3 py-1 rounded-lg text-xs font-bold text-white" style="background:#7c3aed">Q${i+1}</span>
+                <div class="flex items-center gap-3 flex-wrap">
+                    <div class="flex items-center gap-2">
+                        <label class="text-xs text-muted">Type:</label>
+                        <select onchange="appState.questions[${i}].type=this.value; renderEditorQuestions();" class="px-2 py-1 rounded-lg text-xs">
+                            <option value="choice" ${q.type!=='essay'?'selected':''}>Multiple Choice</option>
+                            <option value="essay" ${q.type==='essay'?'selected':''}>Essay</option>
+                        </select>
+                    </div>
+                    ${q.type!=='essay'?`<div class="flex items-center gap-2"><label class="text-xs text-muted">Correct:</label>
+                    <select id="ed-corr-${i}" class="px-2 py-1 rounded-lg text-xs" style="color:#34d399">
+                        <option value="0" ${corr===0?'selected':''}>A</option><option value="1" ${corr===1?'selected':''}>B</option>
+                        <option value="2" ${corr===2?'selected':''}>C</option><option value="3" ${corr===3?'selected':''}>D</option>
+                    </select></div>`:''}
+                </div>
+            </div>
+            <div class="flex gap-3 items-start">
+                <textarea onfocus="trackFocus(this)" id="ed-q-${i}" placeholder="Question text..." class="flex-1 p-2.5 rounded-lg text-sm bidi-input resize-none" rows="2">${q.q||q.text||''}</textarea>
+                <div class="flex flex-col gap-2">
+                    <label class="btn-ghost px-2 py-1.5 rounded-lg text-xs cursor-pointer flex items-center gap-1.5">
+                        <i class="fa-solid fa-image" style="color:#a78bfa"></i> Image
+                        <input type="file" accept="image/*" class="hidden" onchange="uploadQImg(${i},this)">
+                    </label>
+                    ${q.img?`<div class="relative"><img src="${q.img}" class="h-10 rounded"><button onclick="appState.questions[${i}].img=null;renderEditorQuestions();" class="absolute -top-1 -right-1 w-4 h-4 rounded-full text-white text-[10px] flex items-center justify-center" style="background:#ef4444">×</button></div>`:''}
+                </div>
+            </div>
+            ${q.type!=='essay'?`
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                ${['A','B','C','D'].map((l,k)=>`<input onfocus="trackFocus(this)" type="text" id="ed-opt-${i}-${k}" value="${ch[k]||''}" placeholder="Choice (${l})" class="p-2 rounded-lg text-xs bidi-input">`).join('')}
+            </div>`:''}
+        </div>`;
+    }).join('');
+}
+
+function uploadQImg(i,inp){
+    if(inp.files&&inp.files[0]){
+        const r=new FileReader(); r.onload=e=>{appState.questions[i].img=e.target.result; renderEditorQuestions();}; r.readAsDataURL(inp.files[0]);
+    }
+}
+
+function updateQCount(){
+    const n=parseInt(document.getElementById('editor-q-count').value)||20;
+    const qs=[...appState.questions];
+    while(qs.length<n) qs.push({q:`New Question ${qs.length+1}`,options:['Choice A','Choice B','Choice C','Choice D'],correct:0,explain:''});
+    appState.questions=qs.slice(0,n);
+    renderEditorQuestions();
+}
+
+function restoreDefaults(){
+    appState.questions=JSON.parse(JSON.stringify(defaultQuestions));
+    document.getElementById('editor-q-count').value=appState.questions.length;
+    renderEditorQuestions();
+}
+
+async function saveAndPublish(){
+    const tName=localStorage.getItem(`tpl_name_${appState.currentTemplateId}`)||`Template ${appState.currentTemplateId}`;
+    const updated=[];
+    for(let i=0;i<appState.questions.length;i++){
+        const qEl=document.getElementById(`ed-q-${i}`);
+        if(!qEl) continue;
+        const isE=appState.questions[i].type==='essay';
+        if(!isE){
+            const opts=['A','B','C','D'].map((_,k)=>document.getElementById(`ed-opt-${i}-${k}`)?.value.trim()||`Choice ${['A','B','C','D'][k]}`);
+            const corr=parseInt(document.getElementById(`ed-corr-${i}`)?.value)||0;
+            updated.push({q:qEl.value.trim()||`Q${i+1}`,options:opts,correct:corr,explain:appState.questions[i].explain||'',img:appState.questions[i].img||null,type:'choice'});
+        } else {
+            updated.push({q:qEl.value.trim()||`Q${i+1}`,explain:appState.questions[i].explain||'',img:appState.questions[i].img||null,type:'essay'});
         }
-        function closeTeacherModal() { document.getElementById('teacher-modal').classList.add('hidden'); }
-        
-        function openExamEditor() {
-            document.getElementById('exam-editor-modal').classList.remove('hidden');
-            renderChemKeyboard();
-        }
-        function closeExamEditor() { document.getElementById('exam-editor-modal').classList.add('hidden'); }
-        function switchTab(tab) {
-            currentTab = tab;
-            renderChemKeyboard();
-        }
-        function renderChemKeyboard() {
-            const container = document.getElementById('chem-symbols-keyboard');
-            const items = chemKeyboardCategories[currentTab] || chemKeyboardCategories.symbols;
-            container.innerHTML = items.map(item => `
-                <button onclick="insertSymbol('${item}')" class="px-2.5 py-1.5 bg-black/40 hover:bg-custom-primary border border-white/10 text-white rounded font-mono text-xs font-bold transition">${item}</button>
-            `).join('');
-        }
-        function insertSymbol(sym) {
-            if (activeInputRef) {
-                const start = activeInputRef.selectionStart || activeInputRef.value.length;
-                activeInputRef.value = activeInputRef.value.substring(0, start) + sym + activeInputRef.value.substring(activeInputRef.selectionEnd || activeInputRef.value.length);
-                activeInputRef.focus();
-            }
-        }
-        function trackFocus(elem) { activeInputRef = elem; }
-        
-        async function saveExamSettings() {
-            alert("تم الحفظ بنجاح وتفعيل التسجيل!");
-        }
-        function printPDF() { window.print(); }
-        function resetAllData() { alert("تم التصفير!"); }
-    </script>
+    }
+    appState.questions=updated;
+    localStorage.setItem(`tpl_${appState.currentTemplateId}`,JSON.stringify(updated));
+    try {
+        await window.setDoc(window.doc(window.db,"exam_config","main"),{
+            isSystemActive:appState.isActive, maxStudentId:appState.maxId,
+            examDurationMinutes:appState.duration, questions:updated
+        });
+    } catch(e){ console.log(e); }
+    alert(`Exam saved & published to "${tName}" ✅`);
+    closeExamEditor();
+}
+</script>
 </body>
 </html>

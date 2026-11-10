@@ -24,7 +24,7 @@
     <!-- Firebase SDK (Modular) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, getDocs, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA2iP6vpzNbK1eXzzNzr4eekd2HXvUm4EE",
@@ -45,6 +45,8 @@
         window.getDoc = getDoc;
         window.collection = collection;
         window.onSnapshot = onSnapshot;
+        window.getDocs = getDocs;
+        window.deleteDoc = deleteDoc;
         window.serverTimestamp = serverTimestamp;
 
         window.dispatchEvent(new Event('firebase-ready'));
@@ -100,7 +102,7 @@
                         <input type="number" id="student-id" placeholder="أدخل كود الطالب..." class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-white outline-none text-sm" disabled>
                         <p id="student-id-hint" class="text-[11px] text-amber-400/90 mt-1 flex items-center gap-1">
                             <i class="fa-solid fa-lock"></i>
-                            <span>التسجيل مغلق مؤقتاً لحين فتح الامتحان من قِبل المعلمة.</span>
+                            <span>جاري التحقق من حالة الامتحان...</span>
                         </p>
                     </div>
                 </div>
@@ -534,7 +536,8 @@
         };
 
         window.addEventListener('firebase-ready', () => {
-            onSnapshot(doc(db, "exam_config", "main"), (docSnap) => {
+            // الاستماع لحالة الامتحان والأسئلة مع إنشاء تهيئة افتراضية إن لم تكن موجودة
+            onSnapshot(doc(db, "exam_config", "main"), async (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     state.isSystemActive = data.isSystemActive || false;
@@ -544,9 +547,22 @@
                         state.questions = data.questions;
                     }
                     applyLoginUIState();
+                } else {
+                    // إنشاء التهيئة الأولى تلقائياً في Firebase إن كانت القاعدة فارغة
+                    try {
+                        await setDoc(doc(db, "exam_config", "main"), {
+                            isSystemActive: false,
+                            maxStudentId: 20,
+                            examDurationMinutes: 40,
+                            questions: defaultQuestions
+                        });
+                    } catch(e) {
+                        console.log("Auto initialization error", e);
+                    }
                 }
             });
 
+            // الاستماع لنتائج الطلاب
             onSnapshot(collection(db, "submissions"), (snapshot) => {
                 let submissions = [];
                 snapshot.forEach(doc => submissions.push(doc.data()));
@@ -782,6 +798,8 @@
             if (code === "505050") {
                 closeTeacherAuthModal();
                 document.getElementById('teacher-modal').classList.remove('hidden');
+                document.getElementById('setting-max-id').value = state.maxStudentId;
+                document.getElementById('setting-duration').value = state.examDurationMinutes;
             } else {
                 alert("الرمز السري غير صحيح!");
             }
@@ -815,9 +833,21 @@
             alert("تم إلغاء التفعيل وإغلاق التسجيل على جميع الأجهزة.");
         }
 
+        // تصفير نتائج الطلاب في Firebase بالكامل
         async function resetAllData() {
             if (confirm("هل أنت متأكد من تصفير وإزالة جميع النتائج المسجلة للطلاب؟")) {
-                alert("تم تصفير النتائج بنجاح.");
+                try {
+                    const querySnapshot = await getDocs(collection(db, "submissions"));
+                    const deletePromises = [];
+                    querySnapshot.forEach((documentSnap) => {
+                        deletePromises.push(deleteDoc(doc(db, "submissions", documentSnap.id)));
+                    });
+                    await Promise.all(deletePromises);
+                    alert("تم تصفير النتائج بنجاح وإزالة جميع إجابات الطلاب.");
+                } catch(err) {
+                    console.error("Reset data error", err);
+                    alert("حدث خطأ أثناء تصفير البيانات: " + err.message);
+                }
             }
         }
 
@@ -838,7 +868,7 @@
             let totalScore = 0;
             let maxScore = 0;
 
-            tbody.innerHTML = submissions.map((sub, idx) => {
+            tbody.innerHTML = submissions.map((sub) => {
                 totalScore += sub.score;
                 if (sub.score > maxScore) maxScore = sub.score;
                 return `
@@ -857,7 +887,6 @@
             document.getElementById('stat-high').innerText = `${maxScore} / ${state.questions.length}`;
         }
 
-        // عرض تفاصيل ورقة الإجابة للطالب عند الضغط عليه
         function viewStudentDetails(studentId) {
             const sub = state.existingSubmissions.find(s => s.id === studentId);
             if (!sub) return;

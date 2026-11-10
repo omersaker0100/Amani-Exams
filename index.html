@@ -333,12 +333,18 @@
                     </h2>
                     <p class="text-xs text-slate-400">قم بإضافة وتعديل الأسئلة وإرفاق الصور وكتابة الرموز الكيميائية</p>
                 </div>
-                <button onclick="closeExamEditor()" class="text-slate-400 hover:text-white px-3 py-1.5 bg-slate-700 rounded-lg text-sm">
-                    <i class="fa-solid fa-xmark"></i> إغلاق
-                </button>
+                <div class="flex items-center gap-2">
+                    <button onclick="openSmartExamModal()" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold rounded-xl shadow-lg transition flex items-center gap-2 border border-purple-400/30">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>توليد امتحان ذكي (AI)</span>
+                    </button>
+                    <button onclick="closeExamEditor()" class="text-slate-400 hover:text-white px-3 py-1.5 bg-slate-700 rounded-lg text-sm">
+                        <i class="fa-solid fa-xmark"></i> إغلاق
+                    </button>
+                </div>
             </div>
 
-            <!-- Templates Tabs (10 النماذج المحفوظة مع إمكانية إعادة التسمية) -->
+            <!-- Templates Tabs -->
             <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 space-y-2">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-bold text-purple-300">النماذج المحفوظة (10 نماذج):</span>
@@ -386,8 +392,256 @@
         </div>
     </div>
 
+    <!-- AI Assistant Sidebar Drawer & Trigger Button -->
+    <div id="ai-system-wrapper" class="z-50">
+        <!-- Floating Trigger Button (يمين أسفل الشاشة) -->
+        <button onclick="toggleAISidebar()" class="fixed bottom-6 right-6 z-40 px-4 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-2xl shadow-2xl shadow-blue-500/30 border border-white/20 backdrop-blur-md flex items-center gap-3 transition-all duration-300 transform hover:scale-105 active:scale-95 group">
+            <div class="relative flex items-center justify-center">
+                <i class="fa-solid fa-sparkles text-lg text-blue-200 group-hover:rotate-12 transition duration-300"></i>
+                <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
+                <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full"></span>
+            </div>
+            <span class="font-bold text-sm tracking-wide">المساعد الذكي</span>
+        </button>
+
+        <!-- Overlay Backdrop -->
+        <div id="ai-sidebar-overlay" onclick="toggleAISidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
+
+        <!-- Right Sidebar Panel Drawer -->
+        <aside id="ai-sidebar-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-slate-900/95 border-l border-slate-700/80 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between">
+            
+            <!-- Sidebar Header -->
+            <div class="p-4 bg-slate-800/90 border-b border-slate-700/80 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
+                        <i class="fa-solid fa-brain text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-white flex items-center gap-1.5">
+                            <span>مساعد الكيمياء الذكي</span>
+                            <span class="text-[10px] bg-purple-500/20 border border-purple-400/30 text-purple-300 px-2 py-0.5 rounded-full">Gemini AI</span>
+                        </h3>
+                        <p class="text-[11px] text-slate-400">منصة المعلمة أماني منصور</p>
+                    </div>
+                </div>
+                <button onclick="toggleAISidebar()" class="w-8 h-8 rounded-lg bg-slate-700/60 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+
+            <!-- Chat History Container -->
+            <div id="ai-chat-messages" class="flex-1 p-4 overflow-y-auto space-y-4 text-xs font-sans">
+                <div class="bg-slate-800/80 border border-slate-700/70 p-3.5 rounded-2xl text-slate-200 space-y-2">
+                    <div class="flex items-center gap-2 text-blue-400 font-bold">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>مرحباً بك!</span>
+                    </div>
+                    <p class="leading-relaxed text-slate-300">أنا المساعد الذكي الخاص بالمنصة. يمكنني شرح أفكار منهج الكيمياء، أو قراءة الصور والصفحات المرفقة، وتوليد أسئلة امتحانات وتدريج صعوبتها للمعلمة والطلاب! 🧪</p>
+                </div>
+            </div>
+
+            <!-- File Upload Preview Bar -->
+            <div id="ai-attached-file-bar" class="hidden px-4 py-2 bg-slate-950/80 border-t border-slate-800 flex items-center justify-between text-xs text-purple-300">
+                <span id="ai-attached-file-name" class="truncate max-w-[250px]"><i class="fa-solid fa-file-image ml-1"></i> تم إرفاق ملف</span>
+                <button onclick="clearAIAttachedFile()" class="text-rose-400 hover:text-rose-300 font-bold px-2">إزالة ×</button>
+            </div>
+
+            <!-- Sidebar Input Section -->
+            <div class="p-4 bg-slate-800/90 border-t border-slate-700/80 space-y-3">
+                <div class="flex items-center gap-2">
+                    <label class="p-2.5 bg-slate-900 hover:bg-slate-700 text-purple-400 hover:text-purple-300 rounded-xl cursor-pointer border border-slate-700 transition flex items-center justify-center" title="إرفاق صورة أو صفحة من كتاب">
+                        <i class="fa-solid fa-paperclip text-sm"></i>
+                        <input type="file" id="ai-file-input" accept="image/*" class="hidden" onchange="handleAISidebarFile(this)">
+                    </label>
+                    
+                    <input type="text" id="ai-chat-input" onkeypress="if(event.key==='Enter') sendAISidebarMessage()" placeholder="اسأل سؤالاً أو اطلب شرح/امتحان..." class="flex-1 px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs outline-none focus:border-blue-500 transition placeholder:text-slate-500">
+                    
+                    <button onclick="sendAISidebarMessage()" class="px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center justify-center">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+
+        </aside>
+    </div>
+
     <!-- App Logic -->
     <script>
+        // ====================================================
+        // GEMINI AI CONFIGURATION
+        // ====================================================
+        const GEMINI_API_KEY = window.env?.GEMINI_API_KEY || "";
+        let sidebarFileBase64 = null;
+        let sidebarFileMimeType = null;
+
+        let aiSidebarChatHistory = [
+            {
+                role: "user",
+                parts: [{ text: "أنت معلم كيمياء خبير ومساعد ذكي لمنصة المعلمة أماني منصور. أجب على أسئلة الطلاب بدقة وبساطة ووضوح وتفاعل معهم بروح إيجابية." }]
+            },
+            {
+                role: "model",
+                parts: [{ text: "أهلاً بك! أنا جاهز لمساعدة الطلاب والمعلمة، وقراءة الصور وتوليد الأسئلة فوراً!" }]
+            }
+        ];
+
+        function toggleAISidebar() {
+            const drawer = document.getElementById('ai-sidebar-drawer');
+            const overlay = document.getElementById('ai-sidebar-overlay');
+            
+            if (drawer.classList.contains('translate-x-full')) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                drawer.classList.remove('translate-x-full');
+            } else {
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        function handleAISidebarFile(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                sidebarFileMimeType = file.type;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    sidebarFileBase64 = e.target.result.split(',')[1];
+                    document.getElementById('ai-attached-file-bar').classList.remove('hidden');
+                    document.getElementById('ai-attached-file-name').innerHTML = `<i class="fa-solid fa-image"></i> مرفق: ${file.name}`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function clearAIAttachedFile() {
+            sidebarFileBase64 = null;
+            sidebarFileMimeType = null;
+            document.getElementById('ai-file-input').value = '';
+            document.getElementById('ai-attached-file-bar').classList.add('hidden');
+        }
+
+        async function sendAISidebarMessage() {
+            const input = document.getElementById('ai-chat-input');
+            const userText = input.value.trim();
+            if (!userText && !sidebarFileBase64) return;
+
+            const messagesContainer = document.getElementById('ai-chat-messages');
+
+            let userMsgHtml = userText ? `<div>${userText}</div>` : '';
+            if (sidebarFileBase64) {
+                userMsgHtml += `<div class="text-[10px] text-purple-300 font-bold mt-1"><i class="fa-solid fa-image"></i> [تم إرفاق صورة/ملف]</div>`;
+            }
+
+            messagesContainer.innerHTML += `
+                <div class="bg-blue-600 text-white p-3 rounded-2xl ml-auto max-w-[85%] font-sans shadow-sm">
+                    ${userMsgHtml}
+                </div>
+            `;
+            input.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            let currentParts = [];
+            if (userText) currentParts.push({ text: userText });
+            if (sidebarFileBase64) {
+                currentParts.push({
+                    inline_data: {
+                        mime_type: sidebarFileMimeType,
+                        data: sidebarFileBase64
+                    }
+                });
+            }
+
+            aiSidebarChatHistory.push({ role: "user", parts: currentParts });
+            clearAIAttachedFile();
+
+            const loadingId = 'loading-' + Date.now();
+            messagesContainer.innerHTML += `
+                <div id="${loadingId}" class="bg-slate-800 border border-slate-700/80 p-3 rounded-2xl text-slate-400 max-w-[85%] animate-pulse">
+                    جاري التحليل والتفكير... 🧪
+                </div>
+            `;
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: aiSidebarChatHistory })
+                });
+
+                const data = await response.json();
+                const aiReply = data.candidates[0].content.parts[0].text;
+
+                document.getElementById(loadingId).remove();
+                messagesContainer.innerHTML += `
+                    <div class="bg-slate-800/90 border border-slate-700 p-3.5 rounded-2xl text-slate-100 max-w-[85%] leading-relaxed">
+                        ${aiReply}
+                    </div>
+                `;
+
+                aiSidebarChatHistory.push({ role: "model", parts: [{ text: aiReply }] });
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            } catch (err) {
+                if (document.getElementById(loadingId)) document.getElementById(loadingId).remove();
+                messagesContainer.innerHTML += `<div class="bg-rose-900/60 p-3 rounded-2xl text-rose-300">عذراً، حدث خطأ أثناء الاتصال بالذكاء الاصطناعي. تأكد من إدخال API Key الصحيح.</div>`;
+            }
+        }
+
+        async function openSmartExamModal() {
+            const topicOrPages = prompt("أدخل تفاصيل الصفحات والموضوع (مثال: أول 10 صفحات في الباب الثاني):", "أول 10 صفحات من المنهج");
+            if (!topicOrPages) return;
+
+            const difficulty = prompt("اختر مستوى الصعوبة (سهل / متوسط / صعب جداً وتفكير عالي / متدرج من السهل للصعب):", "صعب جداً وتفكير عالي");
+            const questionsCount = prompt("كم عدد الأسئلة المطلوبة؟", "10");
+
+            alert("🤖 جاري تحليل المادة واستخراج أسئلة تفكير عالي ونظام جديد بواسطة الذكاء الاصطناعي...");
+
+            const promptText = `أنت واضع امتحانات كيمياء ثانوي عام متخصص في أسئلة مستويات التفكير العليا (النظام الجديد).
+قم بإنشاء امتحان كيمياء مكون من (${questionsCount}) سؤال اختياري بناءً على: (${topicOrPages}).
+
+شروط الأسئلة المهمة جداً:
+1. اللغة: اكتب جميع الأسئلة والخيارات والشرح باللغة العربية الفصحى الدقيقة، ما عدا الصيغ والرموز الكيميائية والمعادلات (مثل Fe²⁺, AgNO₃, HCl, H₂SO₄, SO₂...) اتركها كما هي بالرموز اللاتينية/الإنجليزية.
+2. الصعوبة والتفكير: مستوى الصعوبة المطلوب هو (${difficulty}). ركز على أسئلة الربط، التحليلات، التغيرات في أعداد الأكسدة، المتراكبات، والأفكار غير المباشرة.
+3. التنسيق: يجب أن ترجع الإجابة فقط بتنسيق JSON خالص (Array) بدون أي مقدمات أو مؤخرات أو Markdown، بالصيغة التالية تماماً:
+[
+  {
+    "q": "نص السؤال باللغة العربية مع الرموز اللاتينية...",
+    "options": ["اختيار أ", "اختيار ب", "اختيار ج", "اختيار د"],
+    "correct": 0,
+    "explain": "الشرح والتوضيح العلمي بأسلوب مبسط بالعربية"
+  }
+]`;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+                });
+
+                const data = await response.json();
+                let rawText = data.candidates[0].content.parts[0].text;
+                
+                rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+                const generatedQuestions = JSON.parse(rawText);
+
+                if (Array.isArray(generatedQuestions) && generatedQuestions.length > 0) {
+                    state.questions = generatedQuestions;
+                    document.getElementById('editor-questions-count').value = generatedQuestions.length;
+                    renderEditorQuestions();
+                    alert(`🎉 تم توليد (${generatedQuestions.length}) سؤال تفكير عالي بنجاح! يمكنك مراجعتها والضغط على "حفظ ونشر".`);
+                }
+            } catch (e) {
+                console.error("AI Generation Error:", e);
+                alert("حدث خطأ أثناء توليد الامتحان، حاول مرة أخرى.");
+            }
+        }
+
+        // ====================================================
+        // EXISTING APP LOGIC
+        // ====================================================
         const chemKeyboardCategories = {
             symbols: ["₀","₁","₂","₃","₄","₅","₆","₇","₈","₉","⁺","⁻","²⁺","³⁺","⁴⁺","⁻²","⁻³","→","⇌","↑","↓","Δ","conc","dil","(s)","(l)","(g)","(aq)"],
             anions: ["CO₃²⁻","HCO₃⁻","SO₃²⁻","S²⁻","S₂O₃²⁻","NO₂⁻","Cl⁻","Br⁻","I⁻","NO₃⁻","PO₄³⁻","SO₄²⁻","CH₃COO⁻","OH⁻","C₂O₄²⁻"],
@@ -538,7 +792,6 @@
         };
 
         window.addEventListener('firebase-ready', () => {
-            // الاستماع لحالة الامتحان والأسئلة مع إنشاء تهيئة افتراضية إن لم تكن موجودة
             onSnapshot(doc(db, "exam_config", "main"), async (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
@@ -550,7 +803,6 @@
                     }
                     applyLoginUIState();
                 } else {
-                    // إنشاء التهيئة الأولى تلقائياً في Firebase إن كانت القاعدة فارغة
                     try {
                         await setDoc(doc(db, "exam_config", "main"), {
                             isSystemActive: false,
@@ -564,7 +816,6 @@
                 }
             });
 
-            // الاستماع لنتائج الطلاب
             onSnapshot(collection(db, "submissions"), (snapshot) => {
                 let submissions = [];
                 snapshot.forEach(doc => submissions.push(doc.data()));
@@ -659,7 +910,8 @@
                     </div>
                     `}
                 </div>
-            `}).join('');
+            `;
+            }).join('');
         }
 
         function selectOption(qIdx, oIdx) {
@@ -788,7 +1040,6 @@
             location.reload();
         }
 
-        // لوحة المعلمة
         function openTeacherAuthModal() {
             document.getElementById('teacher-auth-modal').classList.remove('hidden');
         }
@@ -835,7 +1086,6 @@
             alert("تم إلغاء التفعيل وإغلاق التسجيل على جميع الأجهزة.");
         }
 
-        // تصفير نتائج الطلاب في Firebase بالكامل
         async function resetAllData() {
             if (confirm("هل أنت متأكد من تصفير وإزالة جميع النتائج المسجلة للطلاب؟")) {
                 try {
@@ -933,7 +1183,8 @@
                     </div>
                     `}
                 </div>
-            `}).join('');
+            `;
+            }).join('');
 
             document.getElementById('student-detail-modal').classList.remove('hidden');
         }
@@ -942,7 +1193,6 @@
             document.getElementById('student-detail-modal').classList.add('hidden');
         }
 
-        // محرّر الأسئلة للـ Teacher
         function openExamEditor() {
             document.getElementById('exam-editor-modal').classList.remove('hidden');
             document.getElementById('editor-questions-count').value = state.questions.length;
@@ -1092,7 +1342,8 @@
                     </div>
                     ` : ''}
                 </div>
-            `}).join('');
+            `;
+            }).join('');
         }
 
         function updateEditorQuestionsCount() {

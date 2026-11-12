@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة الكيمياء - المعلمة أماني منصور</title>
-    <!-- Favicon (أيقونة التبويب الاحترافية) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%232563eb'/><stop offset='100%' stop-color='%237c3aed'/></linearGradient></defs><rect width='100' height='100' rx='28' fill='url(%23g)'/><path d='M42 26 h16 v10 h-16 z M50 36 v18 L32 72 c-3 5 0 10 6 10 h24 c6 0 9-5 6-10 L50 54' fill='none' stroke='%23ffffff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/><circle cx='44' cy='68' r='3.5' fill='%2360a5fa'/><circle cx='54' cy='62' r='2.5' fill='%2393c5fd'/><circle cx='48' cy='74' r='2' fill='%23ffffff'/></svg>">
-    <!-- Tailwind CSS -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%232563eb'/><stop offset='100%25' stop-color='%237c3aed'/></linearGradient></defs><rect width='100' height='100' rx='28' fill='url(%23g)'/><path d='M42 26 h16 v10 h-16 z M50 36 v18 L32 72 c-3 5 0 10 6 10 h24 c6 0 9-5 6-10 L50 54' fill='none' stroke='%23ffffff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/><circle cx='44' cy='68' r='3.5' fill='%2360a5fa'/><circle cx='54' cy='62' r='2.5' fill='%2393c5fd'/><circle cx='48' cy='74' r='2' fill='%23ffffff'/></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,14 +18,10 @@
             }
         };
     </script>
-    <!-- FontAwesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Firebase SDK (Modular) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, getDocs, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         const firebaseConfig = {
             apiKey: "AIzaSyA2iP6vpzNbK1eXzzNzr4eekd2HXvUm4EE",
             authDomain: "chemistry-exam-amani.firebaseapp.com",
@@ -37,26 +31,288 @@
             appId: "1:732680929251:web:c2707b38788265ac6daad6",
             measurementId: "G-JFN3W5MP0Y"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
-        window.db = db;
-        window.doc = doc;
-        window.setDoc = setDoc;
-        window.getDoc = getDoc;
-        window.collection = collection;
-        window.onSnapshot = onSnapshot;
-        window.getDocs = getDocs;
-        window.deleteDoc = deleteDoc;
-        window.serverTimestamp = serverTimestamp;
-
+        window.db = db; window.doc = doc; window.setDoc = setDoc;
+        window.getDoc = getDoc; window.collection = collection;
+        window.onSnapshot = onSnapshot; window.serverTimestamp = serverTimestamp;
         window.dispatchEvent(new Event('firebase-ready'));
     </script>
-
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
-        body { font-family: 'Tajawal', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+        * { box-sizing: border-box; }
+        body { font-family: 'Tajawal', sans-serif; margin: 0; }
+
+        /* ===== AI SIDEBAR ===== */
+        #ai-fab {
+            position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+            border: none; cursor: pointer; color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 8px 32px rgba(99,102,241,0.55), 0 2px 8px rgba(0,0,0,0.3);
+            transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s;
+        }
+        #ai-fab:hover { transform: scale(1.12); box-shadow: 0 12px 40px rgba(99,102,241,0.7); }
+        #ai-fab .pulse-ring {
+            position: absolute; width: 100%; height: 100%; border-radius: 50%;
+            border: 2px solid rgba(167,139,250,0.6);
+            animation: pulse-ring 2s ease-out infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+        #ai-fab .fab-tooltip {
+            position: absolute; right: 70px; top: 50%; transform: translateY(-50%);
+            background: #1e1b4b; color: #c4b5fd; font-size: 12px; font-weight: 700;
+            padding: 6px 12px; border-radius: 8px; white-space: nowrap;
+            border: 1px solid rgba(99,102,241,0.3);
+            pointer-events: none; opacity: 0; transition: opacity 0.2s;
+        }
+        #ai-fab:hover .fab-tooltip { opacity: 1; }
+
+        /* Sidebar Panel */
+        #ai-sidebar {
+            position: fixed; bottom: 0; right: -440px; z-index: 999;
+            width: 420px; height: 100vh; max-height: 100vh;
+            background: #0f0e1a;
+            border-left: 1px solid rgba(99,102,241,0.25);
+            display: flex; flex-direction: column;
+            transition: right 0.35s cubic-bezier(.4,0,.2,1);
+            box-shadow: -8px 0 40px rgba(0,0,0,0.5);
+        }
+        #ai-sidebar.open { right: 0; }
+
+        .ai-sidebar-header {
+            padding: 16px 18px; display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid rgba(99,102,241,0.2);
+            background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.1));
+            flex-shrink: 0;
+        }
+        .ai-sidebar-header .ai-title-area { display: flex; align-items: center; gap: 10px; }
+        .ai-avatar {
+            width: 40px; height: 40px; border-radius: 12px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; color: white; flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(99,102,241,0.4);
+        }
+        .ai-title { font-size: 15px; font-weight: 800; color: #e0d9ff; }
+        .ai-subtitle { font-size: 11px; color: #8b7bbd; }
+        .ai-status-dot {
+            width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
+            box-shadow: 0 0 6px #22c55e; display: inline-block; margin-left: 4px;
+            animation: status-blink 2s ease-in-out infinite;
+        }
+        @keyframes status-blink {
+            0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
+        }
+
+        /* Teacher AI Tools Bar */
+        #teacher-ai-tools {
+            display: none; padding: 10px 14px;
+            background: rgba(99,102,241,0.08);
+            border-bottom: 1px solid rgba(99,102,241,0.15);
+            flex-shrink: 0;
+        }
+        #teacher-ai-tools.visible { display: block; }
+        .ai-tool-title { font-size: 11px; font-weight: 700; color: #8b5cf6; margin-bottom: 8px; }
+        .ai-tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .ai-tool-btn {
+            background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.25);
+            color: #c4b5fd; border-radius: 10px; padding: 8px 10px;
+            font-size: 11px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .ai-tool-btn:hover { background: rgba(99,102,241,0.25); border-color: rgba(99,102,241,0.5); color: white; }
+        .ai-tool-btn i { font-size: 13px; }
+
+        /* Chat Messages Area */
+        #ai-messages {
+            flex: 1; overflow-y: auto; padding: 16px 14px;
+            display: flex; flex-direction: column; gap: 12px;
+            scroll-behavior: smooth;
+        }
+        #ai-messages::-webkit-scrollbar { width: 4px; }
+        #ai-messages::-webkit-scrollbar-track { background: transparent; }
+        #ai-messages::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.3); border-radius: 4px; }
+
+        .msg-wrapper { display: flex; gap: 8px; align-items: flex-end; max-width: 100%; }
+        .msg-wrapper.user { flex-direction: row-reverse; }
+        .msg-bubble {
+            max-width: 82%; padding: 10px 14px; border-radius: 16px;
+            font-size: 13px; line-height: 1.65;
+            word-break: break-word;
+        }
+        .msg-bubble.ai {
+            background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.2);
+            color: #ddd6fe; border-bottom-left-radius: 4px;
+        }
+        .msg-bubble.user {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white; border-bottom-right-radius: 4px;
+            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+        }
+        .msg-mini-avatar {
+            width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 12px;
+        }
+        .msg-mini-avatar.ai { background: linear-gradient(135deg, #6366f1, #a855f7); color: white; }
+        .msg-mini-avatar.user { background: rgba(99,102,241,0.2); color: #a78bfa; }
+
+        /* Thinking indicator */
+        .thinking-bubble {
+            background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.15);
+            border-radius: 16px; border-bottom-left-radius: 4px;
+            padding: 10px 14px; display: flex; align-items: center; gap: 6px;
+        }
+        .thinking-dot {
+            width: 7px; height: 7px; border-radius: 50%; background: #8b5cf6;
+            animation: thinking-bounce 1.2s ease-in-out infinite;
+        }
+        .thinking-dot:nth-child(2) { animation-delay: 0.2s; }
+        .thinking-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes thinking-bounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        /* Suggestions */
+        .suggestions-row { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 2px; }
+        .suggestion-chip {
+            background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.25);
+            color: #a78bfa; border-radius: 20px; padding: 5px 12px;
+            font-size: 11px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; white-space: nowrap; font-family: 'Tajawal', sans-serif;
+        }
+        .suggestion-chip:hover { background: rgba(99,102,241,0.25); color: #c4b5fd; border-color: rgba(99,102,241,0.5); }
+
+        /* Input Area */
+        .ai-input-area {
+            padding: 12px 14px; border-top: 1px solid rgba(99,102,241,0.2);
+            background: rgba(99,102,241,0.05); flex-shrink: 0;
+        }
+        /* Image preview */
+        #ai-img-preview-wrap {
+            display: none; margin-bottom: 8px; position: relative;
+            background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2);
+            border-radius: 10px; padding: 6px; align-items: center; gap: 8px;
+        }
+        #ai-img-preview-wrap.show { display: flex; }
+        #ai-img-preview { max-height: 60px; border-radius: 6px; }
+        #ai-img-preview-wrap .remove-img-btn {
+            position: absolute; top: -6px; right: -6px; width: 20px; height: 20px;
+            background: #ef4444; border-radius: 50%; border: none; cursor: pointer;
+            color: white; font-size: 10px; display: flex; align-items: center; justify-content: center;
+        }
+        .ai-input-row { display: flex; gap: 8px; align-items: flex-end; }
+        #ai-textarea {
+            flex: 1; background: rgba(15,14,26,0.8); border: 1px solid rgba(99,102,241,0.25);
+            border-radius: 14px; color: #e2e0ff; font-family: 'Tajawal', sans-serif;
+            font-size: 13px; padding: 10px 14px; resize: none; outline: none;
+            min-height: 44px; max-height: 120px; line-height: 1.5; direction: rtl;
+            transition: border-color 0.2s;
+        }
+        #ai-textarea:focus { border-color: rgba(99,102,241,0.6); }
+        #ai-textarea::placeholder { color: rgba(167,139,250,0.4); }
+        .ai-send-btn {
+            width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none; cursor: pointer; color: white; font-size: 15px;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+        }
+        .ai-send-btn:hover { transform: scale(1.05); box-shadow: 0 6px 16px rgba(99,102,241,0.5); }
+        .ai-send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+        .ai-attach-btn {
+            width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+            background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2);
+            cursor: pointer; color: #8b7bbd; font-size: 15px;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
+        .ai-attach-btn:hover { background: rgba(99,102,241,0.2); color: #a78bfa; }
+        .ai-input-hint { font-size: 10px; color: rgba(139,123,189,0.5); text-align: center; margin-top: 6px; }
+
+        /* chem rendering */
+        .chem-inline {
+            font-family: 'Courier New', monospace; font-size: 12px;
+            background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.2);
+            border-radius: 4px; padding: 1px 5px; color: #93c5fd; white-space: nowrap;
+            display: inline-block; direction: ltr;
+        }
+        .ai-msg-content { direction: rtl; text-align: right; }
+        .ai-msg-content strong { color: #c4b5fd; }
+        .ai-msg-content .chem-block {
+            background: rgba(0,0,0,0.3); border: 1px solid rgba(99,102,241,0.2);
+            border-radius: 8px; padding: 8px 12px; margin: 6px 0;
+            font-family: 'Courier New', monospace; font-size: 12px; color: #93c5fd;
+            direction: ltr; text-align: left; overflow-x: auto;
+        }
+        .ai-msg-content .info-box {
+            background: rgba(99,102,241,0.08); border-right: 3px solid #6366f1;
+            border-radius: 0 8px 8px 0; padding: 8px 12px; margin: 6px 0;
+            font-size: 12px; color: #c4b5fd;
+        }
+        .ai-msg-content .success-box {
+            background: rgba(34,197,94,0.08); border-right: 3px solid #22c55e;
+            border-radius: 0 8px 8px 0; padding: 8px 12px; margin: 6px 0;
+            font-size: 12px; color: #86efac;
+        }
+        .ai-msg-content .warning-box {
+            background: rgba(234,179,8,0.08); border-right: 3px solid #eab308;
+            border-radius: 0 8px 8px 0; padding: 8px 12px; margin: 6px 0;
+            font-size: 12px; color: #fde047;
+        }
+        .ai-msg-content ol, .ai-msg-content ul {
+            padding-right: 18px; margin: 6px 0; font-size: 13px;
+        }
+        .ai-msg-content li { margin-bottom: 3px; color: #c4b5fd; }
+        .ai-msg-content h4 { color: #e0d9ff; font-size: 14px; font-weight: 700; margin: 8px 0 4px; }
+
+        /* Modal backdrop overlay for sidebar */
+        #ai-overlay {
+            position: fixed; inset: 0; z-index: 998;
+            background: rgba(0,0,0,0.3); display: none;
+            backdrop-filter: blur(2px);
+        }
+        #ai-overlay.show { display: block; }
+
+        /* Exam gen modal inside sidebar */
+        .gen-exam-panel {
+            background: rgba(99,102,241,0.06);
+            border: 1px solid rgba(99,102,241,0.2);
+            border-radius: 12px; padding: 12px; margin: 0 14px 10px; flex-shrink: 0;
+            display: none;
+        }
+        .gen-exam-panel.show { display: block; }
+        .gen-panel-title { font-size: 12px; font-weight: 800; color: #8b5cf6; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .gen-row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; align-items: center; }
+        .gen-label { font-size: 11px; color: #9ca3af; white-space: nowrap; }
+        .gen-select, .gen-input {
+            background: rgba(15,14,26,0.8); border: 1px solid rgba(99,102,241,0.25);
+            color: #e2e0ff; border-radius: 8px; padding: 5px 10px;
+            font-size: 11px; font-family: 'Tajawal', sans-serif; outline: none;
+        }
+        .gen-select:focus, .gen-input:focus { border-color: rgba(99,102,241,0.6); }
+        .gen-generate-btn {
+            width: 100%; padding: 9px; background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none; border-radius: 10px; color: white; font-weight: 800;
+            font-size: 12px; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 6px; font-family: 'Tajawal', sans-serif;
+            transition: all 0.2s; box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+        }
+        .gen-generate-btn:hover { box-shadow: 0 6px 20px rgba(99,102,241,0.5); }
+        .gen-generate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            #ai-sidebar { width: 100vw; }
+        }
+
+        /* ===== Main page (unchanged styling) ===== */
         .chem-input { direction: ltr; text-align: right; }
     </style>
 </head>
@@ -92,23 +348,20 @@
                 </div>
                 <h2 class="text-2xl font-bold text-white mb-2">تسجيل دخول الطالب</h2>
                 <p id="login-subheading" class="text-slate-400 text-sm mb-6">يرجى إدخال اسمك المعرف وكود الطالب لبدء الاختبار</p>
-
                 <div class="space-y-4 text-right mb-6">
                     <div>
                         <label class="block text-xs font-semibold text-slate-300 mb-1">اسم الطالب رباعي</label>
                         <input type="text" id="student-name" placeholder="أدخل اسمك بالكامل..." class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-white outline-none text-sm" disabled>
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-300 mb-1">رقم المعرف (Student ID)</label>
                         <input type="number" id="student-id" placeholder="أدخل كود الطالب..." class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-white outline-none text-sm" disabled>
                         <p id="student-id-hint" class="text-[11px] text-amber-400/90 mt-1 flex items-center gap-1">
                             <i class="fa-solid fa-lock"></i>
-                            <span>جاري التحقق من حالة الامتحان...</span>
+                            <span>التسجيل مغلق مؤقتاً لحين فتح الامتحان من قِبل المعلمة.</span>
                         </p>
                     </div>
                 </div>
-
                 <button id="start-exam-btn" onclick="startExam()" class="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-2 opacity-50 cursor-not-allowed" disabled>
                     <span>بدء الامتحان الآن</span>
                     <i class="fa-solid fa-arrow-left"></i>
@@ -130,9 +383,7 @@
                     <span id="timer-display" class="font-mono">00:00</span>
                 </div>
             </div>
-
             <div id="questions-container" class="space-y-6"></div>
-
             <div class="text-center pt-4">
                 <button onclick="submitExam()" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2 mx-auto">
                     <i class="fa-solid fa-paper-plane"></i>
@@ -149,7 +400,6 @@
                 </div>
                 <h2 class="text-2xl font-bold text-white mb-1">تم تسليم الاختبار بنجاح</h2>
                 <p class="text-slate-400 text-sm mb-4">إليك تفاصيل نتيجتك وحالة إجاباتك</p>
-
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-lg mx-auto mb-6">
                     <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
                         <span class="block text-[11px] text-slate-400">الدرجة الكلية</span>
@@ -168,7 +418,6 @@
                         <span id="res-id" class="text-xl font-extrabold text-purple-400">#0</span>
                     </div>
                 </div>
-
                 <div class="flex flex-wrap items-center justify-center gap-3">
                     <button onclick="toggleReviewSection()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl text-sm transition flex items-center gap-2">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -180,7 +429,6 @@
                     </button>
                 </div>
             </div>
-
             <div id="review-section" class="hidden space-y-4">
                 <h3 class="text-lg font-bold text-white flex items-center gap-2 border-b border-slate-700 pb-2">
                     <i class="fa-solid fa-list-check text-blue-400"></i>
@@ -211,7 +459,6 @@
     <!-- Teacher Dashboard Modal -->
     <div id="teacher-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden overflow-y-auto p-4 md:p-6">
         <div class="max-w-5xl mx-auto bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 space-y-6">
-            
             <div class="flex items-center justify-between border-b border-slate-700 pb-4">
                 <div class="flex items-center gap-3">
                     <h2 class="text-xl font-bold text-white flex items-center gap-2">
@@ -237,8 +484,6 @@
                     </button>
                 </div>
             </div>
-
-            <!-- Settings Panel -->
             <div class="bg-slate-900/90 border border-slate-700 rounded-xl p-4 space-y-4">
                 <h3 class="text-sm font-bold text-blue-300">إعدادات الامتحان والتسجيل</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -251,7 +496,6 @@
                         <input type="number" id="setting-duration" placeholder="مثال: 40" value="40" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white outline-none focus:border-blue-500 text-sm">
                     </div>
                 </div>
-
                 <div class="flex flex-wrap items-center gap-3 pt-2">
                     <button onclick="saveExamSettings()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold rounded-xl transition flex items-center gap-2 shadow-lg">
                         <i class="fa-solid fa-lock-open"></i>
@@ -263,8 +507,6 @@
                     </button>
                 </div>
             </div>
-
-            <!-- Stats Bar -->
             <div class="grid grid-cols-3 gap-3">
                 <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
                     <span class="block text-xs text-slate-400">إجمالي الطلاب المسجلين</span>
@@ -279,8 +521,6 @@
                     <span id="stat-high" class="text-2xl font-bold text-amber-400">0</span>
                 </div>
             </div>
-
-            <!-- Results Table -->
             <div class="overflow-x-auto bg-slate-900 border border-slate-700 rounded-xl">
                 <p class="text-[11px] text-blue-400 p-2 text-center bg-blue-950/40 border-b border-slate-800">💡 انقر على سطر أي طالب لعرض ورقة إجاباته والتفاصيل بالكامل</p>
                 <table class="w-full text-right text-xs" id="pdf-table">
@@ -294,17 +534,14 @@
                         </tr>
                     </thead>
                     <tbody id="teacher-table-body" class="divide-y divide-slate-800 text-slate-200">
-                        <tr>
-                            <td colspan="5" class="p-6 text-center text-slate-500">لا توجد نتائج مسجلة حتى الآن.</td>
-                        </tr>
+                        <tr><td colspan="5" class="p-6 text-center text-slate-500">لا توجد نتائج مسجلة حتى الآن.</td></tr>
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 
-    <!-- Student Detail View Modal ( للمعلمة ) -->
+    <!-- Student Detail Modal -->
     <div id="student-detail-modal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 hidden overflow-y-auto p-4 md:p-6">
         <div class="max-w-3xl mx-auto bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 space-y-4">
             <div class="flex items-center justify-between border-b border-slate-700 pb-3">
@@ -317,7 +554,6 @@
                     <i class="fa-solid fa-xmark"></i> إغلاق
                 </button>
             </div>
-
             <div id="student-answers-list" class="space-y-4"></div>
         </div>
     </div>
@@ -333,18 +569,11 @@
                     </h2>
                     <p class="text-xs text-slate-400">قم بإضافة وتعديل الأسئلة وإرفاق الصور وكتابة الرموز الكيميائية</p>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="openSmartExamModal()" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold rounded-xl shadow-lg transition flex items-center gap-2 border border-purple-400/30">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                        <span>توليد امتحان ذكي (AI)</span>
-                    </button>
-                    <button onclick="closeExamEditor()" class="text-slate-400 hover:text-white px-3 py-1.5 bg-slate-700 rounded-lg text-sm">
-                        <i class="fa-solid fa-xmark"></i> إغلاق
-                    </button>
-                </div>
+                <button onclick="closeExamEditor()" class="text-slate-400 hover:text-white px-3 py-1.5 bg-slate-700 rounded-lg text-sm">
+                    <i class="fa-solid fa-xmark"></i> إغلاق
+                </button>
             </div>
 
-            <!-- Templates Tabs -->
             <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 space-y-2">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-bold text-purple-300">النماذج المحفوظة (10 نماذج):</span>
@@ -356,7 +585,6 @@
                 <div class="flex gap-1.5 overflow-x-auto pb-1" id="templates-bar"></div>
             </div>
 
-            <!-- Keyboard & Controls -->
             <div class="bg-slate-900 border border-slate-700 rounded-xl p-4 space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-bold text-blue-300 flex items-center gap-1.5">
@@ -372,7 +600,6 @@
                         <button onclick="switchTab('elements')" id="tab-elements" class="tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs">العناصر</button>
                     </div>
                 </div>
-
                 <div id="chem-symbols-keyboard" class="flex flex-wrap gap-1.5 p-2 bg-slate-950 rounded-lg border border-slate-800 max-h-36 overflow-y-auto"></div>
             </div>
 
@@ -392,1043 +619,949 @@
         </div>
     </div>
 
-    <!-- AI Assistant Sidebar Drawer & Trigger Button -->
-    <div id="ai-system-wrapper" class="z-50">
-        <!-- Floating Trigger Button (يمين أسفل الشاشة) -->
-        <button onclick="toggleAISidebar()" class="fixed bottom-6 right-6 z-40 px-4 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-2xl shadow-2xl shadow-blue-500/30 border border-white/20 backdrop-blur-md flex items-center gap-3 transition-all duration-300 transform hover:scale-105 active:scale-95 group">
-            <div class="relative flex items-center justify-center">
-                <i class="fa-solid fa-sparkles text-lg text-blue-200 group-hover:rotate-12 transition duration-300"></i>
-                <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
-                <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full"></span>
-            </div>
-            <span class="font-bold text-sm tracking-wide">المساعد الذكي</span>
-        </button>
+    <!-- ========== AI SIDEBAR ========== -->
+    <div id="ai-overlay" onclick="closeAISidebar()"></div>
 
-        <!-- Overlay Backdrop -->
-        <div id="ai-sidebar-overlay" onclick="toggleAISidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
+    <!-- FAB Button -->
+    <button id="ai-fab" onclick="toggleAISidebar()" title="المساعد الذكي للكيمياء">
+        <div class="pulse-ring"></div>
+        <i class="fa-solid fa-atom"></i>
+        <span class="fab-tooltip">المساعد الذكي 🧪</span>
+    </button>
 
-        <!-- Right Sidebar Panel Drawer -->
-        <aside id="ai-sidebar-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-slate-900/95 border-l border-slate-700/80 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between">
-            
-            <!-- Sidebar Header -->
-            <div class="p-4 bg-slate-800/90 border-b border-slate-700/80 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
-                        <i class="fa-solid fa-brain text-lg"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-                            <span>مساعد الكيمياء الذكي</span>
-                            <span class="text-[10px] bg-purple-500/20 border border-purple-400/30 text-purple-300 px-2 py-0.5 rounded-full">Gemini AI</span>
-                        </h3>
-                        <p class="text-[11px] text-slate-400">منصة المعلمة أماني منصور</p>
-                    </div>
+    <!-- Sidebar Panel -->
+    <div id="ai-sidebar">
+        <!-- Header -->
+        <div class="ai-sidebar-header">
+            <div class="ai-title-area">
+                <div class="ai-avatar">
+                    <i class="fa-solid fa-atom"></i>
                 </div>
-                <button onclick="toggleAISidebar()" class="w-8 h-8 rounded-lg bg-slate-700/60 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition">
-                    <i class="fa-solid fa-xmark text-base"></i>
+                <div>
+                    <div class="ai-title">مساعد الكيمياء الذكي <span class="ai-status-dot"></span></div>
+                    <div class="ai-subtitle">خبير كيمياء الثانوية العامة · أماني منصور</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="clearAIChat()" title="محادثة جديدة" style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:6px 10px;color:#8b7bbd;cursor:pointer;font-size:11px;transition:all 0.2s;" onmouseover="this.style.color='#c4b5fd'" onmouseout="this.style.color='#8b7bbd'">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </button>
+                <button onclick="closeAISidebar()" style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:6px 10px;color:#8b7bbd;cursor:pointer;font-size:13px;transition:all 0.2s;" onmouseover="this.style.color='#c4b5fd'" onmouseout="this.style.color='#8b7bbd'">
+                    <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
+        </div>
 
-            <!-- Chat History Container -->
-            <div id="ai-chat-messages" class="flex-1 p-4 overflow-y-auto space-y-4 text-xs font-sans">
-                <div class="bg-slate-800/80 border border-slate-700/70 p-3.5 rounded-2xl text-slate-200 space-y-2">
-                    <div class="flex items-center gap-2 text-blue-400 font-bold">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                        <span>مرحباً بك!</span>
-                    </div>
-                    <p class="leading-relaxed text-slate-300">أنا المساعد الذكي الخاص بالمنصة. يمكنني شرح أفكار منهج الكيمياء، أو قراءة الصور والصفحات المرفقة، وتوليد أسئلة امتحانات وتدريج صعوبتها للمعلمة والطلاب! 🧪</p>
-                </div>
+        <!-- Teacher AI Tools (shown only when teacher is logged in) -->
+        <div id="teacher-ai-tools">
+            <div class="ai-tool-title"><i class="fa-solid fa-wand-magic-sparkles"></i> أدوات المعلمة الذكية</div>
+            <div class="ai-tools-grid">
+                <button class="ai-tool-btn" onclick="quickGenExam('hard')">
+                    <i class="fa-solid fa-fire text-orange-400"></i> توليد امتحان صعب
+                </button>
+                <button class="ai-tool-btn" onclick="quickGenExam('graded')">
+                    <i class="fa-solid fa-layer-group text-blue-400"></i> امتحان متدرج
+                </button>
+                <button class="ai-tool-btn" onclick="openImageExamGen()">
+                    <i class="fa-solid fa-image text-purple-400"></i> امتحان من صورة
+                </button>
+                <button class="ai-tool-btn" onclick="quickGenExam('review')">
+                    <i class="fa-solid fa-rotate text-emerald-400"></i> أسئلة مراجعة
+                </button>
             </div>
+        </div>
 
-            <!-- File Upload Preview Bar -->
-            <div id="ai-attached-file-bar" class="hidden px-4 py-2 bg-slate-950/80 border-t border-slate-800 flex items-center justify-between text-xs text-purple-300">
-                <span id="ai-attached-file-name" class="truncate max-w-[250px]"><i class="fa-solid fa-file-image ml-1"></i> تم إرفاق ملف</span>
-                <button onclick="clearAIAttachedFile()" class="text-rose-400 hover:text-rose-300 font-bold px-2">إزالة ×</button>
+        <!-- Exam Gen Panel (from image) -->
+        <div id="gen-exam-panel" class="gen-exam-panel">
+            <div class="gen-panel-title"><i class="fa-solid fa-image text-purple-400"></i> توليد امتحان من صورة أو ملف</div>
+            <div id="gen-img-preview-wrap" style="display:none;margin-bottom:8px;">
+                <img id="gen-img-preview" src="" style="max-height:80px;border-radius:8px;border:1px solid rgba(99,102,241,0.3);">
             </div>
-
-            <!-- Sidebar Input Section -->
-            <div class="p-4 bg-slate-800/90 border-t border-slate-700/80 space-y-3">
-                <div class="flex items-center gap-2">
-                    <label class="p-2.5 bg-slate-900 hover:bg-slate-700 text-purple-400 hover:text-purple-300 rounded-xl cursor-pointer border border-slate-700 transition flex items-center justify-center" title="إرفاق صورة أو صفحة من كتاب">
-                        <i class="fa-solid fa-paperclip text-sm"></i>
-                        <input type="file" id="ai-file-input" accept="image/*" class="hidden" onchange="handleAISidebarFile(this)">
-                    </label>
-                    
-                    <input type="text" id="ai-chat-input" onkeypress="if(event.key==='Enter') sendAISidebarMessage()" placeholder="اسأل سؤالاً أو اطلب شرح/امتحان..." class="flex-1 px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs outline-none focus:border-blue-500 transition placeholder:text-slate-500">
-                    
-                    <button onclick="sendAISidebarMessage()" class="px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center justify-center">
-                        <i class="fa-solid fa-paper-plane"></i>
-                    </button>
-                </div>
+            <label style="display:block;padding:8px;background:rgba(99,102,241,0.1);border:1px dashed rgba(99,102,241,0.3);border-radius:8px;cursor:pointer;text-align:center;font-size:11px;color:#a78bfa;margin-bottom:8px;">
+                <i class="fa-solid fa-upload" style="margin-left:4px;"></i> ارفع صورة أو PDF
+                <input type="file" id="gen-exam-file" accept="image/*,.pdf" style="display:none;" onchange="handleGenExamFile(this)">
+            </label>
+            <div class="gen-row">
+                <span class="gen-label">عدد الأسئلة:</span>
+                <select id="gen-q-count" class="gen-select"><option>10</option><option>15</option><option selected>20</option><option>25</option><option>30</option></select>
+                <span class="gen-label">المستوى:</span>
+                <select id="gen-difficulty" class="gen-select">
+                    <option value="hard">صعب جداً</option>
+                    <option value="graded" selected>متدرج</option>
+                    <option value="medium">متوسط</option>
+                </select>
             </div>
+            <div class="gen-row">
+                <span class="gen-label">الصفحات من:</span>
+                <input type="number" id="gen-page-from" class="gen-input" style="width:50px;" value="1" min="1">
+                <span class="gen-label">إلى:</span>
+                <input type="number" id="gen-page-to" class="gen-input" style="width:50px;" value="10" min="1">
+            </div>
+            <button id="gen-generate-btn" class="gen-generate-btn" onclick="generateExamFromMaterial()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> توليد الامتحان الآن
+            </button>
+        </div>
 
-        </aside>
+        <!-- Messages -->
+        <div id="ai-messages">
+            <!-- Welcome message rendered by JS -->
+        </div>
+
+        <!-- Input -->
+        <div class="ai-input-area">
+            <div id="ai-img-preview-wrap">
+                <img id="ai-img-preview" src="">
+                <button class="remove-img-btn" onclick="removeAttachedImage()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="ai-input-row">
+                <label class="ai-attach-btn" title="إرفاق صورة">
+                    <i class="fa-solid fa-paperclip"></i>
+                    <input type="file" id="ai-img-input" accept="image/*" style="display:none;" onchange="attachImageToChat(this)">
+                </label>
+                <textarea id="ai-textarea" rows="1" placeholder="اسأل سؤالك في الكيمياء هنا..." 
+                    onkeydown="handleAIKey(event)"
+                    oninput="autoResizeTA(this)"></textarea>
+                <button class="ai-send-btn" id="ai-send-btn" onclick="sendAIMessage()">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="ai-input-hint">اضغط Enter للإرسال · Shift+Enter لسطر جديد</div>
+        </div>
     </div>
 
-    <!-- App Logic -->
+    <!-- ========== SCRIPTS ========== -->
     <script>
-        // ====================================================
-        // GEMINI AI CONFIGURATION
-        // ====================================================
-        // مفتاح مشفر لتجاوز فحص GitHub ومنع الحظر التلقائي
-        const _k = "AQ.Ab8RN6K2sn-qCv0PK1CEbO9MHkkf42C71XPp2tsi6JeGhWFRHQ";
-        const GEMINI_API_KEY = _k.split('').join('');
-        let sidebarFileBase64 = null;
-        let sidebarFileMimeType = null;
+    // =================== CHEM KEYBOARD ===================
+    const chemKeyboardCategories = {
+        symbols: ["₀","₁","₂","₃","₄","₅","₆","₇","₈","₉","⁺","⁻","²⁺","³⁺","⁴⁺","⁻²","⁻³","→","⇌","↑","↓","Δ","conc","dil","(s)","(l)","(g)","(aq)"],
+        anions: ["CO₃²⁻","HCO₃⁻","SO₃²⁻","S²⁻","S₂O₃²⁻","NO₂⁻","Cl⁻","Br⁻","I⁻","NO₃⁻","PO₄³⁻","SO₄²⁻","CH₃COO⁻","OH⁻","C₂O₄²⁻"],
+        cations: ["Fe²⁺","Fe³⁺","Al³⁺","Cu²⁺","Ca²⁺","Ba²⁺","NH₄⁺","Ag⁺","Mg²⁺","Zn²⁺","Mn²⁺","Cr³⁺","Na⁺","K⁺","Pb²⁺"],
+        oxides: ["Fe₂O₃","Fe₃O₄","FeO","Al₂O₃","CuO","MnO₂","Cr₂O₃","KMnO₄","K₂Cr₂O₇","NaAlO₂","AgCl","AgBr","AgI","BaSO₄","CaSO₄","CaCO₃"],
+        acids: ["HCl","H₂SO₄","HNO₃","HNO₂","H₂S","H₂SO₃","H₃PO₄","CH₃COOH","NaOH","KOH","NH₄OH","Ca(OH)₂","H₂CO₃"],
+        elements: ["Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ba","Ca","Ag","Pb","Al","Na","K","O","H","N","C","S","Cl","Br","I","P"]
+    };
 
-        let aiSidebarChatHistory = [
-            {
-                role: "user",
-                parts: [{ text: "أنت معلم كيمياء خبير ومساعد ذكي لمنصة المعلمة أماني منصور. أجب على أسئلة الطلاب بدقة وبساطة ووضوح وتفاعل معهم بروح إيجابية." }]
-            },
-            {
-                role: "model",
-                parts: [{ text: "أهلاً بك! أنا جاهز لمساعدة الطلاب والمعلمة، وقراءة الصور وتوليد الأسئلة فوراً!" }]
-            }
-        ];
+    let currentTab = 'symbols';
+    let activeInputRef = null;
+    let currentTemplateId = 1;
 
-        function toggleAISidebar() {
-            const drawer = document.getElementById('ai-sidebar-drawer');
-            const overlay = document.getElementById('ai-sidebar-overlay');
-            
-            if (drawer.classList.contains('translate-x-full')) {
-                overlay.classList.remove('hidden');
-                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
-                drawer.classList.remove('translate-x-full');
-            } else {
-                overlay.classList.add('opacity-0');
-                drawer.classList.add('translate-x-full');
-                setTimeout(() => overlay.classList.add('hidden'), 300);
+    // =================== EXAM DEFAULTS ===================
+    const defaultQuestions = [
+        { q: "عند إضافة حمض الهيدروكلوريك المخفف إلى ملح صلب صيغته Na₂X، تصاعد غاز (A) عديم اللون يُسبب اسوداد ورقة مبللة بـ (CH₃COO)₂Pb. وعند إضافة محلول AgNO₃ إلى محلول نفس الملح يتكون راسب (B). ما هما (A) و (B) على الترتيب؟", options: ["SO₂ ، Ag₂SO₃", "H₂S ، Ag₂S", "CO₂ ، CaCO₃", "NO ، AgNO₂"], correct: 1, explain: "الغاز A هو H₂S والراسب B هو Ag₂S الأسود." },
+        { q: "مخلوط صلب يحتوي على (كربونات صوديوم + كبريتات باريوم). أيُّ الخطوات التالية هي الأفضل والأسرع لفصل المكوِّنين والحصول على كل منهما في صورة ناتجة صلبة ونقية؟", options: ["الذوبان في الماء ثم الترشيح والتبخير", "إضافة HCl مخفف ثم الترشيح وتجفيف الراسب ثم ترسيب الصوديوم", "الذوبان في الماء ثم إضافة AgNO₃", "الذوبان في H₂SO₄ مركز ثم التبخير"], correct: 0, explain: "كربونات الصوديوم تذوب في الماء بينما كبريتات الباريوم لا تذوب، فيسهل الفصل بالترشيح والتبخير." },
+        { q: "أُضيف حمض الكبريتيك المركز إلى ملحين صلبين (X) و (Y). مع (X) تصاعدت أبخرة برتقالية حمراء تُصفِّر ورقة مبللة بالنشا، ومع (Y) تصاعدت أبخرة بنفسجية تُزرِّق ورقة مبللة بالنشا. أيُّ العبارات التالية صحيحة بالنسبة للأنيونين؟", options: ["أنيون X هو اليوديد وأنيون Y هو البروميد", "أنيون X يتأكسد أسهل من أنيون Y", "أنيون Y أقوى كعامل مختزل من أنيون X في هذا التفاعل", "كلا الأنيونين يتبعان مجموعة كلوريد الباريوم"], correct: 2, explain: "أنيون اليوديد Y يتأكسد أسهل وبالتالي فهو عامل مختزل أقوى من البروميد X." },
+        { q: "عند إجراء تجربة الحلقة البنية للكشف عن أنيون النيترات NO₃⁻، ما هو التغير في عدد أكسدة الحديد في المركب الأساسي الناتج من صيغة المعقد [Fe(H₂O)₅(NO)]SO₄؟", options: ["يتحول الحديد من +2 إلى +1", "يتحول الحديد من +3 إلى +2", "يبقى عدد أكسدة الحديد +2 كما هو", "يكون عدد أكسدة الحديد في المعقد +1"], correct: 3, explain: "عدد أكسدة الحديد في مركب الحلقة البنية هو +1." },
+        { q: "عند تفاعل حمض HCl المخفف مع ملح ثيوكبريتات الصوديوم Na₂S₂O₃، ثم ترشيح المحلول وفصل المادة الصلبة وإضافة محلول K₂Cr₂O₇ المحمَّض للغاز المتصاعد، ما التغير المشاهَد؟", options: ["الغاز يتحول للأحمر وراسب أبيض", "المحلول المحمَّض يتحول للون الأخضر وراسب أصفر معلق", "الغاز يُسوِّد الورقة وراسب بني محمر", "الغاز يتسامى وراسب أسود"], correct: 1, explain: "يتصاعد SO₂ الذي يخضر محلول الكرومات وتترسب الكبريت الأصفر المعلق." },
+        { q: "عند إضافة كمية وفيرة من محلول NaOH إلى محلول يحتوي على خليط من أيونات (Fe²⁺، Fe³⁺، Al³⁺)، ثم ترشيح الراسب الناتج، فإن المادة الصلبة المتبقية على ورقة الترشيح تتكون من:", options: ["Fe(OH)₂ فقط", "Fe(OH)₃ و Al(OH)₃", "Fe(OH)₂ و Fe(OH)₃ فقط", "NaAlO₂ و Fe(OH)₃"], correct: 2, explain: "يدوب هيدروكسيد الألومنيوم في الزيادة من NaOH متكوناً ميتا ألومينات الصوديوم بينما يتبقى هيدروكسيد الحديد الثنائي والثلاثي." },
+        { q: "تم التمييز بين راسبين أبيضين (أحدهما فوسفات باريوم والآخر كبريتات باريوم) باستخدام حمض HCl المخفف. سبب الذوبان وعدم الذوبان يرجع إلى أن:", options: ["حمض الفوسفوريك أضعف وأكثر تطايراً من حمض الهيدروكلوريك، بينما حمض الكبريتيك أقوى وأكثر ثباتاً", "كبريتات الباريوم مركب إلكتروليتي قوي جداً", "فوسفات الباريوم تذوب في الماء أصلاً", "حمض HCl لا يتفاعل إطلاقاً مع أملاح الباريوم"], correct: 0, explain: "تذوب فوسفات الباريوم في HCl بينما لا تذوب كبريتات الباريوم." },
+        { q: "ثلاثة محاليل لأملاح فضة أُضيفت إلى ثلاثة أنيونات مختلفة: نتج راسب أصفر يذوب في النشادر المركز (A)، وراسب أصفر لا يذوب في النشادر (B)، وراسب أبيض يذوب بسرعة في النشادر (C). ما هي الأنيونات A و B و C على الترتيب؟", options: ["A: فوسفات ، B: يوديد ، C: كلوريد", "A: يوديد ، B: فوسفات ، C: بروميد", "A: كلوريد ، B: بروميد ، C: يوديد", "A: فوسفات ، B: كلوريد ، C: يوديد"], correct: 0, explain: "فوسفات الفضة راسب أصفر يذوب في النشادر، ويوديد الفضة أصفر لا يذوب، وكلوريد الفضة أبيض يذوب." },
+        { q: "كاتيون ينتمي للمجموعة التحليلية الخامسة، عند تعريض ملحه الجاف للهب بنزن غير المضيء يكتسب اللهبُ لوناً أحمر طوبياً، وحين إضافة محلول (NH₄)₂CO₃ لمحلول ملحه يتكون راسب أبيض يذوب في حمض الكربونيك. ما هو الكاتيون؟", options: ["Ba²⁺", "Ca²⁺", "Cu²⁺", "Fe²⁺"], correct: 1, explain: "كاتيون الكالسيوم Ca²⁺ يعطي لوناً أحمر طوبياً مع لهب بنزن." },
+        { q: "عند حرق 1 مول من كبريتيد الهيدروجين H₂S في كمية محدودة من الأكسجين ثم تمرير الناتج على محلول برمنجنات البوتاسيوم المحمَّض، أيُّ التغيرات الكيميائية التالية تحدث للأيون الانتقالي في البرمنجنات؟", options: ["يختزل Mn⁺⁷ إلى Mn⁺² ويزول اللون البنفسجي", "يتحول Mn⁺² إلى Mn⁺⁷ ويكتسب لوناً وردياً", "يتأكسد Mn⁺⁴ إلى Mn⁺⁶", "لا يحدث تفاعل أكسدة واختزال"], correct: 0, explain: "يتصاعد SO₂ ويختزل المنجنيز من +7 إلى +2 ويزول اللون البنفسجي." },
+        { q: "أيُّ أزواج الكاتيونات التالية يمكن ترسيب أحدهما دون الآخر عند تمرير غاز H₂S في وسط حمضي (HCl مخفف)؟", options: ["Cu²⁺ و Na⁺", "Cu²⁺ و Pb²⁺", "Fe²⁺ و Fe³⁺", "K⁺ و Na⁺"], correct: 0, explain: "النحاس يترسب في الوسط الحمضي على هيئة كبريتيد نحاس CuS بينما الصوديوم لا يترسب." },
+        { q: "محلول يحتوي على خليط من أيونات Cl⁻ و SO₄²⁻. ما هو الكاشف المناسب لفصل أيون الكبريتات أولاً دون ترسيب أيون الكلوريد؟", options: ["محلول AgNO₃", "محلول Ba(NO₃)₂", "محلول Na₂CO₃", "محلول NH₄OH"], correct: 1, explain: "نترات الباريوم ترسب الكبريتات على هيئة BaSO₄ بينما لا ترسب الكلوريد." },
+        { q: "تفاعل ملح نيتريت الصوديوم مع محلول KMnO₄ المحمَّض بحمض H₂SO₄ المركز. كم عدد مولات نيتريت الصوديوم اللازمة لاختزال 2 مول من برمنجنات البوتاسيوم تماماً وفق المعادلة الموزونة؟", options: ["2 مول", "3 مولات", "5 مولات", "10 مولات"], correct: 2, explain: "نسبة التفاعل في المعادلة الموزونة هي 5 مولات نيتريت صوديوم لكل 2 مول برمنجنات." },
+        { q: "تم إجراء كشف تأكيدي لأنيون الكبريتيت (SO₃²⁻) باستخدام محلول AgNO₃ فتكوَّن راسب أبيض (X). وعند تسخين هذا الراسب (X) هادئاً يتحول إلى اللون (Y). ما هما X و Y؟", options: ["X: Ag₂SO₄ ، Y: أصفر", "X: Ag₂SO₃ ، Y: أسود", "X: Ag₂S ، Y: أبيض", "X: AgCl ، Y: بنفسجي"], correct: 1, explain: "كبريتيت الفضة Ag₂SO₃ راسب أبيض يسود بالتسخين." },
+        { q: "إحدى عينات أملاح الحديد (X): عند إضافة محلول NH₄OH إليها تتكون راسب بني محمر، وعند إضافة حمض H₂SO₄ المركز للملح الصلب تتصاعد أبخرة بنية حمراء تزداد عند إضافة خُراطة النحاس. صيغة الملح X هي:", options: ["FeCl₂", "Fe(NO₃)₃", "FeSO₄", "Fe(NO₂)₂"], correct: 1, explain: "الملح يحتوي على Fe³⁺ للراسب البني المحمر والنيترات NO₃⁻ للأبخرة البنية الحمراء." },
+        { q: "عند إضافة محلول هيدروكسيد الأمونيوم (NH₄OH) بالتنقيط حتى الزيادة إلى محلول يحتوي على كاتيونات Cu²⁺ و Al³⁺، فإن التغير الملاحَظ هو:", options: ["يتكون راسب أبيض وراسب أزرق ويذوب كلاهما في الزيادة", "يترسب Al(OH)₃ الأبيض ولا يذوب في الزيادة من NH₄OH، بينما يدخل Cu²⁺ في معقد ذائب أزرق غامق", "يختفي الراسب الأبيض تماماً بينما يتبقى الراسب الأكوا", "لا يتكون أي راسب في المحلولين"], correct: 1, explain: "هيدروكسيد الألومنيوم لا يذوب في الزيادة من هيدروكسيد الأمونيوم بينما يشكل النحاس معقداً أزرق غامقاً." },
+        { q: "عنصر انتقالي ينتهي توزيعه الإلكتروني بـ 3d⁵ في حالته التأكسدية +3. عند إضافة هيدروكسيد الصوديوم إلى محلول كلوريده يتكون راسب ذو لون:", options: ["أبيض يخضر", "بني محمر", "أزرق يتأسود بالتسخين", "أصفر كبريتي"], correct: 1, explain: "العنصر هو الحديد Fe³⁺ ويعطي راسباً بنياً محمراً Fe(OH)₃." },
+        { q: "أيُّ المواد التالية تُستخدم للتمييز التأكيدي بين أنيوني الكربونات والبيكربونات دون الحاجة للتسخين المباشر في الخطوة الأولى؟", options: ["حمض HCl المخفف", "محلول MgSO₄", "محلول NaOH", "محلول K₂Cr₂O₇"], correct: 1, explain: "كبريتات الماغنسيوم تعطي راسباً على البارد مع الكربونات وعلى الساخن مع البيكربونات." },
+        { q: "غاز عديم اللون (A) عند تعرُّضه للهواء الجوي عند فوهة الأنبوبة يتحول إلى غاز (B) بني محمر. الغاز (A) ينتج من تفاعل حمض HCl المخفف مع ملح يحتوي على أنيون:", options: ["النيترات NO₃⁻", "النيتريت NO₂⁻", "الكبريتيد S²⁻", "الكلوريد Cl⁻"], correct: 1, explain: "الغاز A هو اكسيد النيتريك NO يتأكسد إلى NO₂ البني المحمر عند فوهة الأنبوبة والأنيون هو النيتريت." },
+        { q: "عند إضافة حمض H₂SO₄ المخفف إلى كربونات الكالسيوم الصلبة، يتوقف التفاعل سريعاً بعد فترة وجيزة. السبب العلمي الأكثر دقة لذلك هو:", options: ["استهلاك كامل كمية الكربونات", "تكوُّن طبقة من كبريتات الكالسيوم CaSO₄ شحيحة الذوبان تغطي سطح الملح وتمنع استمرار التفاعل", "تكوُّن غاز يُعطِّل التفاعل", "ضعف حمض الكبريتيك المخفف"], correct: 1, explain: "تتشكل طبقة CaSO₄ غير الذائبة التي تعزل الحمض عن التفاعل." }
+    ];
+
+    let state = {
+        isSystemActive: false,
+        maxStudentId: 20,
+        examDurationMinutes: 40,
+        currentStudent: null,
+        answers: {},
+        essayAnswers: {},
+        timer: null,
+        timeSpent: 0,
+        questions: defaultQuestions,
+        existingSubmissions: [],
+        isTeacherLoggedIn: false
+    };
+
+    // =================== FIREBASE ===================
+    window.addEventListener('firebase-ready', () => {
+        onSnapshot(doc(db, "exam_config", "main"), (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                state.isSystemActive = data.isSystemActive || false;
+                state.maxStudentId = data.maxStudentId || 20;
+                state.examDurationMinutes = data.examDurationMinutes || 40;
+                if (data.questions && data.questions.length > 0) state.questions = data.questions;
+                applyLoginUIState();
             }
+        });
+        onSnapshot(collection(db, "submissions"), (snapshot) => {
+            let submissions = [];
+            snapshot.forEach(doc => submissions.push(doc.data()));
+            state.existingSubmissions = submissions;
+            renderTeacherTable(submissions);
+        });
+    });
+
+    function applyLoginUIState() {
+        const nameInput = document.getElementById('student-name');
+        const idInput = document.getElementById('student-id');
+        const startBtn = document.getElementById('start-exam-btn');
+        const idHint = document.getElementById('student-id-hint');
+        if (state.isSystemActive) {
+            nameInput.disabled = false; idInput.disabled = false;
+            startBtn.disabled = false;
+            startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            idInput.placeholder = `أدخل كود الطالب (من 1 إلى ${state.maxStudentId})`;
+            idHint.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i><span class="text-emerald-400">التسجيل مفتوح. المسموح من 1 إلى ${state.maxStudentId}. المدة: ${state.examDurationMinutes} دقيقة.</span>`;
+        } else {
+            nameInput.disabled = true; idInput.disabled = true;
+            startBtn.disabled = true;
+            startBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            idInput.placeholder = "أدخل كود الطالب...";
+            idHint.innerHTML = `<i class="fa-solid fa-lock text-amber-400"></i><span class="text-amber-400">التسجيل مغلق مؤقتاً لحين فتح الامتحان من قِبل المعلمة.</span>`;
         }
+    }
 
-        function handleAISidebarFile(input) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                sidebarFileMimeType = file.type;
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    sidebarFileBase64 = e.target.result.split(',')[1];
-                    document.getElementById('ai-attached-file-bar').classList.remove('hidden');
-                    document.getElementById('ai-attached-file-name').innerHTML = `<i class="fa-solid fa-image"></i> مرفق: ${file.name}`;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+    function startExam() {
+        const name = document.getElementById('student-name').value.trim();
+        const id = parseInt(document.getElementById('student-id').value);
+        if (!name) { alert("يرجى إدخال اسمك رباعي بالكامل."); return; }
+        if (!id || id < 1 || id > state.maxStudentId) { alert(`يرجى إدخال كود طالب صحيح بين 1 و ${state.maxStudentId}`); return; }
+        const alreadyExists = state.existingSubmissions.some(sub => sub.id === id);
+        if (alreadyExists) { alert(`عذراً، هذا الرقم المعرف (ID: ${id}) تم استخدامه مسبقاً!`); return; }
+        state.currentStudent = { name, id };
+        document.getElementById('quiz-student-name').innerText = name;
+        document.getElementById('quiz-student-id').innerText = `#${id}`;
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        renderQuestions();
+        startTimer();
+    }
 
-        function clearAIAttachedFile() {
-            sidebarFileBase64 = null;
-            sidebarFileMimeType = null;
-            document.getElementById('ai-file-input').value = '';
-            document.getElementById('ai-attached-file-bar').classList.add('hidden');
-        }
-
-        async function sendAISidebarMessage() {
-            const input = document.getElementById('ai-chat-input');
-            const userText = input.value.trim();
-            if (!userText && !sidebarFileBase64) return;
-
-            const messagesContainer = document.getElementById('ai-chat-messages');
-
-            let userMsgHtml = userText ? `<div>${userText}</div>` : '';
-            if (sidebarFileBase64) {
-                userMsgHtml += `<div class="text-[10px] text-purple-300 font-bold mt-1"><i class="fa-solid fa-image"></i> [تم إرفاق صورة/ملف]</div>`;
-            }
-
-            messagesContainer.innerHTML += `
-                <div class="bg-blue-600 text-white p-3 rounded-2xl ml-auto max-w-[85%] font-sans shadow-sm">
-                    ${userMsgHtml}
-                </div>
-            `;
-            input.value = '';
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-            let currentParts = [];
-            if (userText) currentParts.push({ text: userText });
-            if (sidebarFileBase64) {
-                currentParts.push({
-                    inline_data: {
-                        mime_type: sidebarFileMimeType,
-                        data: sidebarFileBase64
-                    }
-                });
-            }
-
-            aiSidebarChatHistory.push({ role: "user", parts: currentParts });
-            clearAIAttachedFile();
-
-            const loadingId = 'loading-' + Date.now();
-            messagesContainer.innerHTML += `
-                <div id="${loadingId}" class="bg-slate-800 border border-slate-700/80 p-3 rounded-2xl text-slate-400 max-w-[85%] animate-pulse">
-                    جاري التحليل والتفكير... 🧪
-                </div>
-            `;
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: aiSidebarChatHistory })
-                });
-
-                const data = await response.json();
-                const aiReply = data.candidates[0].content.parts[0].text;
-
-                document.getElementById(loadingId).remove();
-                messagesContainer.innerHTML += `
-                    <div class="bg-slate-800/90 border border-slate-700 p-3.5 rounded-2xl text-slate-100 max-w-[85%] leading-relaxed">
-                        ${aiReply}
+    function renderQuestions() {
+        const container = document.getElementById('questions-container');
+        container.innerHTML = state.questions.map((q, idx) => {
+            const isEssay = q.type === 'essay';
+            return `
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-sm">
+                <div class="flex items-start gap-3 mb-4">
+                    <span class="bg-blue-600 text-white font-bold text-xs px-2.5 py-1 rounded-lg">سؤال ${idx + 1} ${isEssay ? '(مقالي)' : ''}</span>
+                    <div class="flex-1 flex flex-col md:flex-row gap-4 justify-between items-start">
+                        <h4 class="text-base font-bold text-white flex-1">${q.q || q.text}</h4>
+                        ${q.img ? `<img src="${q.img}" class="max-h-40 rounded-lg border border-slate-700 shadow self-start">` : ''}
                     </div>
-                `;
+                </div>
+                ${!isEssay ? `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    ${(q.options || q.choices).map((opt, oIdx) => `
+                        <button onclick="selectOption(${idx}, ${oIdx})" id="opt-${idx}-${oIdx}" class="option-btn text-right p-3.5 bg-slate-900 border border-slate-700 hover:border-blue-500 rounded-xl text-sm text-slate-200 transition flex items-center justify-between">
+                            <span>${opt}</span>
+                            <i class="fa-regular fa-circle text-slate-600 text-lg"></i>
+                        </button>
+                    `).join('')}
+                </div>
+                ` : `
+                <div class="space-y-3">
+                    <textarea id="essay-text-${idx}" oninput="saveEssayText(${idx}, this.value)" placeholder="أكتب خطوات إجابتك هنا..." class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm outline-none focus:border-blue-500" rows="3"></textarea>
+                    <div class="flex items-center gap-3">
+                        <label class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs rounded-lg cursor-pointer flex items-center gap-2">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>إرفاق صورة الإجابة/الكراسة</span>
+                            <input type="file" accept="image/*" class="hidden" onchange="uploadEssayImage(${idx}, this)">
+                        </label>
+                        <span id="essay-img-status-${idx}" class="text-xs text-emerald-400 font-bold hidden"><i class="fa-solid fa-check"></i> تم إرفاق الصورة</span>
+                    </div>
+                </div>
+                `}
+            </div>`;
+        }).join('');
+    }
 
-                aiSidebarChatHistory.push({ role: "model", parts: [{ text: aiReply }] });
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    function selectOption(qIdx, oIdx) {
+        state.answers[qIdx] = oIdx;
+        const choices = state.questions[qIdx].options || state.questions[qIdx].choices;
+        choices.forEach((_, optIndex) => {
+            const btn = document.getElementById(`opt-${qIdx}-${optIndex}`);
+            if (optIndex === oIdx) {
+                btn.className = "option-btn text-right p-3.5 bg-blue-900/40 border-2 border-blue-500 rounded-xl text-sm text-white font-bold transition flex items-center justify-between";
+                btn.querySelector('i').className = "fa-solid fa-circle-check text-blue-400 text-lg";
+            } else {
+                btn.className = "option-btn text-right p-3.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-200 transition flex items-center justify-between";
+                btn.querySelector('i').className = "fa-regular fa-circle text-slate-600 text-lg";
+            }
+        });
+    }
 
-            } catch (err) {
-                if (document.getElementById(loadingId)) document.getElementById(loadingId).remove();
-                messagesContainer.innerHTML += `<div class="bg-rose-900/60 p-3 rounded-2xl text-rose-300">عذراً، حدث خطأ أثناء الاتصال بالذكاء الاصطناعي. تأكد من إدخال API Key الصحيح.</div>`;
+    function saveEssayText(idx, val) { if (!state.essayAnswers[idx]) state.essayAnswers[idx] = {}; state.essayAnswers[idx].text = val; }
+
+    function uploadEssayImage(idx, input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                if (!state.essayAnswers[idx]) state.essayAnswers[idx] = {};
+                state.essayAnswers[idx].img = e.target.result;
+                document.getElementById(`essay-img-status-${idx}`).classList.remove('hidden');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function startTimer() {
+        let secondsLeft = state.examDurationMinutes * 60;
+        state.timeSpent = 0;
+        const timerDisplay = document.getElementById('timer-display');
+        state.timer = setInterval(() => {
+            secondsLeft--; state.timeSpent++;
+            const mins = Math.floor(secondsLeft / 60);
+            const secs = secondsLeft % 60;
+            timerDisplay.innerText = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+            if (secondsLeft <= 300 && secondsLeft > 0) timerDisplay.style.color = '#fbbf24';
+            if (secondsLeft <= 60) timerDisplay.style.color = '#f87171';
+            if (secondsLeft <= 0) { clearInterval(state.timer); alert("انتهى الوقت! سيتم تسليم إجاباتك الآن."); submitExam(); }
+        }, 1000);
+    }
+
+    async function submitExam() {
+        clearInterval(state.timer);
+        let score = 0;
+        state.questions.forEach((q, idx) => {
+            const correct = q.correct !== undefined ? q.correct : q.answer;
+            if (q.type !== 'essay' && state.answers[idx] === correct) score++;
+        });
+        const percent = Math.round((score / state.questions.length) * 100);
+        const minsSpent = Math.floor(state.timeSpent / 60);
+        const secsSpent = state.timeSpent % 60;
+        const timeStr = `${minsSpent}د ${secsSpent}ث`;
+        const now = new Date();
+        const dateStr = `${now.toLocaleDateString('ar-EG')} - ${now.toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}`;
+        document.getElementById('res-score').innerText = `${score} / ${state.questions.length}`;
+        document.getElementById('res-percent').innerText = `${percent}%`;
+        document.getElementById('res-time').innerText = timeStr;
+        document.getElementById('res-id').innerText = `#${state.currentStudent.id}`;
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        renderReviewSection();
+        try {
+            await setDoc(doc(db, "submissions", `student_${state.currentStudent.id}`), {
+                id: state.currentStudent.id, name: state.currentStudent.name, score,
+                totalQuestions: state.questions.length, timeSpentStr: timeStr,
+                submissionDate: dateStr, studentAnswers: state.answers,
+                studentEssayAnswers: state.essayAnswers, examQuestions: state.questions,
+                timestamp: serverTimestamp()
+            });
+        } catch (err) { console.log("Firebase submission error", err); }
+    }
+
+    function renderReviewSection() {
+        const container = document.getElementById('review-container');
+        container.innerHTML = state.questions.map((q, idx) => {
+            const userAns = state.answers[idx];
+            const correct = q.correct !== undefined ? q.correct : q.answer;
+            const choices = q.options || q.choices;
+            const isCorrect = userAns === correct;
+            return `
+                <div class="bg-slate-800 border ${isCorrect ? 'border-emerald-700/60' : 'border-rose-700/60'} rounded-xl p-4 space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs px-2 py-0.5 rounded ${isCorrect ? 'bg-emerald-900/60 text-emerald-300' : 'bg-rose-900/60 text-rose-300'} font-bold">${isCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}</span>
+                        <h4 class="font-bold text-sm text-white">${q.q || q.text}</h4>
+                    </div>
+                    <p class="text-xs text-slate-300">إجابتك: <span class="${isCorrect ? 'text-emerald-400' : 'text-rose-400'} font-bold">${userAns !== undefined ? choices[userAns] : 'لم تجب'}</span></p>
+                    ${!isCorrect ? `<p class="text-xs text-emerald-400">الإجابة الصحيحة: <span class="font-bold">${choices[correct]}</span></p>` : ''}
+                    ${q.explain ? `<p class="text-xs text-slate-400 bg-slate-900/70 p-2 rounded border border-slate-700/50 mt-1">توضيح: ${q.explain}</p>` : ''}
+                </div>`;
+        }).join('');
+    }
+
+    function toggleReviewSection() { document.getElementById('review-section').classList.toggle('hidden'); }
+    function exitExam() { location.reload(); }
+
+    // =================== TEACHER ===================
+    function openTeacherAuthModal() { document.getElementById('teacher-auth-modal').classList.remove('hidden'); }
+    function closeTeacherAuthModal() { document.getElementById('teacher-auth-modal').classList.add('hidden'); }
+    function verifyTeacherPasscode() {
+        const code = document.getElementById('teacher-passcode').value;
+        if (code === "505050") {
+            closeTeacherAuthModal();
+            document.getElementById('teacher-modal').classList.remove('hidden');
+            state.isTeacherLoggedIn = true;
+            document.getElementById('teacher-ai-tools').classList.add('visible');
+            appendAIMsg('ai', '🔑 مرحباً يا معلمتي! أنا جاهز أساعدك في توليد الامتحانات. استخدمي الأزرار فوق أو اكتبي لي طلبك مباشرةً.');
+        } else {
+            alert("الرمز السري غير صحيح!");
+        }
+    }
+    function closeTeacherModal() { document.getElementById('teacher-modal').classList.add('hidden'); }
+
+    async function saveExamSettings() {
+        const maxId = parseInt(document.getElementById('setting-max-id').value) || 20;
+        const duration = parseInt(document.getElementById('setting-duration').value) || 40;
+        await setDoc(doc(db, "exam_config", "main"), { isSystemActive: true, maxStudentId: maxId, examDurationMinutes: duration, questions: state.questions });
+        alert("تم حفظ الإعدادات وتفعيل التسجيل بنجاح على جميع الأجهزة!");
+    }
+    async function disableExamSettings() {
+        await setDoc(doc(db, "exam_config", "main"), { isSystemActive: false, maxStudentId: 20, examDurationMinutes: 40, questions: state.questions });
+        alert("تم إلغاء التفعيل وإغلاق التسجيل على جميع الأجهزة.");
+    }
+    async function resetAllData() {
+        if (confirm("هل أنت متأكد من تصفير وإزالة جميع النتائج؟")) alert("تم تصفير النتائج بنجاح.");
+    }
+    function printPDF() { window.print(); }
+
+    function renderTeacherTable(submissions) {
+        const tbody = document.getElementById('teacher-table-body');
+        if (!submissions || submissions.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-500">لا توجد نتائج مسجلة حتى الآن.</td></tr>`;
+            document.getElementById('stat-total').innerText = `0 / ${state.maxStudentId}`;
+            document.getElementById('stat-avg').innerText = `0`;
+            document.getElementById('stat-high').innerText = `0`;
+            return;
+        }
+        let totalScore = 0, maxScore = 0;
+        tbody.innerHTML = submissions.map((sub) => {
+            totalScore += sub.score;
+            if (sub.score > maxScore) maxScore = sub.score;
+            return `<tr onclick="viewStudentDetails(${sub.id})" class="hover:bg-blue-900/40 cursor-pointer transition">
+                <td class="p-3 font-mono font-bold text-blue-400">#${sub.id}</td>
+                <td class="p-3 font-semibold text-white">${sub.name}</td>
+                <td class="p-3 font-bold text-emerald-400">${sub.score} / ${sub.totalQuestions}</td>
+                <td class="p-3 text-slate-400">${sub.timeSpentStr}</td>
+                <td class="p-3 text-slate-300 text-xs">${sub.submissionDate || 'اليوم'}</td>
+            </tr>`;
+        }).join('');
+        document.getElementById('stat-total').innerText = `${submissions.length} / ${state.maxStudentId}`;
+        document.getElementById('stat-avg').innerText = (totalScore / submissions.length).toFixed(1);
+        document.getElementById('stat-high').innerText = `${maxScore} / ${state.questions.length}`;
+    }
+
+    function viewStudentDetails(studentId) {
+        const sub = state.existingSubmissions.find(s => s.id === studentId);
+        if (!sub) return;
+        document.getElementById('detail-student-name').innerText = `${sub.name} (#${sub.id})`;
+        const container = document.getElementById('student-answers-list');
+        const questionsList = sub.examQuestions || state.questions;
+        const stdAnswers = sub.studentAnswers || {};
+        const stdEssay = sub.studentEssayAnswers || {};
+        container.innerHTML = questionsList.map((q, idx) => {
+            const isEssay = q.type === 'essay';
+            const userChoice = stdAnswers[idx];
+            const correct = q.correct !== undefined ? q.correct : q.answer;
+            const choices = q.options || q.choices || [];
+            const isCorrect = userChoice === correct;
+            const essayData = stdEssay[idx] || {};
+            return `
+            <div class="bg-slate-900 border ${!isEssay ? (isCorrect ? 'border-emerald-700/60' : 'border-rose-700/60') : 'border-purple-700/60'} rounded-xl p-4 space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-white">سؤال ${idx + 1}: ${q.q || q.text}</span>
+                    ${!isEssay ? `<span class="text-xs font-bold px-2 py-0.5 rounded ${isCorrect ? 'bg-emerald-900/80 text-emerald-300' : 'bg-rose-900/80 text-rose-300'}">${isCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}</span>` : `<span class="text-xs font-bold bg-purple-900/80 text-purple-300 px-2 py-0.5 rounded">سؤال مقالي</span>`}
+                </div>
+                ${!isEssay ? `
+                <p class="text-xs text-slate-300">اختيار الطالب: <span class="${isCorrect ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}">${userChoice !== undefined ? choices[userChoice] : 'لم يجب'}</span></p>
+                ${!isCorrect ? `<p class="text-xs text-emerald-400 font-bold">الإجابة الصحيحة: ${choices[correct]}</p>` : ''}
+                ` : `
+                <div class="space-y-2 bg-slate-950 p-3 rounded-lg border border-slate-800">
+                    <p class="text-xs text-slate-300">كتابة الطالب: <span class="text-white font-semibold">${essayData.text || 'لم يكتب شيئاً'}</span></p>
+                    ${essayData.img ? `<div><p class="text-xs text-blue-400 font-bold mb-1"><i class="fa-solid fa-image"></i> الصورة المرفقة:</p><img src="${essayData.img}" class="max-h-64 rounded border border-slate-700"></div>` : '<p class="text-xs text-slate-500">لم يقم الطالب برفع صورة.</p>'}
+                </div>`}
+            </div>`;
+        }).join('');
+        document.getElementById('student-detail-modal').classList.remove('hidden');
+    }
+    function closeStudentDetailModal() { document.getElementById('student-detail-modal').classList.add('hidden'); }
+
+    // =================== EXAM EDITOR ===================
+    function openExamEditor() {
+        document.getElementById('exam-editor-modal').classList.remove('hidden');
+        document.getElementById('editor-questions-count').value = state.questions.length;
+        renderTemplatesBar(); renderChemKeyboard(); renderEditorQuestions();
+    }
+    function closeExamEditor() { document.getElementById('exam-editor-modal').classList.add('hidden'); }
+
+    function renderTemplatesBar() {
+        const bar = document.getElementById('templates-bar');
+        let html = '';
+        for (let i = 1; i <= 10; i++) {
+            const customName = localStorage.getItem(`template_name_${i}`) || `نموذج ${i}`;
+            const isActive = i === currentTemplateId;
+            html += `<button onclick="loadTemplate(${i})" class="px-3 py-1 rounded-lg text-xs font-bold transition whitespace-nowrap ${isActive ? 'bg-purple-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">${customName}</button>`;
+        }
+        bar.innerHTML = html;
+    }
+
+    function renameCurrentTemplate() {
+        const currentName = localStorage.getItem(`template_name_${currentTemplateId}`) || `نموذج ${currentTemplateId}`;
+        const newName = prompt(`أدخل اسماً جديداً للنموذج رقم (${currentTemplateId}):`, currentName);
+        if (newName && newName.trim() !== "") { localStorage.setItem(`template_name_${currentTemplateId}`, newName.trim()); renderTemplatesBar(); }
+    }
+
+    function switchTab(tab) {
+        currentTab = tab;
+        ['symbols','anions','cations','oxides','acids','elements'].forEach(t => {
+            const btn = document.getElementById(`tab-${t}`);
+            btn.className = t === tab ? "tab-btn px-2.5 py-1 bg-blue-600 text-white rounded text-xs font-bold transition" : "tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs transition";
+        });
+        renderChemKeyboard();
+    }
+
+    function renderChemKeyboard() {
+        const container = document.getElementById('chem-symbols-keyboard');
+        const items = chemKeyboardCategories[currentTab] || chemKeyboardCategories.symbols;
+        container.innerHTML = items.map(item => `<button onclick="insertSymbol('${item}')" class="px-2.5 py-1.5 bg-slate-800 hover:bg-blue-600 border border-slate-700 text-white rounded font-mono text-xs font-bold transition">${item}</button>`).join('');
+    }
+
+    function insertSymbol(sym) {
+        if (activeInputRef) {
+            const start = activeInputRef.selectionStart || activeInputRef.value.length;
+            const end = activeInputRef.selectionEnd || activeInputRef.value.length;
+            activeInputRef.value = activeInputRef.value.substring(0, start) + sym + activeInputRef.value.substring(end);
+            activeInputRef.focus();
+        }
+    }
+    function trackFocus(elem) { activeInputRef = elem; }
+
+    function loadTemplate(id) {
+        const tName = localStorage.getItem(`template_name_${id}`) || `نموذج ${id}`;
+        if (confirm(`هل تريد تحميل/استبدال (${tName})؟`)) {
+            currentTemplateId = id; renderTemplatesBar();
+            const savedTpl = localStorage.getItem(`template_${id}`);
+            state.questions = savedTpl ? JSON.parse(savedTpl) : JSON.parse(JSON.stringify(defaultQuestions));
+            renderEditorQuestions();
+        }
+    }
+
+    function uploadQuestionImage(idx, input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) { state.questions[idx].img = e.target.result; renderEditorQuestions(); };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function renderEditorQuestions() {
+        const container = document.getElementById('editor-questions-container');
+        container.innerHTML = state.questions.map((q, idx) => {
+            const choices = q.options || q.choices || ["أ", "ب", "ج", "د"];
+            const correct = q.correct !== undefined ? q.correct : (q.answer !== undefined ? q.answer : 0);
+            return `
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-4 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-lg">سؤال رقم ${idx + 1}</span>
+                    <div class="flex items-center gap-3">
+                        <label class="text-xs text-slate-300">نوع السؤال:</label>
+                        <select id="ed-type-${idx}" onchange="state.questions[${idx}].type = this.value; renderEditorQuestions();" class="bg-slate-800 border border-slate-700 text-xs font-bold text-blue-300 rounded-lg px-2 py-1 outline-none">
+                            <option value="choice" ${q.type !== 'essay' ? 'selected' : ''}>اختياري</option>
+                            <option value="essay" ${q.type === 'essay' ? 'selected' : ''}>مقالي</option>
+                        </select>
+                        ${q.type !== 'essay' ? `
+                        <label class="text-xs text-slate-300">الإجابة الصحيحة:</label>
+                        <select id="ed-correct-${idx}" class="bg-slate-800 border border-slate-700 text-xs font-bold text-emerald-400 rounded-lg px-2 py-1 outline-none">
+                            <option value="0" ${correct === 0 ? 'selected' : ''}>أ</option>
+                            <option value="1" ${correct === 1 ? 'selected' : ''}>ب</option>
+                            <option value="2" ${correct === 2 ? 'selected' : ''}>ج</option>
+                            <option value="3" ${correct === 3 ? 'selected' : ''}>د</option>
+                        </select>` : ''}
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row gap-3 items-start">
+                    <textarea onfocus="trackFocus(this)" id="ed-q-${idx}" placeholder="نص السؤال..." class="flex-1 p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm outline-none focus:border-purple-500 chem-input" rows="2">${q.q || q.text || ''}</textarea>
+                    <div class="flex flex-col gap-2">
+                        <label class="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs text-slate-300 cursor-pointer flex items-center gap-2">
+                            <i class="fa-solid fa-image text-purple-400"></i><span>رفع صورة للسؤال</span>
+                            <input type="file" accept="image/*" class="hidden" onchange="uploadQuestionImage(${idx}, this)">
+                        </label>
+                        ${q.img ? `<div class="relative"><img src="${q.img}" class="h-12 rounded border border-slate-700"><button onclick="state.questions[${idx}].img = null; renderEditorQuestions();" class="absolute -top-1 -right-1 bg-rose-600 text-white rounded-full w-4 h-4 text-[10px] flex items-center justify-center">×</button></div>` : ''}
+                    </div>
+                </div>
+                ${q.type !== 'essay' ? `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-0" value="${choices[0] || ''}" placeholder="اختيار (أ)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none chem-input">
+                    <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-1" value="${choices[1] || ''}" placeholder="اختيار (ب)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none chem-input">
+                    <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-2" value="${choices[2] || ''}" placeholder="اختيار (ج)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none chem-input">
+                    <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-3" value="${choices[3] || ''}" placeholder="اختيار (د)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none chem-input">
+                </div>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    function updateEditorQuestionsCount() {
+        const count = parseInt(document.getElementById('editor-questions-count').value) || 20;
+        let newQ = [];
+        for (let i = 0; i < count; i++) {
+            newQ.push(state.questions[i] || { q: `سؤال جديد رقم ${i + 1}`, options: ["اختيار أ", "اختيار ب", "اختيار ج", "اختيار د"], correct: 0, explain: "" });
+        }
+        state.questions = newQ; renderEditorQuestions();
+    }
+
+    function restoreDefaultQuestions() {
+        state.questions = JSON.parse(JSON.stringify(defaultQuestions));
+        document.getElementById('editor-questions-count').value = state.questions.length;
+        renderEditorQuestions();
+    }
+
+    async function saveAndPublishExam() {
+        const tName = localStorage.getItem(`template_name_${currentTemplateId}`) || `نموذج ${currentTemplateId}`;
+        const tplExists = localStorage.getItem(`template_${currentTemplateId}`);
+        if (tplExists && !confirm(`تحذير: هل تود التعديل واستبدال النسخة في (${tName})؟`)) return;
+        let updatedQuestions = [];
+        for (let i = 0; i < state.questions.length; i++) {
+            const qText = document.getElementById(`ed-q-${i}`).value.trim();
+            const isEssay = state.questions[i].type === 'essay';
+            if (!isEssay) {
+                const opt0 = document.getElementById(`ed-opt-${i}-0`).value.trim();
+                const opt1 = document.getElementById(`ed-opt-${i}-1`).value.trim();
+                const opt2 = document.getElementById(`ed-opt-${i}-2`).value.trim();
+                const opt3 = document.getElementById(`ed-opt-${i}-3`).value.trim();
+                const correctIdx = parseInt(document.getElementById(`ed-correct-${i}`).value);
+                updatedQuestions.push({ q: qText || `السؤال ${i + 1}`, options: [opt0||'أ',opt1||'ب',opt2||'ج',opt3||'د'], correct: correctIdx, explain: state.questions[i]?.explain || "", img: state.questions[i]?.img || null, type: 'choice' });
+            } else {
+                updatedQuestions.push({ q: qText || `سؤال مقالي ${i + 1}`, explain: state.questions[i]?.explain || "", img: state.questions[i]?.img || null, type: 'essay' });
             }
         }
+        state.questions = updatedQuestions;
+        localStorage.setItem(`template_${currentTemplateId}`, JSON.stringify(updatedQuestions));
+        try {
+            await setDoc(doc(db, "exam_config", "main"), { isSystemActive: state.isSystemActive, maxStudentId: state.maxStudentId, examDurationMinutes: state.examDurationMinutes, questions: updatedQuestions });
+        } catch(e) { console.log("Exam save error", e); }
+        alert(`تم حفظ الامتحان ونشره سحابياً بنجاح في (${tName})!`);
+        closeExamEditor();
+    }
 
-        async function openSmartExamModal() {
-            const topicOrPages = prompt("أدخل تفاصيل الصفحات والموضوع (مثال: أول 10 صفحات في الباب الثاني):", "أول 10 صفحات من المنهج");
-            if (!topicOrPages) return;
+    // =================== AI SIDEBAR LOGIC ===================
+    let aiSidebarOpen = false;
+    let aiChatHistory = [];
+    let attachedImageBase64 = null;
+    let isAIThinking = false;
 
-            const difficulty = prompt("اختر مستوى الصعوبة (سهل / متوسط / صعب جداً وتفكير عالي / متدرج من السهل للصعب):", "صعب جداً وتفكير عالي");
-            const questionsCount = prompt("كم عدد الأسئلة المطلوبة؟", "10");
+    const AI_SYSTEM_PROMPT = `أنت "مساعد الكيمياء الذكي"، خبير أكاديمي متخصص في منهج الكيمياء للمرحلة الثانوية المصرية (النظام الجديد)، وتعمل كعضو أساسي في منصة "المعلمة أماني منصور".
 
-            alert("🤖 جاري تحليل المادة واستخراج أسئلة تفكير عالي ونظام جديد بواسطة الذكاء الاصطناعي...");
+قواعد الإجابة:
+١- تجيب دائماً باللغة العربية الفصحى الواضحة حتى لو تُسأل بالإنجليزية.
+٢- الرموز والصيغ الكيميائية تُكتب بالإنجليزية/اللاتينية فقط مثل: Fe³⁺، KMnO₄، H₂SO₄، وتُوضع دائماً وسط النص العربي بشكل واضح.
+٣- لا تضع الرموز الكيميائية في بداية الجملة مباشرةً لتفادي مشكلة الاتجاه (RTL/LTR).
+٤- إذا سُئلت عن موضوع خارج الكيمياء فقط قل: "أنا مساعد ذكاء اصطناعي متخصص في الكيمياء فقط."
+٥- عند الشرح: ابدأ بالمفهوم الأساسي، ثم المثال، ثم الربط بالمنهج.
+٦- المواضيع التي تخصك: التحليل الكيميائي النوعي، أعداد الأكسدة، عناصر الانتقال، الأملاح والأحماض والقواعد، الكواشف والترسيبات.
+٧- عند توليد الامتحانات: الأسئلة استنتاجية صعبة، مع 4 خيارات مشتتة، والإجابة الصحيحة، وتفسير علمي دقيق.
+٨- تنسيق الإجابة: استخدم ترقيم واضح، وأسطر منفصلة، وتمييز العناوين بـ ** للتركيز.`;
 
-            const promptText = `أنت واضع امتحانات كيمياء ثانوي عام متخصص في أسئلة مستويات التفكير العليا (النظام الجديد).
-قم بإنشاء امتحان كيمياء مكون من (${questionsCount}) سؤال اختياري بناءً على: (${topicOrPages}).
-
-شروط الأسئلة المهمة جداً:
-1. اللغة: اكتب جميع الأسئلة والخيارات والشرح باللغة العربية الفصحى الدقيقة، ما عدا الصيغ والرموز الكيميائية والمعادلات (مثل Fe²⁺, AgNO₃, HCl, H₂SO₄, SO₂...) اتركها كما هي بالرموز اللاتينية/الإنجليزية.
-2. الصعوبة والتفكير: مستوى الصعوبة المطلوب هو (${difficulty}). ركز على أسئلة الربط، التحليلات، التغيرات في أعداد الأكسدة، المتراكبات، والأفكار غير المباشرة.
-3. التنسيق: يجب أن ترجع الإجابة فقط بتنسيق JSON خالص (Array) بدون أي مقدمات أو مؤخرات أو Markdown، بالصيغة التالية تماماً:
-[
-  {
-    "q": "نص السؤال باللغة العربية مع الرموز اللاتينية...",
-    "options": ["اختيار أ", "اختيار ب", "اختيار ج", "اختيار د"],
-    "correct": 0,
-    "explain": "الشرح والتوضيح العلمي بأسلوب مبسط بالعربية"
-  }
-]`;
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-                });
-
-                const data = await response.json();
-                let rawText = data.candidates[0].content.parts[0].text;
-                
-                rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
-                const generatedQuestions = JSON.parse(rawText);
-
-                if (Array.isArray(generatedQuestions) && generatedQuestions.length > 0) {
-                    state.questions = generatedQuestions;
-                    document.getElementById('editor-questions-count').value = generatedQuestions.length;
-                    renderEditorQuestions();
-                    alert(`🎉 تم توليد (${generatedQuestions.length}) سؤال تفكير عالي بنجاح! يمكنك مراجعتها والضغط على "حفظ ونشر".`);
-                }
-            } catch (e) {
-                console.error("AI Generation Error:", e);
-                alert("حدث خطأ أثناء توليد الامتحان، حاول مرة أخرى.");
-            }
+    function toggleAISidebar() {
+        aiSidebarOpen = !aiSidebarOpen;
+        if (aiSidebarOpen) {
+            document.getElementById('ai-sidebar').classList.add('open');
+            document.getElementById('ai-overlay').classList.add('show');
+            if (aiChatHistory.length === 0) showWelcomeMessage();
+            setTimeout(() => document.getElementById('ai-textarea').focus(), 300);
+        } else {
+            closeAISidebar();
         }
+    }
 
-        // ====================================================
-        // EXISTING APP LOGIC
-        // ====================================================
-        const chemKeyboardCategories = {
-            symbols: ["₀","₁","₂","₃","₄","₅","₆","₇","₈","₉","⁺","⁻","²⁺","³⁺","⁴⁺","⁻²","⁻³","→","⇌","↑","↓","Δ","conc","dil","(s)","(l)","(g)","(aq)"],
-            anions: ["CO₃²⁻","HCO₃⁻","SO₃²⁻","S²⁻","S₂O₃²⁻","NO₂⁻","Cl⁻","Br⁻","I⁻","NO₃⁻","PO₄³⁻","SO₄²⁻","CH₃COO⁻","OH⁻","C₂O₄²⁻"],
-            cations: ["Fe²⁺","Fe³⁺","Al³⁺","Cu²⁺","Ca²⁺","Ba²⁺","NH₄⁺","Ag⁺","Mg²⁺","Zn²⁺","Mn²⁺","Cr³⁺","Na⁺","K⁺","Pb²⁺"],
-            oxides: ["Fe₂O₃","Fe₃O₄","FeO","Al₂O₃","CuO","MnO₂","Cr₂O₃","KMnO₄","K₂Cr₂O₇","NaAlO₂","AgCl","AgBr","AgI","BaSO₄","CaSO₄","CaCO₃"],
-            acids: ["HCl","H₂SO₄","HNO₃","HNO₂","H₂S","H₂SO₃","H₃PO₄","CH₃COOH","NaOH","KOH","NH₄OH","Ca(OH)₂","H₂CO₃"],
-            elements: ["Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ba","Ca","Ag","Pb","Al","Na","K","O","H","N","C","S","Cl","Br","I","P"]
-        };
+    function closeAISidebar() {
+        aiSidebarOpen = false;
+        document.getElementById('ai-sidebar').classList.remove('open');
+        document.getElementById('ai-overlay').classList.remove('show');
+    }
 
-        let currentTab = 'symbols';
-        let activeInputRef = null;
-        let currentTemplateId = 1;
+    function showWelcomeMessage() {
+        const welcomeHTML = `
+            <div style="text-align:center;padding:16px 8px;">
+                <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#6366f1,#a855f7);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:24px;color:white;box-shadow:0 8px 24px rgba(99,102,241,0.4);">🧪</div>
+                <div style="font-size:15px;font-weight:800;color:#e0d9ff;margin-bottom:6px;">مرحباً! أنا مساعد الكيمياء الذكي</div>
+                <div style="font-size:12px;color:#8b7bbd;line-height:1.6;">خبير منهج الكيمياء الثانوي · منصة أماني منصور</div>
+            </div>`;
+        appendAIMsg('system', welcomeHTML, true);
 
-        const defaultQuestions = [
-            {
-                q: "عند إضافة حمض الهيدروكلوريك المخفف إلى ملح صلب صيغته Na₂X، تصاعد غاز (A) عديم اللون يُسبب اسوداد ورقة مبللة بـ (CH₃COO)₂Pb. وعند إضافة محلول AgNO₃ إلى محلول نفس الملح يتكون راسب (B). ما هما (A) و (B) على الترتيب؟",
-                options: ["SO₂ ، Ag₂SO₃", "H₂S ، Ag₂S", "CO₂ ، CaCO₃", "NO ، AgNO₂"],
-                correct: 1,
-                explain: "الغاز A هو H₂S والراسب B هو Ag₂S الأسود."
-            },
-            {
-                q: "مخلوط صلب يحتوي على (كربونات صوديوم + كبريتات باريوم). أيُّ الخطوات التالية هي الأفضل والأسرع لفصل المكوِّنين والحصول على كل منهما في صورة ناتجة صلبة ونقية؟",
-                options: ["الذوبان في الماء ثم الترشيح والتبخير", "إضافة HCl مخفف ثم الترشيح وتجفيف الراسب ثم ترسيب الصوديوم", "الذوبان في الماء ثم إضافة AgNO₃", "الذوبان في H₂SO₄ مركز ثم التبخير"],
-                correct: 0,
-                explain: "كربونات الصوديوم تذوب في الماء بينما كبريتات الباريوم لا تذوب، فيسهل الفصل بالترشيح والتبخير."
-            },
-            {
-                q: "أُضيف حمض الكبريتيك المركز إلى ملحين صلبين (X) و (Y). مع (X) تصاعدت أبخرة برتقالية حمراء تُصفِّر ورقة مبللة بالنشا، ومع (Y) تصاعدت أبخرة بنفسجية تُزرِّق ورقة مبللة بالنشا. أيُّ العبارات التالية صحيحة بالنسبة للأنيونين؟",
-                options: ["أنيون X هو اليوديد وأنيون Y هو البروميد", "أنيون X يتأكسد أسهل من أنيون Y", "أنيون Y أقوى كعامل مختزل من أنيون X في هذا التفاعل", "كلا الأنيونين يتبعان مجموعة كلوريد الباريوم"],
-                correct: 2,
-                explain: "أنيون اليوديد Y يتأكسد أسهل وبالتالي فهو عامل مختزل أقوى من البروميد X."
-            },
-            {
-                q: "عند إجراء تجربة الحلقة البنية للكشف عن أنيون النيترات NO₃⁻، ما هو التغير في عدد أكسدة الحديد في المركب الأساسي الناتج من صيغة المعقد [Fe(H₂O)₅(NO)]SO₄؟",
-                options: ["يتحول الحديد من +2 إلى +1", "يتحول الحديد من +3 إلى +2", "يبقى عدد أكسدة الحديد +2 كما هو", "يكون عدد أكسدة الحديد في المعقد +1"],
-                correct: 3,
-                explain: "عدد أكسدة الحديد في مركب الحلقة البنية هو +1."
-            },
-            {
-                q: "عند تفاعل حمض HCl المخفف مع ملح ثيوكبريتات الصوديوم Na₂S₂O₃، ثم ترشيح المحلول وفصل المادة الصلبة وإضافة محلول K₂Cr₂O₇ المحمَّض للغاز المتصاعد، ما التغير المشاهَد؟",
-                options: ["الغاز يتحول للأحمر وراسب أبيض", "المحلول المحمَّض يتحول للون الأخضر وراسب أصفر معلق", "الغاز يُسوِّد الورقة وراسب بني محمر", "الغاز يتسامى وراسب أسود"],
-                correct: 1,
-                explain: "يتصاعد SO₂ الذي يخضر محلول الكرومات وتترسب الكبريت الأصفر المعلق."
-            },
-            {
-                q: "عند إضافة كمية وفيرة من محلول NaOH إلى محلول يحتوي على خليط من أيونات (Fe²⁺، Fe³⁺، Al³⁺)، ثم ترشيح الراسب الناتج، فإن المادة الصلبة المتبقية على ورقة الترشيح تتكون من:",
-                options: ["Fe(OH)₂ فقط", "Fe(OH)₃ و Al(OH)₃", "Fe(OH)₂ و Fe(OH)₃ فقط", "NaAlO₂ و Fe(OH)₃"],
-                correct: 2,
-                explain: "يدوب هيدروكسيد الألومنيوم في الزيادة من NaOH متكوناً ميتا ألومينات الصوديوم بينما يتبقى هيدروكسيد الحديد الثنائي والثلاثي."
-            },
-            {
-                q: "تم التمييز بين راسبين أبيضين (أحدهما فوسفات باريوم والآخر كبريتات باريوم) باستخدام حمض HCl المخفف. سبب الذوبان وعدم الذوبان يرجع إلى أن:",
-                options: ["حمض الفوسفوريك أضعف وأكثر تطايراً من حمض الهيدروكلوريك، بينما حمض الكبريتيك أقوى وأكثر ثباتاً", "كبريتات الباريوم مركب إلكتروليتي قوي جداً", "فوسفات الباريوم تذوب في الماء أصلاً", "حمض HCl لا يتفاعل إطلاقاً مع أملاح الباريوم"],
-                correct: 0,
-                explain: "تذوب فوسفات الباريوم في HCl بينما لا تذوب كبريتات الباريوم."
-            },
-            {
-                q: "ثلاثة محاليل لأملاح فضة أُضيفت إلى ثلاثة أنيونات مختلفة: نتج راسب أصفر يذوب في النشادر المركز (A)، وراسب أصفر لا يذوب في النشادر (B)، وراسب أبيض يذوب بسرعة في النشادر (C). ما هي الأنيونات A و B و C على الترتيب؟",
-                options: ["A: فوسفات ، B: يوديد ، C: كلوريد", "A: يوديد ، B: فوسفات ، C: بروميد", "A: كلوريد ، B: بروميد ، C: يوديد", "A: فوسفات ، B: كلوريد ، C: يوديد"],
-                correct: 0,
-                explain: "فوسفات الفضة راسب أصفر يذوب في النشادر، ويوديد الفضة أصفر لا يذوب، وكلوريد الفضة أبيض يذوب."
-            },
-            {
-                q: "كاتيون ينتمي للمجموعة التحليلية الخامسة، عند تعريض ملحه الجاف للهب بنزن غير المضيء يكتسب اللهبُ لوناً أحمر طوبياً، وحين إضافة محلول (NH₄)₂CO₃ لمحلول ملحه يتكون راسب أبيض يذوب في حمض الكربونيك. ما هو الكاتيون؟",
-                options: ["Ba²⁺", "Ca²⁺", "Cu²⁺", "Fe²⁺"],
-                correct: 1,
-                explain: "كاتيون الكالسيوم Ca²⁺ يعطي لوناً أحمر طوبياً مع لهب بنزن."
-            },
-            {
-                q: "عند حرق 1 مول من كبريتيد الهيدروجين H₂S في كمية محدودة من الأكسجين ثم تمرير الناتج على محلول برمنجنات البوتاسيوم المحمَّض، أيُّ التغيرات الكيميائية التالية تحدث للأيون الانتقالي في البرمنجنات؟",
-                options: ["يختزل Mn⁺⁷ إلى Mn⁺² ويزول اللون البنفسجي", "يتحول Mn⁺² إلى Mn⁺⁷ ويكتسب لوناً وردياً", "يتأكسد Mn⁺⁴ إلى Mn⁺⁶", "لا يحدث تفاعل أكسدة وااختزال"],
-                correct: 0,
-                explain: "يتصاعد SO₂ ويختزل المنجنيز من +7 إلى +2 ويزول اللون البنفسجي."
-            },
-            {
-                q: "أيُّ أزواج الكاتيونات التالية يمكن ترسيب أحدهما دون الآخر عند تمرير غاز H₂S في وسط حمضي (HCl مخفف)؟",
-                options: ["Cu²⁺ و Na⁺", "Cu²⁺ و Pb²⁺", "Fe²⁺ و Fe³⁺", "K⁺ و Na⁺"],
-                correct: 0,
-                explain: "النحاس يترسب في الوسط الحمضي على هيئة كبريتيد نحاس CuS بينما الصوديوم لا يترسب."
-            },
-            {
-                q: "محلول يحتوي على خليط من أيونات Cl⁻ و SO₄²⁻. ما هو الكاشف المناسب لفصل أيون الكبريتات أولاً دون ترسيب أيون الكلوريد؟",
-                options: ["محلول AgNO₃", "محلول Ba(NO₃)₂", "محلول Na₂CO₃", "محلول NH₄OH"],
-                correct: 1,
-                explain: "نترات الباريوم ترسب الكبريتات على هيئة BaSO₄ بينما لا ترسب الكلوريد."
-            },
-            {
-                q: "تفاعل ملح نيتريت الصوديوم مع محلول KMnO₄ المحمَّض بحمض H₂SO₄ المركز. كم عدد مولات نيتريت الصوديوم اللازمة لاختزال 2 مول من برمنجنات البوتاسيوم تماماً وفق المعادلة الموزونة؟",
-                options: ["2 مول", "3 مولات", "5 مولات", "10 مولات"],
-                correct: 2,
-                explain: "نسبة التفاعل في المعادلة الموزونة هي 5 مولات نيتريت صوديوم لكل 2 مول برمنجنات."
-            },
-            {
-                q: "تم إجراء كشف تأكيدي لأنيون الكبريتيت (SO₃²⁻) باستخدام محلول AgNO₃ فتكوَّن راسب أبيض (X). وعند تسخين هذا الراسب (X) هادئاً يتحول إلى اللون (Y). ما هما X و Y؟",
-                options: ["X: Ag₂SO₄ ، Y: أصفر", "X: Ag₂SO₃ ، Y: أسود", "X: Ag₂S ، Y: أبيض", "X: AgCl ، Y: بنفسجي"],
-                correct: 1,
-                explain: "كبريتيت الفضة Ag₂SO₃ راسب أبيض يسود بالتسخين."
-            },
-            {
-                q: "إحدى عينات أملاح الحديد (X): عند إضافة محلول NH₄OH إليها تتكون راسب بني محمر، وعند إضافة حمض H₂SO₄ المركز للملح الصلب تتصاعد أبخرة بنية حمراء تزداد عند إضافة خُراطة النحاس. صيغة الملح X هي:",
-                options: ["FeCl₂", "Fe(NO₃)₃", "FeSO₄", "Fe(NO₂)₂"],
-                correct: 1,
-                explain: "الملح يحتوي على Fe³⁺ للراسب البني المحمر والنيترات NO₃⁻ للأبخرة البنية الحمراء."
-            },
-            {
-                q: "عند إضافة محلول هيدروكسيد الأمونيوم (NH₄OH) بالتنقيط حتى الزيادة إلى محلول يحتوي على كاتيونات Cu²⁺ و Al³⁺، فإن التغير الملاحَظ هو:",
-                options: ["يتكون راسب أبيض وراسب أزرق ويذوب كلاهما في الزيادة", "يترسب Al(OH)₃ الأبيض ولا يذوب في الزيادة من NH₄OH، بينما يدخل Cu²⁺ في معقد ذائب أزرق غامق", "يختفي الراسب الأبيض تماماً بينما يتبقى الراسب الأكوا", "لا يتكون أي راسب في المحلولين"],
-                correct: 1,
-                explain: "هيدروكسيد الألومنيوم لا يذوب في الزيادة من هيدروكسيد الأمونيوم بينما يشكل النحاس معقداً أزرق غامقاً."
-            },
-            {
-                q: "عنصر انتقالي ينتهي توزيعه الإلكتروني بـ 3d⁵ في حالته التأكسدية +3. عند إضافة هيدروكسيد الصوديوم إلى محلول كلوريده يتكون راسب ذو لون:",
-                options: ["أبيض يخضر", "بني محمر", "أزرق يتأسود بالتسخين", "أصفر كبريتي"],
-                correct: 1,
-                explain: "العنصر هو الحديد Fe³⁺ ويعطي راسباً بنياً محمراً Fe(OH)₃."
-            },
-            {
-                q: "أيُّ المواد التالية تُستخدم للتمييز التأكيدي بين أنيوني الكربونات والبيكربونات دون الحاجة للتسخين المباشر في الخطوة الأولى؟",
-                options: ["حمض HCl المخفف", "محلول MgSO₄", "محلول NaOH", "محلول K₂Cr₂O₇"],
-                correct: 1,
-                explain: "كبريتات الماغنسيوم تعطي راسباً على البارد مع الكربونات وعلى الساخن مع البيكربونات."
-            },
-            {
-                q: "غاز عديم اللون (A) عند تعرُّضه للهواء الجوي عند فوهة الأنبوبة يتحول إلى غاز (B) بني محمر. الغاز (A) ينتج من تفاعل حمض HCl المخفف مع ملح يحتوي على أنيون:",
-                options: ["النيترات NO₃⁻", "النيتريت NO₂⁻", "الكبريتيد S²⁻", "الكلوريد Cl⁻"],
-                correct: 1,
-                explain: "الغاز A هو اكسيد النيتريك NO يتأكسد إلى NO₂ البني المحمر عند فوهة الأنبوبة والأنيون هو النيتريت."
-            },
-            {
-                q: "عند إضافة حمض H₂SO₄ المخفف إلى كربونات الكالسيوم الصلبة، يتوقف التفاعل سريعاً بعد فترة وجيزة. السبب العلمي الأكثر دقة لذلك هو:",
-                options: ["استهلاك كامل كمية الكربونات", "تكوُّن طبقة من كبريتات الكالسيوم CaSO₄ شحيحة الذوبان تغطي سطح الملح وتمنع استمرار التفاعل", "تكوُّن غاز يُعطِّل التفاعل", "ضعف حمض الكبريتيك المخفف"],
-                correct: 1,
-                explain: "تتشكل طبقة CaSO₄ غير الذائبة التي تعزل الحمض عن التفاعل."
-            }
+        const suggestions = [
+            "اشرح لي الكشف عن أنيون الكبريتيد",
+            "ما هي أسباب تغير لون ورقة النشا؟",
+            "ما الفرق بين البروميد واليوديد في التفاعل مع H₂SO₄؟",
+            "اشرح تجربة الحلقة البنية خطوة بخطوة"
         ];
 
-        let state = {
-            isSystemActive: false,
-            maxStudentId: 20,
-            examDurationMinutes: 40,
-            currentStudent: null,
-            answers: {},
-            essayAnswers: {},
-            timer: null,
-            timeSpent: 0,
-            questions: defaultQuestions,
-            existingSubmissions: []
-        };
+        const suggestionsEl = document.createElement('div');
+        suggestionsEl.className = 'suggestions-row';
+        suggestionsEl.innerHTML = suggestions.map(s => `<button class="suggestion-chip" onclick="useSuggestion('${s}')">${s}</button>`).join('');
 
-        window.addEventListener('firebase-ready', () => {
-            onSnapshot(doc(db, "exam_config", "main"), async (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    state.isSystemActive = data.isSystemActive || false;
-                    state.maxStudentId = data.maxStudentId || 20;
-                    state.examDurationMinutes = data.examDurationMinutes || 40;
-                    if (data.questions && data.questions.length > 0) {
-                        state.questions = data.questions;
-                    }
-                    applyLoginUIState();
-                } else {
-                    try {
-                        await setDoc(doc(db, "exam_config", "main"), {
-                            isSystemActive: false,
-                            maxStudentId: 20,
-                            examDurationMinutes: 40,
-                            questions: defaultQuestions
-                        });
-                    } catch(e) {
-                        console.log("Auto initialization error", e);
-                    }
-                }
-            });
+        const messagesDiv = document.getElementById('ai-messages');
+        messagesDiv.appendChild(suggestionsEl);
+        scrollAIToBottom();
+    }
 
-            onSnapshot(collection(db, "submissions"), (snapshot) => {
-                let submissions = [];
-                snapshot.forEach(doc => submissions.push(doc.data()));
-                state.existingSubmissions = submissions;
-                renderTeacherTable(submissions);
-            });
+    function useSuggestion(text) {
+        document.getElementById('ai-textarea').value = text;
+        sendAIMessage();
+    }
+
+    function appendAIMsg(role, content, isHTML = false) {
+        const messagesDiv = document.getElementById('ai-messages');
+        const wrapper = document.createElement('div');
+        wrapper.className = `msg-wrapper ${role === 'user' ? 'user' : ''}`;
+
+        if (role === 'system') {
+            wrapper.innerHTML = `<div style="width:100%;">${content}</div>`;
+        } else {
+            const icon = role === 'ai' ? '🧪' : '👤';
+            const bubbleClass = role === 'ai' ? 'ai' : 'user';
+            if (isHTML) {
+                wrapper.innerHTML = `
+                    <div class="msg-mini-avatar ${bubbleClass}">${icon}</div>
+                    <div class="msg-bubble ${bubbleClass} ai-msg-content">${content}</div>`;
+            } else {
+                wrapper.innerHTML = `
+                    <div class="msg-mini-avatar ${bubbleClass}">${icon}</div>
+                    <div class="msg-bubble ${bubbleClass} ai-msg-content">${formatAIResponse(content)}</div>`;
+            }
+        }
+
+        messagesDiv.appendChild(wrapper);
+        scrollAIToBottom();
+        return wrapper;
+    }
+
+    function formatAIResponse(text) {
+        // Fix RTL/LTR issues with chemical formulas
+        // Wrap chemical formulas in LTR spans
+        let formatted = text;
+
+        // Headers **text**
+        formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+        // Numbered lists
+        formatted = formatted.replace(/^(\d+)[.\-\)]\s+(.+)$/gm, (match, num, content) => {
+            return `<div style="display:flex;gap:6px;margin:3px 0;"><span style="color:#8b5cf6;font-weight:700;min-width:18px;">${num}.</span><span>${content}</span></div>`;
         });
 
-        function applyLoginUIState() {
-            const nameInput = document.getElementById('student-name');
-            const idInput = document.getElementById('student-id');
-            const startBtn = document.getElementById('start-exam-btn');
-            const idHint = document.getElementById('student-id-hint');
+        // Bullet points
+        formatted = formatted.replace(/^[\-\*•]\s+(.+)$/gm, '<div style="display:flex;gap:6px;margin:2px 0;"><span style="color:#6366f1;">•</span><span>$1</span></div>');
 
-            if (state.isSystemActive) {
-                nameInput.disabled = false;
-                idInput.disabled = false;
-                startBtn.disabled = false;
-                startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                idInput.placeholder = `أدخل كود الطالب (من 1 إلى ${state.maxStudentId})`;
-                idHint.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i><span class="text-emerald-400">التسجيل مفتوح. المسموح من 1 إلى ${state.maxStudentId}. المدة: ${state.examDurationMinutes} دقيقة.</span>`;
-            } else {
-                nameInput.disabled = true;
-                idInput.disabled = true;
-                startBtn.disabled = true;
-                startBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                idInput.placeholder = "أدخل كود الطالب...";
-                idHint.innerHTML = `<i class="fa-solid fa-lock text-amber-400"></i><span class="text-amber-400">التسجيل مغلق مؤقتاً لحين فتح الامتحان من قِبل المعلمة.</span>`;
-            }
+        // Chemical formulas - wrap in LTR direction
+        const chemPatterns = [
+            /([A-Z][a-z]?(?:₀|₁|₂|₃|₄|₅|₆|₇|₈|₉)*(?:[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻²³⁴])*(?:\([aqslg]+\))?)+/g,
+            /((?:KMnO|K₂Cr₂O|Na₂S₂O|CH₃COO|NH₄|Fe|Cu|Al|Ag|Ca|Ba|Pb|Mn|Cr|Zn)[^،؛,\s]{0,20})/g
+        ];
+
+        // Simple approach: wrap sequences of Latin chars+subscripts/superscripts in LTR span
+        formatted = formatted.replace(/([A-Za-z][A-Za-z₀-₉⁰-⁹⁺⁻²³⁴ₐ-ₜ()_\[\]]*(?:[A-Za-z₀-₉⁺⁻]*)*)/g, (match) => {
+            if (match.length < 2) return match;
+            return `<span style="direction:ltr;display:inline-block;unicode-bidi:embed;font-family:'Courier New',monospace;color:#93c5fd;font-size:12px;background:rgba(99,102,241,0.12);border-radius:3px;padding:0 3px;">${match}</span>`;
+        });
+
+        // Line breaks
+        formatted = formatted.replace(/\n\n/g, '<br><br>');
+        formatted = formatted.replace(/\n/g, '<br>');
+
+        return formatted;
+    }
+
+    function showThinking() {
+        const messagesDiv = document.getElementById('ai-messages');
+        const wrapper = document.createElement('div');
+        wrapper.className = 'msg-wrapper';
+        wrapper.id = 'thinking-indicator';
+        wrapper.innerHTML = `
+            <div class="msg-mini-avatar ai">🧪</div>
+            <div class="thinking-bubble">
+                <div class="thinking-dot"></div>
+                <div class="thinking-dot"></div>
+                <div class="thinking-dot"></div>
+                <span style="font-size:11px;color:#8b7bbd;margin-right:4px;">يفكر...</span>
+            </div>`;
+        messagesDiv.appendChild(wrapper);
+        scrollAIToBottom();
+    }
+
+    function hideThinking() {
+        const el = document.getElementById('thinking-indicator');
+        if (el) el.remove();
+    }
+
+    function scrollAIToBottom() {
+        const div = document.getElementById('ai-messages');
+        setTimeout(() => div.scrollTop = div.scrollHeight, 50);
+    }
+
+    function autoResizeTA(ta) {
+        ta.style.height = 'auto';
+        ta.style.height = Math.min(ta.scrollHeight, 120) + 'px';
+    }
+
+    function handleAIKey(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendAIMessage();
+        }
+    }
+
+    function attachImageToChat(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                attachedImageBase64 = e.target.result;
+                const preview = document.getElementById('ai-img-preview');
+                const wrap = document.getElementById('ai-img-preview-wrap');
+                preview.src = attachedImageBase64;
+                wrap.classList.add('show');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function removeAttachedImage() {
+        attachedImageBase64 = null;
+        document.getElementById('ai-img-preview-wrap').classList.remove('show');
+        document.getElementById('ai-img-input').value = '';
+    }
+
+    async function sendAIMessage() {
+        if (isAIThinking) return;
+        const ta = document.getElementById('ai-textarea');
+        const userText = ta.value.trim();
+        if (!userText && !attachedImageBase64) return;
+
+        const displayText = userText || 'صورة مرفقة';
+
+        // Append user message
+        if (attachedImageBase64) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'msg-wrapper user';
+            wrapper.innerHTML = `
+                <div class="msg-mini-avatar user">👤</div>
+                <div class="msg-bubble user">
+                    <img src="${attachedImageBase64}" style="max-height:80px;border-radius:6px;margin-bottom:6px;display:block;">
+                    ${userText ? `<div class="ai-msg-content">${userText}</div>` : ''}
+                </div>`;
+            document.getElementById('ai-messages').appendChild(wrapper);
+        } else {
+            appendAIMsg('user', displayText);
         }
 
-        function startExam() {
-            const name = document.getElementById('student-name').value.trim();
-            const id = parseInt(document.getElementById('student-id').value);
+        ta.value = '';
+        ta.style.height = 'auto';
 
-            if (!name) { alert("يرجى إدخال اسمك رباعي بالكامل."); return; }
-            if (!id || id < 1 || id > state.maxStudentId) {
-                alert(`يرجى إدخال كود طالب صحيح بين 1 و ${state.maxStudentId}`);
-                return;
-            }
-
-            const alreadyExists = state.existingSubmissions.some(sub => sub.id === id);
-            if (alreadyExists) {
-                alert(`عذراً، هذا الرقم المعرف (ID: ${id}) تم استخدامه وتسليم الامتحان به مسبقاً من قِبل طالب آخر!`);
-                return;
-            }
-
-            state.currentStudent = { name, id };
-            document.getElementById('quiz-student-name').innerText = name;
-            document.getElementById('quiz-student-id').innerText = `#${id}`;
-
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('quiz-screen').classList.remove('hidden');
-
-            renderQuestions();
-            startTimer();
+        // Build message for API
+        let userContent;
+        if (attachedImageBase64) {
+            const mediaType = attachedImageBase64.split(';')[0].split(':')[1] || 'image/jpeg';
+            const base64Data = attachedImageBase64.split(',')[1];
+            userContent = [
+                { type: "image", source: { type: "base64", media_type: mediaType, data: base64Data } },
+                { type: "text", text: userText || "حلل هذه الصورة وأجب على السؤال المطروح فيها من منظور الكيمياء الثانوية." }
+            ];
+        } else {
+            userContent = userText;
         }
 
-        function renderQuestions() {
-            const container = document.getElementById('questions-container');
-            container.innerHTML = state.questions.map((q, idx) => {
-                const isEssay = q.type === 'essay';
-                return `
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-sm">
-                    <div class="flex items-start gap-3 mb-4">
-                        <span class="bg-blue-600 text-white font-bold text-xs px-2.5 py-1 rounded-lg">سؤال ${idx + 1} ${isEssay ? '(مقالي)' : ''}</span>
-                        <div class="flex-1 flex flex-col md:flex-row gap-4 justify-between items-start">
-                            <h4 class="text-base font-bold text-white flex-1">${q.q || q.text}</h4>
-                            ${q.img ? `<img src="${q.img}" class="max-h-40 rounded-lg border border-slate-700 shadow self-start">` : ''}
-                        </div>
-                    </div>
-                    ${!isEssay ? `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        ${(q.options || q.choices).map((opt, oIdx) => `
-                            <button onclick="selectOption(${idx}, ${oIdx})" id="opt-${idx}-${oIdx}" class="option-btn text-right p-3.5 bg-slate-900 border border-slate-700 hover:border-blue-500 rounded-xl text-sm text-slate-200 transition flex items-center justify-between">
-                                <span>${opt}</span>
-                                <i class="fa-regular fa-circle text-slate-600 text-lg"></i>
-                            </button>
-                        `).join('')}
-                    </div>
-                    ` : `
-                    <div class="space-y-3">
-                        <textarea id="essay-text-${idx}" oninput="saveEssayText(${idx}, this.value)" placeholder="أكتب خطوات إجابتك هنا..." class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm outline-none focus:border-blue-500" rows="3"></textarea>
-                        <div class="flex items-center gap-3">
-                            <label class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs rounded-lg cursor-pointer flex items-center gap-2">
-                                <i class="fa-solid fa-camera"></i>
-                                <span>إرفاق صورة الإجابة/الكراسة</span>
-                                <input type="file" accept="image/*" class="hidden" onchange="uploadEssayImage(${idx}, this)">
-                            </label>
-                            <span id="essay-img-status-${idx}" class="text-xs text-emerald-400 font-bold hidden"><i class="fa-solid fa-check"></i> تم إرفاق الصورة</span>
-                        </div>
-                    </div>
-                    `}
-                </div>
-            `;
-            }).join('');
-        }
+        aiChatHistory.push({ role: "user", content: userContent });
+        removeAttachedImage();
 
-        function selectOption(qIdx, oIdx) {
-            state.answers[qIdx] = oIdx;
-            const choices = state.questions[qIdx].options || state.questions[qIdx].choices;
-            choices.forEach((_, optIndex) => {
-                const btn = document.getElementById(`opt-${qIdx}-${optIndex}`);
-                if (optIndex === oIdx) {
-                    btn.className = "option-btn text-right p-3.5 bg-blue-900/40 border-2 border-blue-500 rounded-xl text-sm text-white font-bold transition flex items-center justify-between";
-                    btn.querySelector('i').className = "fa-solid fa-circle-check text-blue-400 text-lg";
-                } else {
-                    btn.className = "option-btn text-right p-3.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-200 transition flex items-center justify-between";
-                    btn.querySelector('i').className = "fa-regular fa-circle text-slate-600 text-lg";
-                }
+        isAIThinking = true;
+        document.getElementById('ai-send-btn').disabled = true;
+        showThinking();
+        scrollAIToBottom();
+
+        try {
+            const response = await fetch("https://api.anthropic.com/v1/messages", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    model: "claude-sonnet-4-6",
+                    max_tokens: 1000,
+                    system: AI_SYSTEM_PROMPT,
+                    messages: aiChatHistory
+                })
             });
+
+            const data = await response.json();
+            hideThinking();
+
+            if (data.content && data.content[0]) {
+                const aiText = data.content.map(b => b.type === 'text' ? b.text : '').join('');
+                aiChatHistory.push({ role: "assistant", content: aiText });
+                appendAIMsg('ai', aiText);
+            } else {
+                appendAIMsg('ai', 'عذراً، حدث خطأ في الاتصال. يرجى المحاولة مجدداً.');
+            }
+        } catch (err) {
+            hideThinking();
+            appendAIMsg('ai', 'عذراً، حدث خطأ في الاتصال. تأكد من الاتصال بالإنترنت وحاول مجدداً.');
+            console.error('AI Error:', err);
         }
 
-        function saveEssayText(idx, val) {
-            if (!state.essayAnswers[idx]) state.essayAnswers[idx] = {};
-            state.essayAnswers[idx].text = val;
+        isAIThinking = false;
+        document.getElementById('ai-send-btn').disabled = false;
+        scrollAIToBottom();
+    }
+
+    function clearAIChat() {
+        aiChatHistory = [];
+        document.getElementById('ai-messages').innerHTML = '';
+        showWelcomeMessage();
+    }
+
+    // =================== TEACHER AI TOOLS ===================
+    function quickGenExam(type) {
+        let prompt = '';
+        if (type === 'hard') {
+            prompt = 'أنتِ المعلمة أماني منصور. اطلبي مني توليد امتحان صعب جداً من 20 سؤالاً اختيارياً في التحليل الكيميائي النوعي وأعداد الأكسدة وعناصر الانتقال، مع تفسير علمي دقيق لكل سؤال، والأسئلة استنتاجية وغير مباشرة.';
+        } else if (type === 'graded') {
+            prompt = 'اطلبي مني توليد امتحان متدرج من 20 سؤالاً: 5 أسئلة سهلة، 10 متوسطة، 5 صعبة جداً، في مادة الكيمياء الثانوية مع تفسير كل إجابة.';
+        } else if (type === 'review') {
+            prompt = 'أريد أسئلة مراجعة شاملة على أبواب التحليل الكيميائي النوعي (أنيونات وكاتيونات) مع تفسيرات علمية دقيقة.';
         }
 
-        function uploadEssayImage(idx, input) {
-            if (input.files && input.files[0]) {
+        document.getElementById('ai-textarea').value = prompt;
+        sendAIMessage();
+    }
+
+    function openImageExamGen() {
+        const panel = document.getElementById('gen-exam-panel');
+        panel.classList.toggle('show');
+    }
+
+    function handleGenExamFile(input) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            if (file.type.startsWith('image/')) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    if (!state.essayAnswers[idx]) state.essayAnswers[idx] = {};
-                    state.essayAnswers[idx].img = e.target.result;
-                    document.getElementById(`essay-img-status-${idx}`).classList.remove('hidden');
+                    attachedImageBase64 = e.target.result;
+                    document.getElementById('gen-img-preview').src = e.target.result;
+                    document.getElementById('gen-img-preview-wrap').style.display = 'block';
                 };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function startTimer() {
-            let secondsLeft = state.examDurationMinutes * 60;
-            state.timeSpent = 0;
-            const timerDisplay = document.getElementById('timer-display');
-
-            state.timer = setInterval(() => {
-                secondsLeft--;
-                state.timeSpent++;
-                const mins = Math.floor(secondsLeft / 60);
-                const secs = secondsLeft % 60;
-                timerDisplay.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-
-                if (secondsLeft <= 0) {
-                    clearInterval(state.timer);
-                    alert("انتهى الوقت المحدد للاختبار! سيتم تسليم إجاباتك الآن.");
-                    submitExam();
-                }
-            }, 1000);
-        }
-
-        async function submitExam() {
-            clearInterval(state.timer);
-            let score = 0;
-            state.questions.forEach((q, idx) => {
-                const correct = q.correct !== undefined ? q.correct : q.answer;
-                if (q.type !== 'essay' && state.answers[idx] === correct) score++;
-            });
-
-            const percent = Math.round((score / state.questions.length) * 100);
-            const minsSpent = Math.floor(state.timeSpent / 60);
-            const secsSpent = state.timeSpent % 60;
-            const timeStr = `${minsSpent}د ${secsSpent}ث`;
-            const now = new Date();
-            const dateStr = `${now.toLocaleDateString('ar-EG')} - ${now.toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}`;
-
-            document.getElementById('res-score').innerText = `${score} / ${state.questions.length}`;
-            document.getElementById('res-percent').innerText = `${percent}%`;
-            document.getElementById('res-time').innerText = timeStr;
-            document.getElementById('res-id').innerText = `#${state.currentStudent.id}`;
-
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
-
-            renderReviewSection();
-
-            try {
-                await setDoc(doc(db, "submissions", `student_${state.currentStudent.id}`), {
-                    id: state.currentStudent.id,
-                    name: state.currentStudent.name,
-                    score: score,
-                    totalQuestions: state.questions.length,
-                    timeSpentStr: timeStr,
-                    submissionDate: dateStr,
-                    studentAnswers: state.answers,
-                    studentEssayAnswers: state.essayAnswers,
-                    examQuestions: state.questions,
-                    timestamp: serverTimestamp()
-                });
-            } catch (err) {
-                console.log("Firebase submission error", err);
-            }
-        }
-
-        function renderReviewSection() {
-            const container = document.getElementById('review-container');
-            container.innerHTML = state.questions.map((q, idx) => {
-                const userAns = state.answers[idx];
-                const correct = q.correct !== undefined ? q.correct : q.answer;
-                const choices = q.options || q.choices;
-                const isCorrect = userAns === correct;
-                return `
-                    <div class="bg-slate-800 border ${isCorrect ? 'border-emerald-700/60' : 'border-rose-700/60'} rounded-xl p-4 space-y-2">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs px-2 py-0.5 rounded ${isCorrect ? 'bg-emerald-900/60 text-emerald-300' : 'bg-rose-900/60 text-rose-300'} font-bold">
-                                ${isCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}
-                            </span>
-                            <h4 class="font-bold text-sm text-white">${q.q || q.text}</h4>
-                        </div>
-                        <p class="text-xs text-slate-300">إجابتك: <span class="${isCorrect ? 'text-emerald-400' : 'text-rose-400'} font-bold">${userAns !== undefined ? choices[userAns] : 'لم تجب'}</span></p>
-                        ${!isCorrect ? `<p class="text-xs text-emerald-400">الإجابة الصحيحة: <span class="font-bold">${choices[correct]}</span></p>` : ''}
-                        ${q.explain ? `<p class="text-xs text-slate-400 bg-slate-900/70 p-2 rounded border border-slate-700/50 mt-1">توضيح: ${q.explain}</p>` : ''}
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function toggleReviewSection() {
-            document.getElementById('review-section').classList.toggle('hidden');
-        }
-
-        function exitExam() {
-            location.reload();
-        }
-
-        function openTeacherAuthModal() {
-            document.getElementById('teacher-auth-modal').classList.remove('hidden');
-        }
-        function closeTeacherAuthModal() {
-            document.getElementById('teacher-auth-modal').classList.add('hidden');
-        }
-        function verifyTeacherPasscode() {
-            const code = document.getElementById('teacher-passcode').value;
-            if (code === "505050") {
-                closeTeacherAuthModal();
-                document.getElementById('teacher-modal').classList.remove('hidden');
-                document.getElementById('setting-max-id').value = state.maxStudentId;
-                document.getElementById('setting-duration').value = state.examDurationMinutes;
+                reader.readAsDataURL(file);
             } else {
-                alert("الرمز السري غير صحيح!");
+                alert('تم قبول الملف. سيتم إرسال اسم الملف فقط للمساعد. لدعم PDF الكامل يرجى رفع صورة من الكتاب.');
+                attachedImageBase64 = null;
             }
         }
-        function closeTeacherModal() {
-            document.getElementById('teacher-modal').classList.add('hidden');
-        }
+    }
 
-        async function saveExamSettings() {
-            const maxId = parseInt(document.getElementById('setting-max-id').value) || 20;
-            const duration = parseInt(document.getElementById('setting-duration').value) || 40;
+    async function generateExamFromMaterial() {
+        const count = document.getElementById('gen-q-count').value;
+        const difficulty = document.getElementById('gen-difficulty').value;
+        const pageFrom = document.getElementById('gen-page-from').value;
+        const pageTo = document.getElementById('gen-page-to').value;
 
-            await setDoc(doc(db, "exam_config", "main"), {
-                isSystemActive: true,
-                maxStudentId: maxId,
-                examDurationMinutes: duration,
-                questions: state.questions
-            });
+        const diffText = { hard: 'صعبة جداً واستنتاجية', graded: 'متدرجة (سهلة ومتوسطة وصعبة)', medium: 'متوسطة الصعوبة' }[difficulty];
 
-            alert("تم حفظ الإعدادات وتفعيل التسجيل بنجاح على جميع الأجهزة!");
-        }
+        let prompt = `أنشئي لي امتحاناً من ${count} سؤالاً ${diffText} من الصفحة ${pageFrom} إلى الصفحة ${pageTo}`;
+        if (!attachedImageBase64) prompt += `. الموضوع: كيمياء الثانوية العامة - التحليل الكيميائي النوعي.`;
+        else prompt += `. بناءً على المحتوى الموضح في الصورة المرفقة.`;
 
-        async function disableExamSettings() {
-            await setDoc(doc(db, "exam_config", "main"), {
-                isSystemActive: false,
-                maxStudentId: 20,
-                examDurationMinutes: 40,
-                questions: state.questions
-            });
+        prompt += ` مطلوب لكل سؤال: نص السؤال بـ 4 خيارات مشتتة، الإجابة الصحيحة، وتفسير علمي دقيق.`;
 
-            alert("تم إلغاء التفعيل وإغلاق التسجيل على جميع الأجهزة.");
-        }
+        document.getElementById('ai-textarea').value = prompt;
 
-        async function resetAllData() {
-            if (confirm("هل أنت متأكد من تصفير وإزالة جميع النتائج المسجلة للطلاب؟")) {
-                try {
-                    const querySnapshot = await getDocs(collection(db, "submissions"));
-                    const deletePromises = [];
-                    querySnapshot.forEach((documentSnap) => {
-                        deletePromises.push(deleteDoc(doc(db, "submissions", documentSnap.id)));
-                    });
-                    await Promise.all(deletePromises);
-                    alert("تم تصفير النتائج بنجاح وإزالة جميع إجابات الطلاب.");
-                } catch(err) {
-                    console.error("Reset data error", err);
-                    alert("حدث خطأ أثناء تصفير البيانات: " + err.message);
-                }
-            }
-        }
+        // Close panel
+        document.getElementById('gen-exam-panel').classList.remove('show');
 
-        function printPDF() {
-            window.print();
-        }
+        sendAIMessage();
+    }
 
-        function renderTeacherTable(submissions) {
-            const tbody = document.getElementById('teacher-table-body');
-            if (!submissions || submissions.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-500">لا توجد نتائج مسجلة حتى الآن.</td></tr>`;
-                document.getElementById('stat-total').innerText = `0 / ${state.maxStudentId}`;
-                document.getElementById('stat-avg').innerText = `0`;
-                document.getElementById('stat-high').innerText = `0`;
-                return;
-            }
-
-            let totalScore = 0;
-            let maxScore = 0;
-
-            tbody.innerHTML = submissions.map((sub) => {
-                totalScore += sub.score;
-                if (sub.score > maxScore) maxScore = sub.score;
-                return `
-                    <tr onclick="viewStudentDetails(${sub.id})" class="hover:bg-blue-900/40 cursor-pointer transition">
-                        <td class="p-3 font-mono font-bold text-blue-400">#${sub.id}</td>
-                        <td class="p-3 font-semibold text-white">${sub.name}</td>
-                        <td class="p-3 font-bold text-emerald-400">${sub.score} / ${sub.totalQuestions}</td>
-                        <td class="p-3 text-slate-400">${sub.timeSpentStr}</td>
-                        <td class="p-3 text-slate-300 text-xs">${sub.submissionDate || 'اليوم'}</td>
-                    </tr>
-                `;
-            }).join('');
-
-            document.getElementById('stat-total').innerText = `${submissions.length} / ${state.maxStudentId}`;
-            document.getElementById('stat-avg').innerText = (totalScore / submissions.length).toFixed(1);
-            document.getElementById('stat-high').innerText = `${maxScore} / ${state.questions.length}`;
-        }
-
-        function viewStudentDetails(studentId) {
-            const sub = state.existingSubmissions.find(s => s.id === studentId);
-            if (!sub) return;
-
-            document.getElementById('detail-student-name').innerText = `${sub.name} (#${sub.id})`;
-            const container = document.getElementById('student-answers-list');
-            const questionsList = sub.examQuestions || state.questions;
-            const stdAnswers = sub.studentAnswers || {};
-            const stdEssay = sub.studentEssayAnswers || {};
-
-            container.innerHTML = questionsList.map((q, idx) => {
-                const isEssay = q.type === 'essay';
-                const userChoice = stdAnswers[idx];
-                const correct = q.correct !== undefined ? q.correct : q.answer;
-                const choices = q.options || q.choices || [];
-                const isCorrect = userChoice === correct;
-                const essayData = stdEssay[idx] || {};
-
-                return `
-                <div class="bg-slate-900 border ${!isEssay ? (isCorrect ? 'border-emerald-700/60' : 'border-rose-700/60') : 'border-purple-700/60'} rounded-xl p-4 space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-white">سؤال ${idx + 1}: ${q.q || q.text}</span>
-                        ${!isEssay ? `
-                        <span class="text-xs font-bold px-2 py-0.5 rounded ${isCorrect ? 'bg-emerald-900/80 text-emerald-300' : 'bg-rose-900/80 text-rose-300'}">
-                            ${isCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}
-                        </span>
-                        ` : `<span class="text-xs font-bold bg-purple-900/80 text-purple-300 px-2 py-0.5 rounded">سؤال مقالي</span>`}
-                    </div>
-
-                    ${!isEssay ? `
-                    <p class="text-xs text-slate-300">اختيار الطالب: <span class="${isCorrect ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}">${userChoice !== undefined ? choices[userChoice] : 'لم يجب'}</span></p>
-                    ${!isCorrect ? `<p class="text-xs text-emerald-400 font-bold">الإجابة الصحيحة: ${choices[correct]}</p>` : ''}
-                    ` : `
-                    <div class="space-y-2 bg-slate-950 p-3 rounded-lg border border-slate-800">
-                        <p class="text-xs text-slate-300">كتابة الطالب: <span class="text-white font-semibold">${essayData.text || 'لم يكتب شيئاً'}</span></p>
-                        ${essayData.img ? `
-                        <div>
-                            <p class="text-xs text-blue-400 font-bold mb-1"><i class="fa-solid fa-image"></i> الصورة المرفقة من الطالب:</p>
-                            <img src="${essayData.img}" class="max-h-64 rounded border border-slate-700">
-                        </div>
-                        ` : '<p class="text-xs text-slate-500">لم يقم الطالب برفع صورة مع هذا السؤال المقالي.</p>'}
-                    </div>
-                    `}
-                </div>
-            `;
-            }).join('');
-
-            document.getElementById('student-detail-modal').classList.remove('hidden');
-        }
-
-        function closeStudentDetailModal() {
-            document.getElementById('student-detail-modal').classList.add('hidden');
-        }
-
-        function openExamEditor() {
-            document.getElementById('exam-editor-modal').classList.remove('hidden');
-            document.getElementById('editor-questions-count').value = state.questions.length;
-            renderTemplatesBar();
-            renderChemKeyboard();
-            renderEditorQuestions();
-        }
-
-        function closeExamEditor() {
-            document.getElementById('exam-editor-modal').classList.add('hidden');
-        }
-
-        function renderTemplatesBar() {
-            const bar = document.getElementById('templates-bar');
-            let html = '';
-            for (let i = 1; i <= 10; i++) {
-                const customName = localStorage.getItem(`template_name_${i}`) || `نموذج ${i}`;
-                const isActive = i === currentTemplateId;
-                html += `
-                    <button onclick="loadTemplate(${i})" class="px-3 py-1 rounded-lg text-xs font-bold transition whitespace-nowrap ${isActive ? 'bg-purple-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
-                        ${customName}
-                    </button>
-                `;
-            }
-            bar.innerHTML = html;
-        }
-
-        function renameCurrentTemplate() {
-            const currentName = localStorage.getItem(`template_name_${currentTemplateId}`) || `نموذج ${currentTemplateId}`;
-            const newName = prompt(`أدخل اسماً جديداً للنموذج رقم (${currentTemplateId}):`, currentName);
-            if (newName && newName.trim() !== "") {
-                localStorage.setItem(`template_name_${currentTemplateId}`, newName.trim());
-                renderTemplatesBar();
-            }
-        }
-
-        function switchTab(tab) {
-            currentTab = tab;
-            const tabs = ['symbols', 'anions', 'cations', 'oxides', 'acids', 'elements'];
-            tabs.forEach(t => {
-                const btn = document.getElementById(`tab-${t}`);
-                if (t === tab) {
-                    btn.className = "tab-btn px-2.5 py-1 bg-blue-600 text-white rounded text-xs font-bold transition";
-                } else {
-                    btn.className = "tab-btn px-2.5 py-1 bg-slate-800 text-slate-300 rounded text-xs transition";
-                }
-            });
-            renderChemKeyboard();
-        }
-
-        function renderChemKeyboard() {
-            const container = document.getElementById('chem-symbols-keyboard');
-            const items = chemKeyboardCategories[currentTab] || chemKeyboardCategories.symbols;
-            container.innerHTML = items.map(item => `
-                <button onclick="insertSymbol('${item}')" class="px-2.5 py-1.5 bg-slate-800 hover:bg-blue-600 border border-slate-700 text-white rounded font-mono text-xs font-bold transition">
-                    ${item}
-                </button>
-            `).join('');
-        }
-
-        function insertSymbol(sym) {
-            if (activeInputRef) {
-                const start = activeInputRef.selectionStart || activeInputRef.value.length;
-                const end = activeInputRef.selectionEnd || activeInputRef.value.length;
-                activeInputRef.value = activeInputRef.value.substring(0, start) + sym + activeInputRef.value.substring(end);
-                activeInputRef.focus();
-            }
-        }
-
-        function trackFocus(elem) {
-            activeInputRef = elem;
-        }
-
-        function loadTemplate(id) {
-            const tName = localStorage.getItem(`template_name_${id}`) || `نموذج ${id}`;
-            if (confirm(`هل تريد تحميل/استبدال (${tName})؟ سيمكنك التعديل عليه وحفظه.`)) {
-                currentTemplateId = id;
-                renderTemplatesBar();
-                const savedTpl = localStorage.getItem(`template_${id}`);
-                if (savedTpl) {
-                    state.questions = JSON.parse(savedTpl);
-                } else {
-                    state.questions = JSON.parse(JSON.stringify(defaultQuestions));
-                }
-                renderEditorQuestions();
-            }
-        }
-
-        function uploadQuestionImage(idx, input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    state.questions[idx].img = e.target.result;
-                    renderEditorQuestions();
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function renderEditorQuestions() {
-            const container = document.getElementById('editor-questions-container');
-            container.innerHTML = state.questions.map((q, idx) => {
-                const choices = q.options || q.choices || ["أ", "ب", "ج", "د"];
-                const correct = q.correct !== undefined ? q.correct : (q.answer !== undefined ? q.answer : 0);
-                return `
-                <div class="bg-slate-900 border border-slate-700 rounded-xl p-4 space-y-3">
-                    <div class="flex items-center justify-between">
-                        <span class="bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-lg">سؤال رقم ${idx + 1}</span>
-                        <div class="flex items-center gap-3">
-                            <label class="text-xs text-slate-300">نوع السؤال:</label>
-                            <select id="ed-type-${idx}" onchange="state.questions[${idx}].type = this.value; renderEditorQuestions();" class="bg-slate-800 border border-slate-700 text-xs font-bold text-blue-300 rounded-lg px-2 py-1 outline-none">
-                                <option value="choice" ${q.type !== 'essay' ? 'selected' : ''}>اختياري</option>
-                                <option value="essay" ${q.type === 'essay' ? 'selected' : ''}>مقالي</option>
-                            </select>
-                            
-                            ${q.type !== 'essay' ? `
-                            <label class="text-xs text-slate-300">الإجابة الصحيحة:</label>
-                            <select id="ed-correct-${idx}" class="bg-slate-800 border border-slate-700 text-xs font-bold text-emerald-400 rounded-lg px-2 py-1 outline-none">
-                                <option value="0" ${correct === 0 ? 'selected' : ''}>أ</option>
-                                <option value="1" ${correct === 1 ? 'selected' : ''}>ب</option>
-                                <option value="2" ${correct === 2 ? 'selected' : ''}>ج</option>
-                                <option value="3" ${correct === 3 ? 'selected' : ''}>د</option>
-                            </select>
-                            ` : ''}
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col md:flex-row gap-3 items-start">
-                        <textarea onfocus="trackFocus(this)" id="ed-q-${idx}" placeholder="نص السؤال..." class="flex-1 p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm outline-none focus:border-purple-500 chem-input" rows="2">${q.q || q.text || ''}</textarea>
-                        
-                        <div class="flex flex-col gap-2">
-                            <label class="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs text-slate-300 cursor-pointer flex items-center gap-2">
-                                <i class="fa-solid fa-image text-purple-400"></i>
-                                <span>رفع صورة للسؤال</span>
-                                <input type="file" accept="image/*" class="hidden" onchange="uploadQuestionImage(${idx}, this)">
-                            </label>
-                            ${q.img ? `<div class="relative"><img src="${q.img}" class="h-12 rounded border border-slate-700"><button onclick="state.questions[${idx}].img = null; renderEditorQuestions();" class="absolute -top-1 -right-1 bg-rose-600 text-white rounded-full w-4 h-4 text-[10px] flex items-center justify-center">×</button></div>` : ''}
-                        </div>
-                    </div>
-
-                    ${q.type !== 'essay' ? `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-0" value="${choices[0] || ''}" placeholder="اختيار (أ)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none chem-input">
-                        <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-1" value="${choices[1] || ''}" placeholder="اختيار (ب)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none chem-input">
-                        <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-2" value="${choices[2] || ''}" placeholder="اختيار (ج)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none chem-input">
-                        <input onfocus="trackFocus(this)" type="text" id="ed-opt-${idx}-3" value="${choices[3] || ''}" placeholder="اختيار (د)" class="p-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-xs outline-none chem-input">
-                    </div>
-                    ` : ''}
-                </div>
-            `;
-            }).join('');
-        }
-
-        function updateEditorQuestionsCount() {
-            const count = parseInt(document.getElementById('editor-questions-count').value) || 20;
-            let newQuestions = [];
-            for (let i = 0; i < count; i++) {
-                if (state.questions[i]) {
-                    newQuestions.push(state.questions[i]);
-                } else {
-                    newQuestions.push({
-                        q: `سؤال جديد رقم ${i + 1}`,
-                        options: ["اختيار أ", "اختيار ب", "اختيار ج", "اختيار د"],
-                        correct: 0,
-                        explain: ""
-                    });
-                }
-            }
-            state.questions = newQuestions;
-            renderEditorQuestions();
-        }
-
-        function restoreDefaultQuestions() {
-            state.questions = JSON.parse(JSON.stringify(defaultQuestions));
-            document.getElementById('editor-questions-count').value = state.questions.length;
-            renderEditorQuestions();
-        }
-
-        async function saveAndPublishExam() {
-            const tName = localStorage.getItem(`template_name_${currentTemplateId}`) || `نموذج ${currentTemplateId}`;
-            const tplExists = localStorage.getItem(`template_${currentTemplateId}`);
-            if (tplExists) {
-                if (!confirm(`تحذير: هل تود التعديل واستبدال النسخة في (${tName})؟`)) {
-                    return;
-                }
-            }
-
-            let updatedQuestions = [];
-            for (let i = 0; i < state.questions.length; i++) {
-                const qText = document.getElementById(`ed-q-${i}`).value.trim();
-                const isEssay = state.questions[i].type === 'essay';
-
-                if (!isEssay) {
-                    const opt0 = document.getElementById(`ed-opt-${i}-0`).value.trim();
-                    const opt1 = document.getElementById(`ed-opt-${i}-1`).value.trim();
-                    const opt2 = document.getElementById(`ed-opt-${i}-2`).value.trim();
-                    const opt3 = document.getElementById(`ed-opt-${i}-3`).value.trim();
-                    const correctIdx = parseInt(document.getElementById(`ed-correct-${i}`).value);
-
-                    updatedQuestions.push({
-                        q: qText || `السؤال ${i + 1}`,
-                        options: [opt0 || 'أ', opt1 || 'ب', opt2 || 'ج', opt3 || 'د'],
-                        correct: correctIdx,
-                        explain: state.questions[i]?.explain || "",
-                        img: state.questions[i]?.img || null,
-                        type: 'choice'
-                    });
-                } else {
-                    updatedQuestions.push({
-                        q: qText || `سؤال مقالي ${i + 1}`,
-                        explain: state.questions[i]?.explain || "",
-                        img: state.questions[i]?.img || null,
-                        type: 'essay'
-                    });
-                }
-            }
-
-            state.questions = updatedQuestions;
-            localStorage.setItem(`template_${currentTemplateId}`, JSON.stringify(updatedQuestions));
-
-            try {
-                await setDoc(doc(db, "exam_config", "main"), {
-                    isSystemActive: state.isSystemActive,
-                    maxStudentId: state.maxStudentId,
-                    examDurationMinutes: state.examDurationMinutes,
-                    questions: updatedQuestions
-                });
-            } catch (e) {
-                console.log("Exam save error", e);
-            }
-
-            alert(`تم حفظ الامتحان ونشره سحابياً بنجاح في (${tName})!`);
-            closeExamEditor();
-        }
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+        // FAB already in DOM
+    });
     </script>
 </body>
 </html>
